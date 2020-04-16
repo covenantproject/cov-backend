@@ -5,6 +5,7 @@ CREATE TABLE public."UserPhotos"
     "PhotoId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     "PhotoType" character varying(15) DEFAULT 'AppProfile',
 	"PhotoPath" character varying(150) COLLATE pg_catalog."default",
+	"FileSavedDateTime" timestamp without time zone default (now() at time zone 'utc'),
     CONSTRAINT "UserPhotos_pkey" PRIMARY KEY ("PhotoId")
 )
 WITH (
@@ -104,7 +105,6 @@ CREATE TABLE public."Patient"
 (
     "PatientId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
 	"UserId" integer,
-	"HealthProfessionalId" integer,
 	"Nationality" boolean,
 	"EmergencyContact1" character varying(20) COLLATE pg_catalog."default",
 	"EContact1RelToPt" character varying(10) COLLATE pg_catalog."default",
@@ -129,15 +129,7 @@ CREATE TABLE public."Patient"
 	CONSTRAINT "Patient_UserId_fkey" FOREIGN KEY ("UserId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-	CONSTRAINT "Patient_HealthProfessionalId_fkey" FOREIGN KEY ("HealthProfessionalId")
-        REFERENCES public."HealthProfessional" ("HealthProfessionalId") MATCH SIMPLE
-        ON UPDATE NO ACTION
         ON DELETE NO ACTION
-	--CONSTRAINT "Patient_HouseHoldId_fkey" FOREIGN KEY ("HouseHoldId")
-    --    REFERENCES public."HouseHold" ("HouseHoldId") MATCH SIMPLE
-    --    ON UPDATE NO ACTION
-    --    ON DELETE NO ACTION
 )
 WITH (
     OIDS = FALSE
@@ -152,8 +144,8 @@ CREATE TABLE public."PatientProviderRelationship"
 	"PatientId" integer,
 	"ProviderId" integer,
 	"RelationshipType" character varying(15) COLLATE pg_catalog."default",
-	"RelationshipStartDate" timestamp,
-	"RelationshipEndDate" timestamp,
+	"RelationshipStartDate" timestamp without time zone,
+	"RelationshipEndDate" timestamp without time zone,
 	"RelationshipFacilityLocation" integer,
     CONSTRAINT "PatientProviderRelationship_pkey" PRIMARY KEY ("PatProRelationshipId"),
 	CONSTRAINT "PatientProviderRelationship_PatientID_fkey" FOREIGN KEY ("PatientId")
@@ -403,24 +395,24 @@ TABLESPACE pg_default;
 --CREATE TYPE PatientType AS ENUM ('Medical quarantine', 'Self quarantine', 'Staying at home', 'Home isolation', 'Hospitalized', 'Not applicable');
 --CREATE TYPE QuarantineStatus AS ENUM ('Not quarantined', 'Quarantine started', 'Quarantine ended', 'On leave');
 --CREATE TYPE IsolationStatus AS ENUM ('Not isolated', 'Isolation started', 'Isolation ended');
---PatientCurrentStatus
-CREATE TABLE public."PatientCurrentStatus"
+--PatientStatus
+CREATE TABLE public."PatientStatus"
 (
-    "PatientCurrentStatusId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "PatientStatusId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
 	"PatientId" integer,
 	"COVID19Status" character varying DEFAULT 'Susceptible',
 	"PatientType" character varying DEFAULT 'Not applicable',
-	"CurrentQuarantineStatus" character varying DEFAULT 'Not quarantined',
-	"CurrentIsolationStatus" character varying DEFAULT 'Not isolated',
-	"QuarantineStartDateTime" timestamp DEFAULT NULL,
-	"QuarantineEndDateTime" timestamp DEFAULT NULL,
-	"IsolationStartDateTime" timestamp DEFAULT NULL,
-	"IsolationEndDateTime" timestamp DEFAULT NULL,
+	"QuarantineStatus" character varying DEFAULT 'Not quarantined',
+	"IsolationStatus" character varying DEFAULT 'Not isolated',
+	"QuarantineStartDateTime" timestamp without time zone,
+	"QuarantineEndDateTime" timestamp without time zone,
+	"IsolationStartDateTime" timestamp without time zone,
+	"IsolationEndDateTime" timestamp without time zone,
 	"QuarantineRequestStatus" character varying(10) COLLATE pg_catalog."default",
 	"MedicalRequestStatus" character varying(10) COLLATE pg_catalog."default",
 	"SuppliesRequestStatus" character varying(10) COLLATE pg_catalog."default",
-    CONSTRAINT "PatientCurrentStatus_pkey" PRIMARY KEY ("PatientCurrentStatusId"),
-	CONSTRAINT "PatientCurrentStatus_PatientId_fkey" FOREIGN KEY ("PatientId")
+    CONSTRAINT "PatientStatus_pkey" PRIMARY KEY ("PatientStatusId"),
+	CONSTRAINT "PatientStatus_PatientId_fkey" FOREIGN KEY ("PatientId")
         REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
@@ -438,7 +430,7 @@ CREATE TABLE public."LocationHistory"
 	"Latitude" float,
 	"Longitude" float,
 	"Code" character varying(50) COLLATE pg_catalog."default",
-	"LocationDateTime" timestamp DEFAULT NULL,
+	"LocationDateTime" timestamp without time zone default (now() at time zone 'utc'),
     CONSTRAINT "LocationHistory_pkey" PRIMARY KEY ("LocationHistoryId"),
 	CONSTRAINT "LocationHistory_UserId_fkey" FOREIGN KEY ("UserId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
@@ -460,12 +452,12 @@ CREATE TABLE public."UserRequestHistory"
     "UserRequestHistoryId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
 	"UserId" integer,
 	"RequestType" character varying DEFAULT 'Supplies',
-	"RequestDateTime" timestamp DEFAULT NULL,
+	"RequestDateTime" timestamp without time zone default (now() at time zone 'utc'),
 	"RequestStatus" character varying DEFAULT 'Open',
 	"RequestComments" character varying COLLATE pg_catalog."default",
 	"ResponseType" character varying DEFAULT 'Phone',
 	"ResponseUserId" integer,
-	"ResponseDateTime" timestamp DEFAULT NULL,
+	"ResponseDateTime" timestamp without time zone,
 	"ResponseComments" character varying COLLATE pg_catalog."default",
     CONSTRAINT "UserRequestHistory_pkey" PRIMARY KEY ("UserRequestHistoryId"),
 	CONSTRAINT "UserRequestHistory_UserId_fkey" FOREIGN KEY ("UserId")
@@ -482,36 +474,6 @@ WITH (
 )
 TABLESPACE pg_default;
 
---CREATE TYPE ProgressType AS ENUM ('Worsening', 'Improving', 'Stay the same');
---HealthHistory
-CREATE TABLE public."HealthHistory"
-(
-    "HealthHistoryId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-	"UserId" integer,
-	"HealthDateTime" timestamp DEFAULT NULL,
-	"HasCough" boolean DEFAULT false,
-	"HasFever" boolean DEFAULT false,
-	"HasBreathDifficulty" boolean DEFAULT false,
-	"Progress" character varying DEFAULT 'Stay the same',
-	"Temperature" float,
-	"HeartRate" integer,
-	"RespiratoryRate" integer,
-	"Spo2" integer,
-	"SystolicBp" integer,
-	"DiastolicBp" integer,
-	"Comments" character varying COLLATE pg_catalog."default",
-    CONSTRAINT "HealthHistory_pkey" PRIMARY KEY ("HealthHistoryId"),
-	CONSTRAINT "HealthHistory_UserId_fkey" FOREIGN KEY ("UserId")
-        REFERENCES public."User" ("UserId") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-
 --PatientDeviceApp
 CREATE TABLE public."PatientDeviceApp"
 (
@@ -526,7 +488,7 @@ CREATE TABLE public."PatientDeviceApp"
 	"DevicePhoneNumber" character varying COLLATE pg_catalog."default",
 	"DevicePhoneServiceProvider" character varying COLLATE pg_catalog."default",
 	"AppVersion" character varying COLLATE pg_catalog."default",
-	"AppInstalledDateTime" timestamp,
+	"AppInstalledDateTime" timestamp without time zone default (now() at time zone 'utc'),
     CONSTRAINT "PatientDeviceApp_pkey" PRIMARY KEY ("DeviceSID"),
 	CONSTRAINT "PatientDeviceApp_PrimaryUserId_fkey" FOREIGN KEY ("PrimaryUserId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
@@ -538,6 +500,53 @@ WITH (
 )
 TABLESPACE pg_default;
 
+--CREATE TYPE ProgressType AS ENUM ('Worsening', 'Improving', 'Stay the same');
+--HealthCheckHistory
+CREATE TABLE public."HealthCheckHistory"
+(
+    "HealthHistoryId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+	"UserId" integer,
+	"EnteredByUserID" integer,
+	"DeviceID" integer,
+	"LocationID" integer,
+	"HealthDateTime" timestamp without time zone default (now() at time zone 'utc'),
+	"HealthCheckReason" character varying COLLATE pg_catalog."default",
+	"HealthCheckMethod" character varying COLLATE pg_catalog."default",
+	"CoughPresent" boolean DEFAULT false,
+	"FeverPresent" boolean DEFAULT false,
+	"BreathingDifficultyPresent" boolean DEFAULT false,
+	"ProgressStatus" character varying DEFAULT 'Stay the same',
+	"TemperatureCelsius" float,
+	"HeartRatePerMin" integer,
+	"RespRatePerMin" integer,
+	"SpO2Percent" integer,
+	"SystolicBPMMHg" integer,
+	"DiastolicBPMMHg" integer,
+	"Comments" character varying COLLATE pg_catalog."default",
+    CONSTRAINT "HealthHistory_pkey" PRIMARY KEY ("HealthHistoryId"),
+	CONSTRAINT "HealthHistory_UserId_fkey" FOREIGN KEY ("UserId")
+        REFERENCES public."User" ("UserId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT "HealthHistory_EnteredByUserID_fkey" FOREIGN KEY ("EnteredByUserID")
+        REFERENCES public."User" ("UserId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT "HealthHistory_DeviceID_fkey" FOREIGN KEY ("DeviceID")
+        REFERENCES public."PatientDeviceApp" ("DeviceSID") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT "HealthHistory_LocationID_fkey" FOREIGN KEY ("LocationID")
+        REFERENCES public."LocationHierarchy" ("LocationId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+
 --GeofenceLocation
 CREATE TABLE public."GeofenceLocation"
 (
@@ -546,8 +555,8 @@ CREATE TABLE public."GeofenceLocation"
     "GeoFenceLatitude" float,
     "GeoFenceLongitude" float,
 	"GeoFenceRadiusMetres" float,
-	"GeoFenceStartDate" timestamp,
-	"GeoFenceEndDate" timestamp,
+	"GeoFenceStartDate" timestamp without time zone,
+	"GeoFenceEndDate" timestamp without time zone,
     CONSTRAINT "GeofenceLocation_pkey" PRIMARY KEY ("GeofenceLocationId"),
 	CONSTRAINT "GeofenceLocation_PatientId_fkey" FOREIGN KEY ("PatientId")
         REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
@@ -566,7 +575,7 @@ CREATE TABLE public."AppHeartbeatHistory"
     "AppHeartbeatHistoryId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     "PrimaryUserId" integer,
 	"DeviceId" integer,
-    "HeartbeatDateTime" timestamp,
+    "HeartbeatDateTime" timestamp without time zone default (now() at time zone 'utc'),
 	"HeartBeatStatus" character varying(10) COLLATE pg_catalog."default",
     CONSTRAINT "AppHeartbeatHistory_pkey" PRIMARY KEY ("AppHeartbeatHistoryId"),
 	CONSTRAINT "AppHeartbeatHistory_UserId_fkey" FOREIGN KEY ("PrimaryUserId")

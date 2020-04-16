@@ -1,7 +1,7 @@
 # Prerequisites
 Following needs to be installed for the successful project compilation:
-maven
-JDK
+* Apache Maven
+* Java JDK
 
 
 # Install dependencies
