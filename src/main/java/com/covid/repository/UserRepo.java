@@ -11,5 +11,4 @@ public interface UserRepo  extends CrudRepository<UserEntity ,Long>{
 
 	UserEntity findByUserId(long userId);
 
-
 }

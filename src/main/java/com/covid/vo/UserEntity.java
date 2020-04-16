@@ -24,7 +24,7 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "`UserId`")
-    private long userId;
+    private Long userId;
 
     @Column(name = "`Title`")
     private String title;
@@ -67,11 +67,11 @@ public class UserEntity {
 //    @JoinColumn(name = "`ProfilePhotoId`", referencedColumnName = "`PhotoId`")
 //    private PhotoEntity photo;
 
-    public long getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
