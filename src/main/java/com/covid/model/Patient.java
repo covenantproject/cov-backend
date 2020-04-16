@@ -14,10 +14,13 @@ public class Patient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="\"PatientId\"")
-	private long PatientId;
+	private long patientId;
 	
 	@Column(name="\"UserId\"")
 	private long userId;
+	
+	@Column(name="\"HealthProfessionalId\"")
+	private long healthProfessionalId;
 	
 	@Column(name="\"Nationality\"")
 	private boolean Nationality;
@@ -80,11 +83,19 @@ public class Patient {
 	private String Comments;
 
 	public long getPatientId() {
-		return PatientId;
+		return patientId;
 	}
 
 	public void setPatientId(long patientId) {
-		PatientId = patientId;
+		this.patientId = patientId;
+	}
+
+	public long getHealthProfessionalId() {
+		return healthProfessionalId;
+	}
+
+	public void setHealthProfessionalId(long healthProfessionalId) {
+		this.healthProfessionalId = healthProfessionalId;
 	}
 
 	public long getUserId() {
