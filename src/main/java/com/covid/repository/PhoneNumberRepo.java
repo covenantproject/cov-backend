@@ -3,13 +3,12 @@ package com.covid.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.covid.vo.UserEntity;
+import com.covid.model.PhoneNumber;
 
 
 @Repository
-public interface UserRepo  extends CrudRepository<UserEntity ,Long>{
+public interface PhoneNumberRepo extends CrudRepository<PhoneNumber,Long> {
 
-	UserEntity findByUserId(long userId);
-
+	PhoneNumber findByUserId(long userId);
 
 }

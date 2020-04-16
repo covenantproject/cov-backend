@@ -3,13 +3,12 @@ package com.covid.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.covid.vo.UserEntity;
+import com.covid.model.Address;
 
 
 @Repository
-public interface UserRepo  extends CrudRepository<UserEntity ,Long>{
+public interface AddressRepo extends CrudRepository<Address,Long> {
 
-	UserEntity findByUserId(long userId);
-
+	Address findByUserId(long userId);
 
 }
