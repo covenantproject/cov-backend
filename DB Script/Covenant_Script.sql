@@ -26,6 +26,7 @@ CREATE TABLE public."User"
     "DateOfBirth" timestamp without time zone,
     "Gender" character varying(10) COLLATE pg_catalog."default",
     "ProfilePhotoId" integer,
+	"OTPCode" integer,
     CONSTRAINT "User_pkey" PRIMARY KEY ("UserId"),
 	CONSTRAINT "User_ProfilePhotoId_fkey" FOREIGN KEY ("ProfilePhotoId")
         REFERENCES public."UserPhotos" ("PhotoId") MATCH SIMPLE
@@ -54,15 +55,41 @@ TABLESPACE pg_default;
 --)
 --TABLESPACE pg_default;
 
+--LocationHierarchy
+CREATE TABLE public."LocationHierarchy"
+(
+    "LocationId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "LocationName" character varying COLLATE pg_catalog."default",
+	"LocationAbbreviation" character varying COLLATE pg_catalog."default",
+	"AssignPatients" boolean DEFAULT false,
+	"ParentLocationId" integer DEFAULT NULL,
+	"CountryCode" character varying COLLATE pg_catalog."default",
+    CONSTRAINT "Location_pkey" PRIMARY KEY ("LocationId"),
+	CONSTRAINT "Location_ParentLocationId_fkey" FOREIGN KEY ("ParentLocationId")
+        REFERENCES public."LocationHierarchy" ("LocationId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
 
 --HealthProfessional
 CREATE TABLE public."HealthProfessional"
 (
     "HealthProfessionalId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-	"UserId" integer,
+	"SupervisorId" integer,
+	"HealthProfessionalJobTitle" character varying(15) COLLATE pg_catalog."default",
+	"AssignedLocationID" integer,
+	"IsActive" boolean DEFAULT true,
     CONSTRAINT "HealthProfessional_pkey" PRIMARY KEY ("HealthProfessionalId"),
-	CONSTRAINT "HealthProfessional_UserId_fkey" FOREIGN KEY ("UserId")
+	CONSTRAINT "HealthProfessional_SupervisorId_fkey" FOREIGN KEY ("SupervisorId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT "HealthProfessional_AssignedLocationID_fkey" FOREIGN KEY ("AssignedLocationID")
+        REFERENCES public."LocationHierarchy" ("LocationId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -118,8 +145,34 @@ WITH (
 TABLESPACE pg_default;
 
 
-
-
+--PatientProviderRelationship
+CREATE TABLE public."PatientProviderRelationship"
+(
+    "PatProRelationshipId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+	"PatientId" integer,
+	"ProviderId" integer,
+	"RelationshipType" character varying(15) COLLATE pg_catalog."default",
+	"RelationshipStartDate" timestamp,
+	"RelationshipEndDate" timestamp,
+	"RelationshipFacilityLocation" integer,
+    CONSTRAINT "PatientProviderRelationship_pkey" PRIMARY KEY ("PatProRelationshipId"),
+	CONSTRAINT "PatientProviderRelationship_PatientID_fkey" FOREIGN KEY ("PatientId")
+        REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT "PatientProviderRelationship_ProviderId_fkey" FOREIGN KEY ("ProviderId")
+        REFERENCES public."HealthProfessional" ("HealthProfessionalId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+	CONSTRAINT "PatientProviderRelationship_RelationshipFacilityLocation_fkey" FOREIGN KEY ("RelationshipFacilityLocation")
+        REFERENCES public."LocationHierarchy" ("LocationId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
 
 --CovidContact
 CREATE TABLE public."CovidContact"
@@ -363,6 +416,9 @@ CREATE TABLE public."PatientCurrentStatus"
 	"QuarantineEndDateTime" timestamp DEFAULT NULL,
 	"IsolationStartDateTime" timestamp DEFAULT NULL,
 	"IsolationEndDateTime" timestamp DEFAULT NULL,
+	"QuarantineRequestStatus" character varying(10) COLLATE pg_catalog."default",
+	"MedicalRequestStatus" character varying(10) COLLATE pg_catalog."default",
+	"SuppliesRequestStatus" character varying(10) COLLATE pg_catalog."default",
     CONSTRAINT "PatientCurrentStatus_pkey" PRIMARY KEY ("PatientCurrentStatusId"),
 	CONSTRAINT "PatientCurrentStatus_PatientId_fkey" FOREIGN KEY ("PatientId")
         REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
@@ -378,14 +434,14 @@ TABLESPACE pg_default;
 CREATE TABLE public."LocationHistory"
 (
     "LocationHistoryId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-	"PatientId" integer,
+	"UserId" integer,
 	"Latitude" float,
 	"Longitude" float,
 	"Code" character varying(50) COLLATE pg_catalog."default",
-	"UpdatedDateTime" timestamp DEFAULT NULL,
+	"LocationDateTime" timestamp DEFAULT NULL,
     CONSTRAINT "LocationHistory_pkey" PRIMARY KEY ("LocationHistoryId"),
-	CONSTRAINT "LocationHistory_PatientId_fkey" FOREIGN KEY ("PatientId")
-        REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
+	CONSTRAINT "LocationHistory_UserId_fkey" FOREIGN KEY ("UserId")
+        REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -456,17 +512,23 @@ WITH (
 TABLESPACE pg_default;
 
 
---PatientDeviceInfo
-CREATE TABLE public."PatientDeviceInfo"
+--PatientDeviceApp
+CREATE TABLE public."PatientDeviceApp"
 (
-    "PatientDeviceInfoId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "DeviceSID" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     "PrimaryUserId" integer DEFAULT NULL,
+	"DeviceIMEI" character varying COLLATE pg_catalog."default",
+	"DeviceMacID" character varying COLLATE pg_catalog."default",
     "DeviceOS" character varying COLLATE pg_catalog."default",
 	"DeviceOSVersion" character varying COLLATE pg_catalog."default",
+	"DeviceManufacturer" character varying COLLATE pg_catalog."default",
+	"DeviceModel" character varying COLLATE pg_catalog."default",
+	"DevicePhoneNumber" character varying COLLATE pg_catalog."default",
+	"DevicePhoneServiceProvider" character varying COLLATE pg_catalog."default",
 	"AppVersion" character varying COLLATE pg_catalog."default",
 	"AppInstalledDateTime" timestamp,
-    CONSTRAINT "PatientDeviceInfo_pkey" PRIMARY KEY ("PatientDeviceInfoId"),
-	CONSTRAINT "PatientDeviceInfo_PrimaryUserId_fkey" FOREIGN KEY ("PrimaryUserId")
+    CONSTRAINT "PatientDeviceApp_pkey" PRIMARY KEY ("DeviceSID"),
+	CONSTRAINT "PatientDeviceApp_PrimaryUserId_fkey" FOREIGN KEY ("PrimaryUserId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
@@ -476,16 +538,18 @@ WITH (
 )
 TABLESPACE pg_default;
 
---PatientGeoFenceData
-CREATE TABLE public."PatientGeoFenceData"
+--GeofenceLocation
+CREATE TABLE public."GeofenceLocation"
 (
-    "PatientGeoFenceDataId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+    "GeofenceLocationId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
     "PatientId" integer,
     "GeoFenceLatitude" float,
     "GeoFenceLongitude" float,
-	"GeoFenceRadius" float,
-    CONSTRAINT "PatientGeoFenceData_pkey" PRIMARY KEY ("PatientGeoFenceDataId"),
-	CONSTRAINT "PatientGeoFenceData_PatientId_fkey" FOREIGN KEY ("PatientId")
+	"GeoFenceRadiusMetres" float,
+	"GeoFenceStartDate" timestamp,
+	"GeoFenceEndDate" timestamp,
+    CONSTRAINT "GeofenceLocation_pkey" PRIMARY KEY ("GeofenceLocationId"),
+	CONSTRAINT "GeofenceLocation_PatientId_fkey" FOREIGN KEY ("PatientId")
         REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
@@ -500,16 +564,17 @@ TABLESPACE pg_default;
 CREATE TABLE public."AppHeartbeatHistory"
 (
     "AppHeartbeatHistoryId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    "UserId" integer,
+    "PrimaryUserId" integer,
 	"DeviceId" integer,
     "HeartbeatDateTime" timestamp,
+	"HeartBeatStatus" character varying(10) COLLATE pg_catalog."default",
     CONSTRAINT "AppHeartbeatHistory_pkey" PRIMARY KEY ("AppHeartbeatHistoryId"),
-	CONSTRAINT "AppHeartbeatHistory_UserId_fkey" FOREIGN KEY ("UserId")
+	CONSTRAINT "AppHeartbeatHistory_UserId_fkey" FOREIGN KEY ("PrimaryUserId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 	CONSTRAINT "AppHeartbeatHistory_DeviceId_fkey" FOREIGN KEY ("DeviceId")
-        REFERENCES public."PatientDeviceInfo" ("PatientDeviceInfoId") MATCH SIMPLE
+        REFERENCES public."PatientDeviceApp" ("DeviceSID") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -517,73 +582,3 @@ WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
-
-
-
---Location
-CREATE TABLE public."Location"
-(
-    "LocationId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    "LocationName" character varying COLLATE pg_catalog."default",
-	"ParentLocationId" integer DEFAULT NULL,
-    "CreatedDateTime" timestamp,
-    CONSTRAINT "Location_pkey" PRIMARY KEY ("LocationId"),
-	CONSTRAINT "Location_ParentLocationId_fkey" FOREIGN KEY ("ParentLocationId")
-        REFERENCES public."Location" ("LocationId") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-
---Role
---Patient, Administrator, HealthCareProvider
-CREATE TABLE public."Role"
-(
-    "RoleId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-    "RoleName" character varying COLLATE pg_catalog."default",
-    "CreatedDateTime" timestamp,
-    CONSTRAINT "Role_pkey" PRIMARY KEY ("RoleId")
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
---UserLocation
-CREATE TABLE public."UserLocation"
-(
-    "UserLocationId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-	"UserId" integer,
-	"RoleId" integer,
-    "LocationId" integer,
-    CONSTRAINT "UserLocation_pkey" PRIMARY KEY ("UserLocationId"),
-	CONSTRAINT "UserLocationId_UserId_fkey" FOREIGN KEY ("UserId")
-        REFERENCES public."User" ("UserId") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-	CONSTRAINT "UserLocationId_RoleId_fkey" FOREIGN KEY ("RoleId")
-        REFERENCES public."Role" ("RoleId") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-	CONSTRAINT "UserLocationId_LocationId_fkey" FOREIGN KEY ("LocationId")
-        REFERENCES public."Location" ("LocationId") MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-
-
-
-======
-"DATA"
-======
-
-INSERT INTO public."Role" ("RoleName") VALUES('Patient'), ('Administrator'), ('HealthCareProvider');

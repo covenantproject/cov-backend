@@ -1,3 +1,9 @@
+# Prerequisites
+Following needs to be installed for the successful project compilation:
+maven
+JDK
+
+
 # Install dependencies
 
 ```
