@@ -27,7 +27,7 @@ CREATE TABLE public."User"
     "DateOfBirth" timestamp without time zone,
     "Gender" character varying(10) COLLATE pg_catalog."default",
     "ProfilePhotoId" integer,
-	"OTPCode" integer,
+	"OTPCode" character varying COLLATE pg_catalog."default",
     CONSTRAINT "User_pkey" PRIMARY KEY ("UserId"),
 	CONSTRAINT "User_ProfilePhotoId_fkey" FOREIGN KEY ("ProfilePhotoId")
         REFERENCES public."UserPhotos" ("PhotoId") MATCH SIMPLE
@@ -402,8 +402,11 @@ CREATE TABLE public."PatientStatus"
 	"PatientId" integer,
 	"COVID19Status" character varying DEFAULT 'Susceptible',
 	"PatientType" character varying DEFAULT 'Not applicable',
-	"QuarantineStatus" character varying DEFAULT 'Not quarantined',
-	"IsolationStatus" character varying DEFAULT 'Not isolated',
+	"Latitude" float,
+	"Longitude" float,
+	"GeofenceStatus" character varying COLLATE pg_catalog."default",
+	"QuarantineStatus" character varying COLLATE pg_catalog."default",
+	"IsolationStatus" character varying COLLATE pg_catalog."default",
 	"QuarantineStartDateTime" timestamp without time zone,
 	"QuarantineEndDateTime" timestamp without time zone,
 	"IsolationStartDateTime" timestamp without time zone,
@@ -411,6 +414,8 @@ CREATE TABLE public."PatientStatus"
 	"QuarantineRequestStatus" character varying(10) COLLATE pg_catalog."default",
 	"MedicalRequestStatus" character varying(10) COLLATE pg_catalog."default",
 	"SuppliesRequestStatus" character varying(10) COLLATE pg_catalog."default",
+	"HeartbeatStatus" character varying COLLATE pg_catalog."default",
+	"HealthStatusAlert" character varying COLLATE pg_catalog."default",
     CONSTRAINT "PatientStatus_pkey" PRIMARY KEY ("PatientStatusId"),
 	CONSTRAINT "PatientStatus_PatientId_fkey" FOREIGN KEY ("PatientId")
         REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
