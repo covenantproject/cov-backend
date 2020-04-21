@@ -39,23 +39,6 @@ WITH (
 )
 TABLESPACE pg_default;
 
---PatientGroup/HouseHold
---CREATE TABLE public."HouseHold"
---(
---    "HouseHoldId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
---    "IsPhonePrimaryUser" boolean DEFAULT FALSE,
---	"PhonePrimaryUserId" integer DEFAULT NULL,
---    CONSTRAINT "HouseHold_pkey" PRIMARY KEY ("HouseHoldId"),
---	CONSTRAINT "HouseHold_PhonePrimaryUserId_fkey" FOREIGN KEY ("PhonePrimaryUserId")
---        REFERENCES public."User" ("UserId") MATCH SIMPLE
---        ON UPDATE NO ACTION
---       ON DELETE NO ACTION
---)
---WITH (
---    OIDS = FALSE
---)
---TABLESPACE pg_default;
-
 --LocationHierarchy
 CREATE TABLE public."LocationHierarchy"
 (
@@ -79,17 +62,21 @@ TABLESPACE pg_default;
 --HealthProfessional
 CREATE TABLE public."HealthProfessional"
 (
-    "HealthProfessionalId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-	"SupervisorId" integer,
-	"HealthProfessionalJobTitle" character varying(15) COLLATE pg_catalog."default",
-	"AssignedLocationID" integer,
-	"IsActive" boolean DEFAULT true,
-    CONSTRAINT "HealthProfessional_pkey" PRIMARY KEY ("HealthProfessionalId"),
-	CONSTRAINT "HealthProfessional_SupervisorId_fkey" FOREIGN KEY ("SupervisorId")
+    "HealthProfessionalId" integer NOT NULL,
+    "SupervisorId" integer,
+    "HealthProfessionalJobTitle" character varying(15) COLLATE pg_catalog."default",
+    "WorkLocationId" integer,
+    "IsActive" boolean DEFAULT true,
+    CONSTRAINT "HealthPro_pkey" PRIMARY KEY ("HealthProfessionalId"),
+    CONSTRAINT "HealthPro_HealthProfessionalId_fkey" FOREIGN KEY ("HealthProfessionalId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-	CONSTRAINT "HealthProfessional_AssignedLocationID_fkey" FOREIGN KEY ("AssignedLocationID")
+    CONSTRAINT "HealthPro_SupervisorId_fkey" FOREIGN KEY ("SupervisorId")
+        REFERENCES public."HealthProfessional" ("HealthProfessionalId") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT "HealthPro_WorkLocationId_fkey" FOREIGN KEY ("WorkLocationId")
         REFERENCES public."LocationHierarchy" ("LocationId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
