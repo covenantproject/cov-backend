@@ -25,7 +25,7 @@ public class UserRequestHistory {
 	private long UserRequestHistoryId;
 	
 	@Column(name = "\"UserId\"")
-	private long UserId;
+	private long userId;
 	
 	@Column(name = "\"RequestType\"")
 	private String RequestType;
@@ -61,12 +61,14 @@ public class UserRequestHistory {
 		UserRequestHistoryId = userRequestHistoryId;
 	}
 
+	
+
 	public long getUserId() {
-		return UserId;
+		return userId;
 	}
 
 	public void setUserId(long userId) {
-		UserId = userId;
+		this.userId = userId;
 	}
 
 	public String getRequestType() {

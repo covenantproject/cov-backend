@@ -23,33 +23,31 @@ public class PhoneNumber {
 	private String PhoneType;
 	
 	@Column(name = "\"PhoneNumber\"")
-	private String PhoneNumber;
+	private String phoneNumber;
 	
 	@Column(name = "\"PersonalOrWork\"")
 	private String PersonalOrWork;
 	
 	@Column(name = "\"IsPreferred\"")
-	private boolean IsPreferred;
+	private Boolean IsPreferred;
 	
 	@Column(name = "\"IsPrimaryUser\"")
-	private boolean IsPrimaryUser;
+	private Boolean IsPrimaryUser;
 	
 	@Column(name = "\"PrimaryUserId\"")
-	private long PrimaryUserId;
+	private Long PrimaryUserId;
 	
 	@Column(name = "\"HasInternetAccess\"")
-	private boolean HasInternetAccess;
+	private Boolean HasInternetAccess;
 	
 	@Column(name = "\"HasSMSAccess\"")
-	private boolean HasSMSAccess;
+	private Boolean HasSMSAccess;
 	
 	@Column(name = "\"HasWhatsAppAccess\"")
-	private boolean HasWhatsAppAccess;
+	private Boolean HasWhatsAppAccess;
 	
 	@Column(name = "\"HasTelegramAccess\"")
-	private boolean HasTelegramAccess;
-
-	
+	private Boolean HasTelegramAccess;
 
 	public long getPhoneNumberId() {
 		return phoneNumberId;
@@ -76,11 +74,11 @@ public class PhoneNumber {
 	}
 
 	public String getPhoneNumber() {
-		return PhoneNumber;
+		return phoneNumber;
 	}
 
 	public void setPhoneNumber(String phoneNumber) {
-		PhoneNumber = phoneNumber;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public String getPersonalOrWork() {
@@ -91,62 +89,59 @@ public class PhoneNumber {
 		PersonalOrWork = personalOrWork;
 	}
 
-	public boolean isIsPreferred() {
+	public Boolean getPreferred() {
 		return IsPreferred;
 	}
 
-	public void setIsPreferred(boolean isPreferred) {
-		IsPreferred = isPreferred;
+	public void setPreferred(Boolean preferred) {
+		IsPreferred = preferred;
 	}
 
-	public boolean isIsPrimaryUser() {
+	public Boolean getPrimaryUser() {
 		return IsPrimaryUser;
 	}
 
-	public void setIsPrimaryUser(boolean isPrimaryUser) {
-		IsPrimaryUser = isPrimaryUser;
+	public void setPrimaryUser(Boolean primaryUser) {
+		IsPrimaryUser = primaryUser;
 	}
 
-	public long getPrimaryUserId() {
+	public Long getPrimaryUserId() {
 		return PrimaryUserId;
 	}
 
-	public void setPrimaryUserId(long primaryUserId) {
+	public void setPrimaryUserId(Long primaryUserId) {
 		PrimaryUserId = primaryUserId;
 	}
 
-	public boolean isHasInternetAccess() {
+	public Boolean getHasInternetAccess() {
 		return HasInternetAccess;
 	}
 
-	public void setHasInternetAccess(boolean hasInternetAccess) {
+	public void setHasInternetAccess(Boolean hasInternetAccess) {
 		HasInternetAccess = hasInternetAccess;
 	}
 
-	public boolean isHasSMSAccess() {
+	public Boolean getHasSMSAccess() {
 		return HasSMSAccess;
 	}
 
-	public void setHasSMSAccess(boolean hasSMSAccess) {
+	public void setHasSMSAccess(Boolean hasSMSAccess) {
 		HasSMSAccess = hasSMSAccess;
 	}
 
-	public boolean isHasWhatsAppAccess() {
+	public Boolean getHasWhatsAppAccess() {
 		return HasWhatsAppAccess;
 	}
 
-	public void setHasWhatsAppAccess(boolean hasWhatsAppAccess) {
+	public void setHasWhatsAppAccess(Boolean hasWhatsAppAccess) {
 		HasWhatsAppAccess = hasWhatsAppAccess;
 	}
 
-	public boolean isHasTelegramAccess() {
+	public Boolean getHasTelegramAccess() {
 		return HasTelegramAccess;
 	}
 
-	public void setHasTelegramAccess(boolean hasTelegramAccess) {
+	public void setHasTelegramAccess(Boolean hasTelegramAccess) {
 		HasTelegramAccess = hasTelegramAccess;
 	}
-	
-	
-
 }

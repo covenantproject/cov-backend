@@ -15,10 +15,9 @@ public interface PatientRepo  extends CrudRepository<Patient ,Long>{
 
 	Patient findByUserId(long userId);
 
-	@Query("select count(*) from Patient ex where ex.healthProfessionalId = :healthProfid")
-	long findByHealthProfessionalIdCount(@Param("healthProfid") long healthProfid);
+	//@Query("select count(*) from Patient ex where ex.healthProfessionalId = :healthProfid")
+	//long findByHealthProfessionalIdCount(@Param("healthProfid") long healthProfid);
 
-	Patient findByPatientId(long patientId);
 
 	List<Patient> findAllByUserId(long userId);
 

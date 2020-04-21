@@ -24,16 +24,15 @@ public class LocationHistory {
 	@Column(name = "\"LocationHistoryId\"")
 	private long LocationHistoryId;
 	
-	@Column(name = "\"PatientId\"")
-	private long patientId;
+	@Column(name = "\"UserId\"")
+	private long userId;
 	
 	@Column(name = "\"Latitude\"")
 	private double Latitude;
 	
 	@Column(name = "\"Longitude\"")
 	private double Longitude;
-	
-	
+
 	
 	@Column(name = "\"Code\"")
 	private String Code;
@@ -46,13 +45,12 @@ public class LocationHistory {
 		LocationHistoryId = locationHistoryId;
 	}
 
-
-	public long getPatientId() {
-		return patientId;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setPatientId(long patientId) {
-		this.patientId = patientId;
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public double getLatitude() {

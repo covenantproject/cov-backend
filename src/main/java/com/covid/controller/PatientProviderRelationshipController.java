@@ -1,8 +1,6 @@
 package com.covid.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,22 +8,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.covid.model.HealthHistory;
+import com.covid.dto.PatientProviderRelationshipDto;
 import com.covid.model.UserRequestHistory;
-import com.covid.service.UserRequestHistoryService;
+import com.covid.service.PatientProviderRelationshipService;
 
 @Controller
 @RequestMapping("/api")
-public class UserRequestHistoryController {
+public class PatientProviderRelationshipController {
 	
 	@Autowired
-	UserRequestHistoryService userRequestService;
+	PatientProviderRelationshipService patientProService;
 	
-	
-	@PostMapping("/raiseyourhand")
-	public  @ResponseBody ModelMap healthHistoryRegister(@RequestBody UserRequestHistory userRequest){
+	@PostMapping("/savePatientProviderRela")
+	public  @ResponseBody ModelMap savePatientProvider(@RequestBody PatientProviderRelationshipDto patientProvider){
 		ModelMap model=new ModelMap();
-		String userrequest=userRequestService.updateUserRequest(userRequest);
+		String userrequest=patientProService.savePatientProvider(patientProvider);
 		model.addAttribute("status", "Success");
 		model.addAttribute("error", "");
 		return model;

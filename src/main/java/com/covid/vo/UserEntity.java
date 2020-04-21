@@ -54,6 +54,9 @@ public class UserEntity {
     @Column(name = "`Gender`")
     private String gender;
 
+    @Column(name = "`OTPCode`")
+    private String otpCode;
+
     @Column(name = "`ProfilePhotoId`")
     private Long photoId;
 
@@ -169,6 +172,14 @@ public class UserEntity {
 
     public void setPhotoId(Long photoId) {
         this.photoId = photoId;
+    }
+
+    public String getOtpCode() {
+        return otpCode;
+    }
+
+    public void setOtpCode(String otpCode) {
+        this.otpCode = otpCode;
     }
 
     @Override

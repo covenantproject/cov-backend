@@ -9,6 +9,8 @@ import com.covid.model.UserRequestHistory;
 @Repository
 public interface UserRequestHistoryRepo  extends CrudRepository<UserRequestHistory,Long>{
 
+	UserRequestHistory findByUserId(long userId);
+
 }
 
 

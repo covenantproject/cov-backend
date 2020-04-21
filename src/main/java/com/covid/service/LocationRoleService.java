@@ -51,8 +51,8 @@ public class LocationRoleService {
 			locationRoles.setParentLocationId(location.getParentLocationId());
 			
 			HealthProfessional healthProfid=healthProRepo.findByUserId(userId);
-			long patientCount=patientRepo.findByHealthProfessionalIdCount(healthProfid.getHealthProfessionalId());
-			locationRoles.setAssignPatients(patientCount);
+			//long patientCount=patientRepo.findByHealthProfessionalIdCount(healthProfid.getHealthProfessionalId());
+			//locationRoles.setAssignPatients(patientCount);
 			locationRolesList.add(locationRoles);
 		}
 		

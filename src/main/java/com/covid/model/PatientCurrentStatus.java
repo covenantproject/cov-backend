@@ -10,120 +10,196 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="\"PatientCurrentStatus\"")
+@Table(name = "\"PatientStatus\"")
 public class PatientCurrentStatus {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="\"PatientCurrentStatusId\"")
-	private long PatientCurrentStatusId;
-	
-	@Column(name="\"PatientId\"")
-	private long patientId;
-	
-	@Column(name="\"COVID19Status\"")
-	private String COVID19Status;
-	
-	@Column(name="\"PatientType\"")
-	private String PatientType;
-	
-	@Column(name="\"CurrentQuarantineStatus\"")
-	private String CurrentQuarantineStatus;
-	
-	@Column(name="\"CurrentIsolationStatus\"")
-	private String CurrentIsolationStatus;
-	
-	@Column(name="\"QuarantineStartDateTime\"")
-	private Date QuarantineStartDateTime;
-	
-	@Column(name="\"QuarantineEndDateTime\"")
-	private Date QuarantineEndDateTime;
-	
-	@Column(name="\"IsolationStartDateTime\"")
-	private Date IsolationStartDateTime;
-	
-	@Column(name="\"IsolationEndDateTime\"")
-	private Date IsolationEndDateTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "\"PatientStatusId\"")
+    private long PatientStatusId;
 
-	public long getPatientCurrentStatusId() {
-		return PatientCurrentStatusId;
-	}
+    @Column(name = "\"PatientId\"")
+    private long patientId;
 
-	public void setPatientCurrentStatusId(long patientCurrentStatusId) {
-		PatientCurrentStatusId = patientCurrentStatusId;
-	}
+    @Column(name = "\"COVID19Status\"")
+    private String COVID19Status;
+
+    @Column(name = "\"PatientType\"")
+    private String PatientType;
+
+    @Column(name = "\"QuarantineStatus\"")
+    private String QuarantineStatus;
+
+    @Column(name = "\"IsolationStatus\"")
+    private String IsolationStatus;
+
+    @Column(name = "\"QuarantineStartDateTime\"")
+    private Date QuarantineStartDateTime;
+
+    @Column(name = "\"QuarantineEndDateTime\"")
+    private Date QuarantineEndDateTime;
+
+    @Column(name = "\"IsolationStartDateTime\"")
+    private Date IsolationStartDateTime;
+
+    @Column(name = "\"IsolationEndDateTime\"")
+    private Date IsolationEndDateTime;
+
+    @Column(name = "\"QuarantineRequestStatus\"")
+    private String QuarantineRequestStatus;
+
+    @Column(name = "\"MedicalRequestStatus\"")
+    private String MedicalRequestStatus;
+
+    @Column(name = "\"SuppliesRequestStatus\"")
+    private String SuppliesRequestStatus;
+
+    @Column(name = "\"GeofenceStatus\"")
+    private String geofenceStatus;
+
+    @Column(name = "\"HealthStatusAlert\"")
+    private String healthStatusAlert;
+
+    @Column(name = "\"Latitude\"")
+    private Double latitude;
+
+    @Column(name = "\"Longitude\"")
+    private Double longitude;
+
+    public long getPatientStatusId() {
+        return PatientStatusId;
+    }
+
+    public void setPatientStatusId(long patientStatusId) {
+        PatientStatusId = patientStatusId;
+    }
 
 
-	public long getPatientId() {
-		return patientId;
-	}
+    public long getPatientId() {
+        return patientId;
+    }
 
-	public void setPatientId(long patientId) {
-		this.patientId = patientId;
-	}
+    public void setPatientId(long patientId) {
+        this.patientId = patientId;
+    }
 
-	public String getCOVID19Status() {
-		return COVID19Status;
-	}
+    public String getCOVID19Status() {
+        return COVID19Status;
+    }
 
-	public void setCOVID19Status(String cOVID19Status) {
-		COVID19Status = cOVID19Status;
-	}
+    public void setCOVID19Status(String cOVID19Status) {
+        COVID19Status = cOVID19Status;
+    }
 
-	public String getPatientType() {
-		return PatientType;
-	}
+    public String getPatientType() {
+        return PatientType;
+    }
 
-	public void setPatientType(String patientType) {
-		PatientType = patientType;
-	}
+    public void setPatientType(String patientType) {
+        PatientType = patientType;
+    }
 
-	public String getCurrentQuarantineStatus() {
-		return CurrentQuarantineStatus;
-	}
+    public String getQuarantineStatus() {
+        return QuarantineStatus;
+    }
 
-	public void setCurrentQuarantineStatus(String currentQuarantineStatus) {
-		CurrentQuarantineStatus = currentQuarantineStatus;
-	}
+    public void setQuarantineStatus(String quarantineStatus) {
+        QuarantineStatus = quarantineStatus;
+    }
 
-	public String getCurrentIsolationStatus() {
-		return CurrentIsolationStatus;
-	}
+    public String getIsolationStatus() {
+        return IsolationStatus;
+    }
 
-	public void setCurrentIsolationStatus(String currentIsolationStatus) {
-		CurrentIsolationStatus = currentIsolationStatus;
-	}
+    public void setIsolationStatus(String isolationStatus) {
+        IsolationStatus = isolationStatus;
+    }
 
-	public Date getQuarantineStartDateTime() {
-		return QuarantineStartDateTime;
-	}
+    public Date getQuarantineStartDateTime() {
+        return QuarantineStartDateTime;
+    }
 
-	public void setQuarantineStartDateTime(Date quarantineStartDateTime) {
-		QuarantineStartDateTime = quarantineStartDateTime;
-	}
+    public void setQuarantineStartDateTime(Date quarantineStartDateTime) {
+        QuarantineStartDateTime = quarantineStartDateTime;
+    }
 
-	public Date getQuarantineEndDateTime() {
-		return QuarantineEndDateTime;
-	}
+    public Date getQuarantineEndDateTime() {
+        return QuarantineEndDateTime;
+    }
 
-	public void setQuarantineEndDateTime(Date quarantineEndDateTime) {
-		QuarantineEndDateTime = quarantineEndDateTime;
-	}
+    public void setQuarantineEndDateTime(Date quarantineEndDateTime) {
+        QuarantineEndDateTime = quarantineEndDateTime;
+    }
 
-	public Date getIsolationStartDateTime() {
-		return IsolationStartDateTime;
-	}
+    public Date getIsolationStartDateTime() {
+        return IsolationStartDateTime;
+    }
 
-	public void setIsolationStartDateTime(Date isolationStartDateTime) {
-		IsolationStartDateTime = isolationStartDateTime;
-	}
+    public void setIsolationStartDateTime(Date isolationStartDateTime) {
+        IsolationStartDateTime = isolationStartDateTime;
+    }
 
-	public Date getIsolationEndDateTime() {
-		return IsolationEndDateTime;
-	}
+    public Date getIsolationEndDateTime() {
+        return IsolationEndDateTime;
+    }
 
-	public void setIsolationEndDateTime(Date isolationEndDateTime) {
-		IsolationEndDateTime = isolationEndDateTime;
-	}
-	
+    public void setIsolationEndDateTime(Date isolationEndDateTime) {
+        IsolationEndDateTime = isolationEndDateTime;
+    }
+
+    public String getQuarantineRequestStatus() {
+        return QuarantineRequestStatus;
+    }
+
+    public void setQuarantineRequestStatus(String quarantineRequestStatus) {
+        QuarantineRequestStatus = quarantineRequestStatus;
+    }
+
+    public String getMedicalRequestStatus() {
+        return MedicalRequestStatus;
+    }
+
+    public void setMedicalRequestStatus(String medicalRequestStatus) {
+        MedicalRequestStatus = medicalRequestStatus;
+    }
+
+    public String getSuppliesRequestStatus() {
+        return SuppliesRequestStatus;
+    }
+
+    public void setSuppliesRequestStatus(String suppliesRequestStatus) {
+        SuppliesRequestStatus = suppliesRequestStatus;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getGeofenceStatus() {
+        return geofenceStatus;
+    }
+
+    public void setGeofenceStatus(String geofenceStatus) {
+        this.geofenceStatus = geofenceStatus;
+    }
+
+    public String getHealthStatusAlert() {
+        return healthStatusAlert;
+    }
+
+    public void setHealthStatusAlert(String healthStatusAlert) {
+        this.healthStatusAlert = healthStatusAlert;
+    }
 }
