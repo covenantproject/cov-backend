@@ -39,13 +39,21 @@ public class CovidService {
     }
 
     public RegisterDto getUserProfile(Long userId) {
-        UserEntity user = entityManager.find(UserEntity.class, userId);  
+        UserEntity user = entityManager.find(UserEntity.class, userId); 
+        RegisterDto userDetails=new RegisterDto();
+      
         if (user == null) {
             throw new RuntimeException("User with id " + userId + " does not exist");
+        }else {
+        	 if(user.getPhotoId()!=null) {
+            	 PhotoEntity photo=entityManager.find(PhotoEntity.class, user.getPhotoId()); 
+            	 userDetails=convertToVo(user);
+            	 userDetails.setPhotoPath(photo.getPhotoPath()); 
+            }else {
+            	userDetails=convertToVo(user);
+            }
         }
-        PhotoEntity photo=entityManager.find(PhotoEntity.class, user.getPhotoId());
-        RegisterDto userDetails=convertToVo(user);
-        userDetails.setPhotoPath(photo.getPhotoPath());
+       
         return userDetails;
     }
 
@@ -88,8 +96,12 @@ public class CovidService {
         register.setSuffix(user.getSuffix());
         register.setDob(user.getDateOfBirth());
         register.setGender(user.getGender());
-        register.setAddress(user.getAddress().getAddressLine1());
-        register.setMobileNo(user.getPhoneNumber().getPhoneNumber());
+        if(user.getAddress()!=null) {
+        	register.setAddress(user.getAddress().getAddressLine1());
+        }
+        if(user.getPhoneNumber()!=null) {
+        	register.setMobileNo(user.getPhoneNumber().getPhoneNumber());
+        }
         return register;
     }
 

@@ -9,7 +9,6 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author SunilAnand
  * @since 2020-04-14
  **/
-
 @SpringBootApplication(scanBasePackages = { "com.covid" })
 public class CovidServiceApplication extends SpringBootServletInitializer {
 

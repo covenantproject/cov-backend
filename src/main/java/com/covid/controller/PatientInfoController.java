@@ -3,6 +3,7 @@ package com.covid.controller;
 import com.covid.dto.PatientLocationDto;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,11 +20,13 @@ public class PatientInfoController {
     PatientInfoService patientService;
 
     @GetMapping("/getPatientInfo")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public PatientInfoDto getPatientForLocation(@RequestParam long patientId) {
         return patientService.getPatientForLocation(patientId);
     }
 
     @GetMapping("/searchPatient")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public PatientLocationDto searchPatient(@RequestParam(required = false) Long locationId, @RequestParam(required = false) Long healthProId, @RequestParam(required = false) String phoneNumber,
                                             @RequestParam(defaultValue = "100") int size, @RequestParam(defaultValue = "0") int from,
                                             @RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName, @RequestParam(required = false) String covid19Status, @RequestParam(required = false) String quarantineStatus,
