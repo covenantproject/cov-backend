@@ -1,5 +1,7 @@
 package com.covid.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -12,9 +14,10 @@ import com.covid.dto.PatientProviderRelationshipDto;
 import com.covid.service.PatientProviderRelationshipService;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/web/api")
 public class PatientProviderRelationshipController {
 
+	public static final Logger logger = LoggerFactory.getLogger(LocationRoleController.class);
 	@Autowired
 	PatientProviderRelationshipService patientProService;
 
@@ -25,10 +28,10 @@ public class PatientProviderRelationshipController {
 		try {
 			String userrequest = patientProService.savePatientProvider(patientProvider);
 		} catch (Exception ex) {
+			logger.error("EXCEPTION_IN_PatientProvider", ex);
 			throw new RuntimeException("Save Couldn't Complete");
 		}
 		model.addAttribute("status", "Success");
 		return model;
 	}
-
 }

@@ -4,7 +4,7 @@ public class LocationAndRoleDto {
 	
 	private long locationId;
 	private String locationName;
-	private long assignPatients;
+	private boolean assignPatients;
 	private String userRole;
 	private long parentLocationId;
 	public long getLocationId() {
@@ -19,10 +19,11 @@ public class LocationAndRoleDto {
 	public void setLocationName(String locationName) {
 		this.locationName = locationName;
 	}
-	public long getAssignPatients() {
+
+	public boolean isAssignPatients() {
 		return assignPatients;
 	}
-	public void setAssignPatients(long assignPatients) {
+	public void setAssignPatients(boolean assignPatients) {
 		this.assignPatients = assignPatients;
 	}
 	public String getUserRole() {

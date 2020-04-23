@@ -22,7 +22,7 @@ public class AuthenticationController {
 
     @PostMapping("/validateOtp")
     public long verifyOtp(@RequestParam String mobileNo, @RequestParam String otpCode) {
-        long userId=authenticationService.verifyOtp(mobileNo, otpCode);
+        long userId = authenticationService.verifyOtp(mobileNo, otpCode);
         return userId;
     }
 

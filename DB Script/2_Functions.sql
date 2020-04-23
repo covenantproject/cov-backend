@@ -1,3 +1,20 @@
+--public.getgeofencelocation
+CREATE OR REPLACE FUNCTION public.getgeofencelocation(
+	userid integer)
+    RETURNS TABLE(geofencelocationid integer, patientid integer, geofencelatitude double precision, geofencelongitude double precision, geofenceradiusmetres double precision, geofencestartdate timestamp without time zone, geofenceenddate timestamp without time zone) 
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+AS $BODY$
+DECLARE 
+ patientId integer;
+BEGIN
+		RETURN QUERY(SELECT * FROM public."GeofenceLocation" WHERE "PatientId" IN (SELECT "PatientId" FROM
+					public."Patient" WHERE "UserId"=$1));
+END; $BODY$;
+
 
 --public.getlocationhierarchy
 CREATE OR REPLACE FUNCTION public.getlocationhierarchy(
@@ -10,6 +27,24 @@ CREATE OR REPLACE FUNCTION public.getlocationhierarchy(
     ROWS 1000
 AS $BODY$BEGIN
 	 RETURN QUERY(SELECT * FROM public."LocationHierarchy"  WHERE "LocationId" = $1);
+END; $BODY$;
+
+
+--public.getlocationsandrolesforuser
+CREATE OR REPLACE FUNCTION public.getlocationsandrolesforuser(
+	userid integer)
+    RETURNS TABLE(locationid integer, locationname character varying, assignpatients boolean, relationshiptype character varying, parentlocationid integer) 
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+AS $BODY$
+BEGIN
+	RETURN QUERY(select lc."LocationId",lc."LocationName",lc."AssignPatients", pp."RelationshipType",lc."ParentLocationId" from 
+	public."PatientProviderRelationship" pp 
+	JOIN public."LocationHierarchy" lc ON pp."RelationshipFacilityLocation" = lc."LocationId"
+	where pp."PatientId" in (select "PatientId" from public."Patient" p,public."User" u where p."UserId"=$1));
 END; $BODY$;
 
 
@@ -51,12 +86,13 @@ begin
 	SELECT p."PatientId",u."FirstName", u."LastName", 
 	ps."Latitude", ps."Longitude", p."EmergencyContact1", uh."RequestDateTime"
 	from public."PatientProviderRelationship" pp
-	JOIN public."Patient" p ON pp."PatientId" = p."PatientId"
-	JOIN public."PatientStatus" ps ON ps."PatientId" = p."PatientId"
-	JOIN public."HealthProfessional" h ON h."HealthProfessionalId" = pp."ProviderId"
-	JOIN public."User" u ON u."UserId" = h."UserId"
+	LEFT JOIN public."Patient" p ON pp."PatientId" = p."PatientId"
+	LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."PatientId"
+	LEFT JOIN public."HealthProfessional" h ON h."HealthProfessionalId" = pp."ProviderId"
+	LEFT JOIN public."User" u ON u."UserId" = h."UserId"
 	LEFT JOIN public."UserRequestHistory" uh ON uh."UserId" = u."UserId"
-	WHERE pp."PatientId" = $1;
+	WHERE pp."PatientId" = $1
+	order by uh."RequestDateTime" desc limit 1;
 
 END;
 $BODY$;
@@ -116,6 +152,10 @@ BEGIN
 	"UserId","PhoneNumber")
 	VALUES (userID, $8);
 	
+	INSERT INTO public."HealthProfessional"(
+	 "HealthProfessionalId","SupervisorId", "HealthProfessionalJobTitle", "WorkLocationId")
+	VALUES (userID,$13,$10,$12);
+	
 	RETURN 'SUCCESS';
 END; $BODY$;
 
@@ -141,6 +181,27 @@ AS $BODY$BEGIN
 	RETURN 'SUCCESS';
 END; $BODY$;
 
+
+--public.updategeofencelocation
+CREATE OR REPLACE FUNCTION public.updategeofencelocation(
+	patientid integer,
+	geofencelattitude double precision,
+	geofencelongitude double precision,
+	geofenceradiusmetres double precision,
+	geofencestartdate date,
+	geofenceenddate date)
+    RETURNS text
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+AS $BODY$
+BEGIN
+	INSERT INTO public."GeofenceLocation"(
+	 "PatientId", "GeoFenceLatitude", "GeoFenceLongitude", "GeoFenceRadiusMetres", "GeoFenceStartDate", "GeoFenceEndDate")
+	VALUES ($1, $2,$3,$4,$5,$6);
+	RETURN 'SUCCESS';
+END; $BODY$;
 
 
 --public.updatehealth

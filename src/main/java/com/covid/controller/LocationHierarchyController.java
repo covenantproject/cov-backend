@@ -2,7 +2,8 @@ package com.covid.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -11,14 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.covid.model.LocationHierarchy;
 import com.covid.service.LocationHierarchyService;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/web/api")
 public class LocationHierarchyController {
 
+	public static final Logger logger = LoggerFactory.getLogger(LocationRoleController.class);
 	@Autowired
 	LocationHierarchyService locationHierarchyService;
 
@@ -27,9 +28,13 @@ public class LocationHierarchyController {
 	public @ResponseBody ModelMap getLocationhierarchy(@RequestParam int locationID) {
 		ModelMap model = new ModelMap();
 		List<LocationHierarchy> locHierarchy = new ArrayList<LocationHierarchy>();
-		locHierarchy = locationHierarchyService.getLocHierarchy(locationID);
+		try {
+			locHierarchy = locationHierarchyService.getLocHierarchy(locationID);
+		} catch (Exception ex) {
+			logger.error("EXCEPTION_IN_locationHierarchy", ex);
+			throw new RuntimeException("REC_NOT_FOUND");
+		}
 		model.addAttribute("locationHierarchy", locHierarchy);
 		return model;
 	}
-
 }
