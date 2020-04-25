@@ -46,7 +46,7 @@ public class AuthenticationService {
         try {
             String apiKey = "apikey=" + textApiKey;
             String message =String.format("&message=Covenant OTP: %d", otp);
-            String sender = "&sender=" + "TXTLCL";
+            String sender = "&sender=" + "QANTLR";
             String numbers = "&numbers=" + mobileNo;
 
             // Send SMS

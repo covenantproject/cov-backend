@@ -27,7 +27,7 @@ public class SendMessageService {
         try {
             String apiKey = "apikey=" + textApiKey;
             String message = String.format("&message=Your covenant app location: %s", msg);
-            String sender = "&sender=" + "TXTLCL";
+            String sender = "&sender=" + "QANTLR";
             String numbers = "&numbers=" + mobileNo;
             // Send SMS
             HttpURLConnection conn = (HttpURLConnection) new URL(textApiUrl).openConnection();
