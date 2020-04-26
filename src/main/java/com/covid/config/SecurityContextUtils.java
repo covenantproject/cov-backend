@@ -66,4 +66,5 @@ public class SecurityContextUtils {
     }
     return roles;
   }
+
 }
