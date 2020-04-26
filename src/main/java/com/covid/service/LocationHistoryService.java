@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.model.LocationHistory;
-import com.covid.model.UserRequestHistory;
 import com.covid.repository.LocationHistoryRepo;
 
 @Service

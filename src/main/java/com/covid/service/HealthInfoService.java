@@ -34,7 +34,7 @@ public class HealthInfoService {
 				.setParameter("progressstatus", userRequest.getProgressstatus()).setParameter("temperature", userRequest.getTemperature())
 				.setParameter("heartrate", userRequest.getHeartrate()).setParameter("respiratoryrate", userRequest.getRespiratoryrate()).setParameter("spo2", userRequest.getSpo2());
 		query.execute();
-		List<Object> result = (List<Object>) query.getResultList();
+		List<Object> result = query.getResultList();
 		if (result.size() != 0) {
 			Iterator itr = result.iterator();
 			String msg="";

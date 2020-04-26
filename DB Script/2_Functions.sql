@@ -60,12 +60,13 @@ CREATE OR REPLACE FUNCTION public.historylist(
     ROWS 1000
 AS $BODY$
 begin
+	
 	RETURN Query  
 	select "HealthHistoryId","UserId" ,"CoughPresent" ,
-"FeverPresent" ,"BreathingDifficultyPresent" ,
-"ProgressStatus" ,"TemperatureCelsius","HeartRatePerMin" ,
-"RespRatePerMin" ,"SpO2Percent" from public."HealthCheckHistory"
-where "UserId"=$1;
+	"FeverPresent" ,"BreathingDifficultyPresent" ,
+	"ProgressStatus" ,"TemperatureCelsius","HeartRatePerMin" ,
+	"RespRatePerMin" ,"SpO2Percent" from public."HealthCheckHistory"
+	where "UserId"=$1;
 
 END;
 $BODY$;
@@ -80,19 +81,31 @@ CREATE OR REPLACE FUNCTION public.homedetails(
     COST 100
     VOLATILE 
     ROWS 1000
-AS $BODY$
-begin
-	RETURN Query  
-	SELECT p."PatientId",u."FirstName", u."LastName", 
-	ps."Latitude", ps."Longitude", p."EmergencyContact1", uh."RequestDateTime"
-	from public."PatientProviderRelationship" pp
-	LEFT JOIN public."Patient" p ON pp."PatientId" = p."PatientId"
-	LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."PatientId"
-	LEFT JOIN public."HealthProfessional" h ON h."HealthProfessionalId" = pp."ProviderId"
-	LEFT JOIN public."User" u ON u."UserId" = h."UserId"
-	LEFT JOIN public."UserRequestHistory" uh ON uh."UserId" = u."UserId"
-	WHERE pp."PatientId" = $1
-	order by uh."RequestDateTime" desc limit 1;
+AS $BODY$begin
+	
+	
+	IF EXISTS (SELECT 1 FROM public."PatientProviderRelationship" pp LEFT JOIN public."Patient" p ON pp."PatientId" = p."PatientId" WHERE p."UserId" = $1) THEN
+		RETURN Query
+		SELECT p."PatientId",u."FirstName", u."LastName", 
+		ps."Latitude", ps."Longitude", p."EmergencyContact1", hh."HealthDateTime"
+		from public."PatientProviderRelationship" pp
+		LEFT JOIN public."Patient" p ON pp."PatientId" = p."PatientId"
+		LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."PatientId"
+		LEFT JOIN public."HealthProfessional" h ON h."HealthProfessionalId" = pp."ProviderId"
+		LEFT JOIN public."User" u ON u."UserId" = h."HealthProfessionalId"
+		LEFT JOIN public."HealthCheckHistory" hh ON hh."UserId" = u."UserId"
+		WHERE p."UserId" = $1
+		order by uh."HealthDateTime" desc limit 1;
+	ELSE 
+		RETURN Query
+		SELECT p."PatientId", null::varchar, null::varchar, 
+		ps."Latitude", ps."Longitude", p."EmergencyContact1", hh."HealthDateTime"
+		FROM public."Patient" p
+		LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."PatientId"
+		LEFT JOIN public."HealthCheckHistory" hh ON hh."UserId" = p."UserId"
+		WHERE p."UserId" = $1
+		order by hh."HealthDateTime" desc limit 1;
+	END IF;
 
 END;
 $BODY$;
@@ -111,7 +124,7 @@ CREATE OR REPLACE FUNCTION public.raiseyourhand(
     VOLATILE 
 AS $BODY$
 BEGIN
-    INSERT INTO public."UserRequestHistory" ("UserId" ,"RequestType" ,"RequestStatus" ,"RequestComments"  ) VALUES ($1,$2,$3,$4);
+   INSERT INTO public."UserRequestHistory" ("UserId" ,"RequestType" ,"RequestStatus" ,"RequestComments"  ) VALUES ($1,$2,$3,$4);
    return 'SUCCESS';
 END
 $BODY$;
@@ -197,9 +210,10 @@ CREATE OR REPLACE FUNCTION public.updategeofencelocation(
     VOLATILE 
 AS $BODY$
 BEGIN
+	SELECT "PatientId" into  userID from public."Patient" where "UserId"=$1;
 	INSERT INTO public."GeofenceLocation"(
 	 "PatientId", "GeoFenceLatitude", "GeoFenceLongitude", "GeoFenceRadiusMetres", "GeoFenceStartDate", "GeoFenceEndDate")
-	VALUES ($1, $2,$3,$4,$5,$6);
+	VALUES (userID, $2,$3,$4,$5,$6);
 	RETURN 'SUCCESS';
 END; $BODY$;
 
@@ -222,10 +236,10 @@ CREATE OR REPLACE FUNCTION public.updatehealth(
     VOLATILE 
 AS $BODY$
 BEGIN
-    INSERT INTO public."HealthCheckHistory" ("UserId","CoughPresent" ,"FeverPresent" ,
-   "BreathingDifficultyPresent" ,"ProgressStatus" ,"TemperatureCelsius" ,
-  "HeartRatePerMin" ,"RespRatePerMin" ,"SpO2Percent" ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9);
- return 'SUCCESS';
+	INSERT INTO public."HealthCheckHistory" ("UserId","CoughPresent" ,"FeverPresent" ,
+	"BreathingDifficultyPresent" ,"ProgressStatus" ,"TemperatureCelsius" ,
+	"HeartRatePerMin" ,"RespRatePerMin" ,"SpO2Percent" ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9);
+	return 'SUCCESS';
 END
 $BODY$;
 

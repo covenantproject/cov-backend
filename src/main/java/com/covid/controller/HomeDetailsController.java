@@ -1,5 +1,9 @@
 package com.covid.controller;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.covid.dto.HomeDetailsDto;
 import com.covid.dto.homeDetailsFnDto;
 import com.covid.service.HomeDetailsService;
 
@@ -26,22 +29,13 @@ public class HomeDetailsController {
 	HomeDetailsService homeDetailService;
 
 	@GetMapping("/homedetails")
-	public @ResponseBody ModelMap getHomeDetailsById(@RequestParam long userId) {
-		ModelMap model = new ModelMap();
-		HomeDetailsDto homeDetails = homeDetailService.getHomeDetailsById(userId);
-		model.addAttribute("status", "Success");
-		model.addAttribute("homeDetails", homeDetails);
-		return model;
-	}
-
-	@GetMapping("/homedetail")
 	public @ResponseBody ModelMap getHomeDetailById(@RequestParam int userId) {
 		ModelMap model = new ModelMap();
 		homeDetailsFnDto hm = new homeDetailsFnDto();
 		try {
 			List<Object> homeDetails = homeDetailService.getHomeDetailById(userId);
 			if (homeDetails != null) {
-				Iterator itr = homeDetails.iterator();
+				Iterator<Object> itr = homeDetails.iterator();
 				while (itr.hasNext()) {
 					Object[] obj = (Object[]) itr.next();
 					if (obj[0] != null) {
@@ -61,6 +55,11 @@ public class HomeDetailsController {
 					}
 					if (obj[5] != null) {
 						hm.setEmergencycontact1(String.valueOf(obj[5]));
+					}
+					if(obj[6]!=null) {
+						DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+						Date dt=dateFormat.parse(String.valueOf(obj[6]));
+						hm.setRequestdatetime(dt);
 					}
 				}
 

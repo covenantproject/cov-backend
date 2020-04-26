@@ -24,7 +24,7 @@ public class UserRequestHistoryController {
 	public @ResponseBody ModelMap healthHistoryRegister(@RequestBody UserRequestHistory userRequest) {
 		ModelMap model = new ModelMap();
 		try {
-			String userrequest = userRequestService.updateUserRequest(userRequest);
+			userRequestService.updateUserRequest(userRequest);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_UserRequestHistory", ex);
 			throw new RuntimeException("Save Couldn't Complete");

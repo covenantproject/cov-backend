@@ -40,7 +40,10 @@ public class PatientInfoController {
             @RequestParam(required = false) String heartbeatStatus,
             @RequestParam(required = false) String healthStatusAlert) {
 
-        if ((locationId == null || healthProId == null) && StringUtils.isBlank(phoneNumber)) {
+        if (locationId != null || healthProId != null) {
+            //Do Nothing
+        }
+        else if (StringUtils.isBlank(phoneNumber)) {
             throw new RuntimeException("PHONE_NUMBER_MANDATORY");
         }
         return patientService.searchPatients(locationId, healthProId, phoneNumber, size, from, firstName, lastName,

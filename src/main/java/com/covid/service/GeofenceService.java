@@ -1,6 +1,5 @@
 package com.covid.service;
 
-import java.security.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,19 +7,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.dto.GeofenceDto;
 import com.covid.model.GeofenceLocation;
-import com.covid.model.LocationHierarchy;
 
 @Service
 public class GeofenceService {
@@ -44,9 +40,9 @@ public class GeofenceService {
 				.setParameter("geofenceEndDate", geofenceDto.getEndDate());
 
 		query.execute();
-		List<Object> result = (List<Object>) query.getResultList();
+		List<Object> result = query.getResultList();
 		if (result.size() != 0) {
-			Iterator itr = result.iterator();
+			Iterator<Object> itr = result.iterator();
 			String msg = "";
 			while (itr.hasNext()) {
 				String obj = (String) itr.next();
@@ -68,8 +64,8 @@ public class GeofenceService {
 				.registerStoredProcedureParameter("patientId", Integer.class, ParameterMode.IN)
 				.setParameter("patientId", patientId);
 		query.execute();
-		List list= query.getResultList();	
-		Iterator itr = list.iterator();
+		List<Object> list= query.getResultList();	
+		Iterator<Object> itr = list.iterator();
 		GeofenceLocation gf=new GeofenceLocation();
 		while (itr.hasNext()) {
 			Object[] obj = (Object[]) itr.next();

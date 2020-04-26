@@ -66,6 +66,9 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PhoneNumberEntity phoneNumber;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private PatientEntity patient;
+
 //    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 //    @JoinColumn(name = "`ProfilePhotoId`", referencedColumnName = "`PhotoId`")
 //    private PhotoEntity photo;
@@ -164,6 +167,10 @@ public class UserEntity {
 
     public void setPhoneNumber(PhoneNumberEntity phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setPatient(PatientEntity patient) {
+        this.patient = patient;
     }
 
     public Long getPhotoId() {

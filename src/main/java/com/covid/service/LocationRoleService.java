@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import com.covid.dto.LocationAndRoleDto;
 import com.covid.model.HealthProfessional;
 import com.covid.model.Location;
-import com.covid.model.LocationHierarchy;
 import com.covid.model.Role;
 import com.covid.model.UserLocation;
 import com.covid.repository.HealthProfessionalRepo;
@@ -59,7 +58,7 @@ public class LocationRoleService {
 			locationRoles.setLocationName(location.getLocationName());
 			locationRoles.setParentLocationId(location.getParentLocationId());
 			
-			HealthProfessional healthProfid=healthProRepo.findByUserId(userId);
+			healthProRepo.findByUserId(userId);
 			//long patientCount=patientRepo.findByHealthProfessionalIdCount(healthProfid.getHealthProfessionalId());
 			//locationRoles.setAssignPatients(patientCount);
 			locationRolesList.add(locationRoles);

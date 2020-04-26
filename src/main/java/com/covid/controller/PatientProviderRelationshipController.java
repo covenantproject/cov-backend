@@ -21,12 +21,12 @@ public class PatientProviderRelationshipController {
 	@Autowired
 	PatientProviderRelationshipService patientProService;
 
-	@PostMapping("/savePatientProviderRela")
+	@PostMapping("/savePatientProviderRelationship")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public @ResponseBody ModelMap savePatientProvider(@RequestBody PatientProviderRelationshipDto patientProvider) {
 		ModelMap model = new ModelMap();
 		try {
-			String userrequest = patientProService.savePatientProvider(patientProvider);
+			patientProService.savePatientProvider(patientProvider);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_PatientProvider", ex);
 			throw new RuntimeException("Save Couldn't Complete");

@@ -24,13 +24,12 @@ public class HealthInfoController {
 	public @ResponseBody ModelMap healthHistoryRegister(@RequestBody HealthInfoDto userRequest) {
 		ModelMap model = new ModelMap();
 		try {
-			String healthInfo = healthService.updateHealthInfo(userRequest);
+			healthService.updateHealthInfo(userRequest);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_HealthInfo", ex);
 			throw new RuntimeException("Save Couldn't Complete");
 		}
-
-		HealthInfoDto h = new HealthInfoDto();
+		
 		model.addAttribute("status", "Success");
 		return model;
 	}

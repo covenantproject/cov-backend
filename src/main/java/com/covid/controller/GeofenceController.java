@@ -29,7 +29,7 @@ public class GeofenceController {
 	public @ResponseBody ModelMap geofenceRegister(@RequestBody GeofenceDto geofenceDto) {
 		ModelMap model = new ModelMap();
 		try {
-			String geo = geofenceService.updateGeofence(geofenceDto);
+			geofenceService.updateGeofence(geofenceDto);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_Geofence", ex);
 			throw new RuntimeException("Save Couldn't Complete");

@@ -1,7 +1,6 @@
 package com.covid.service;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -10,7 +9,6 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.covid.model.HealthHistory;
 import com.covid.model.UserRequestHistory;
 import com.covid.repository.UserRequestHistoryRepo;
 

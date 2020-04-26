@@ -15,7 +15,7 @@ import com.covid.dto.HealthProfessionalDto;
 
 @Service
 public class HealthProfessionalService {
-	
+
 	@Autowired
 	private EntityManager entityManager;
 
@@ -34,28 +34,30 @@ public class HealthProfessionalService {
 				.registerStoredProcedureParameter("healthProOfficeAddress", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("healthProLocationId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("supervisorId", Integer.class, ParameterMode.IN)
-				
+
 				.setParameter("title", healthProf.getTitle()).setParameter("firstName", healthProf.getFirstName())
 				.setParameter("lastName", healthProf.getLastName()).setParameter("suffix", healthProf.getSuffix())
 				.setParameter("gender", healthProf.getGender()).setParameter("dateOfBirth", healthProf.getDateOfBirth())
-				.setParameter("emailAddress", healthProf.getEmailAddress()).setParameter("phoneNumber", healthProf.getPhoneNumber())
-				.setParameter("healthProType", healthProf.getHealthProType()).setParameter("healthProJobTitle", healthProf.getHealthProJobTitle())
-				.setParameter("healthProOfficeAddress", healthProf.getHealthProOfficeAddress()).setParameter("healthProLocationId", healthProf.getHealthProLocationId())
+				.setParameter("emailAddress", healthProf.getEmailAddress())
+				.setParameter("phoneNumber", healthProf.getPhoneNumber())
+				.setParameter("healthProType", healthProf.getHealthProType())
+				.setParameter("healthProJobTitle", healthProf.getHealthProJobTitle())
+				.setParameter("healthProOfficeAddress", healthProf.getHealthProOfficeAddress())
+				.setParameter("healthProLocationId", healthProf.getHealthProLocationId())
 				.setParameter("supervisorId", healthProf.getSupervisorId());
 		query.execute();
 		List<Object> result = (List<Object>) query.getResultList();
 		if (result.size() != 0) {
 			Iterator itr = result.iterator();
-			String msg="";
+			String msg = "";
 			while (itr.hasNext()) {
 				String obj = (String) itr.next();
-				msg=obj;
+				msg = obj;
 			}
 			return msg;
-			
+
 		} else {
 			return "failed";
 		}
 	}
-
 }

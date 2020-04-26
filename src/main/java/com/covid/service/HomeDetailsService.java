@@ -9,9 +9,6 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.covid.dto.HomeDetailsDto;
-import com.covid.model.LocationHistory;
-import com.covid.model.Patient;
 import com.covid.repository.LocationHistoryRepo;
 import com.covid.repository.PatientRepo;
 import com.covid.repository.UserRepo;
@@ -31,21 +28,7 @@ public class HomeDetailsService {
     @Autowired
     private EntityManager entityManager;
 
-    public HomeDetailsDto getHomeDetailsById(long userId) {
-        HomeDetailsDto homeDetails = new HomeDetailsDto();
-//		UserEntity user=userRepo.findByUserId(userId);
-        Patient patient = patientRepo.findByUserId(userId);
-        if (patient == null) {
-            throw new RuntimeException("NO_DETAILS_FOUND");
-        }
-        LocationHistory status = locationHistoryRepo.findByUserId(patient.getUserId());
-        if (status != null) {
-            homeDetails.setCurrentlatitude(status.getLatitude());
-            homeDetails.setCurrentlongitutude(status.getLongitude());
-        }
-        return homeDetails;
 
-    }
     public List<Object> getHomeDetailById(int userId) {
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("homedetails")
 				.registerStoredProcedureParameter("userid", Integer.class, ParameterMode.IN)

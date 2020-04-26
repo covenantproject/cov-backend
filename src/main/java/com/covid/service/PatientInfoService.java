@@ -50,6 +50,7 @@ public class PatientInfoService {
     PatientDao patientDao;
 
     public PatientInfoDto getPatientForLocation(long patientId) {
+    	//int patientid=Integer.parseInt(String.valueOf(patientId));
         PatientInfoDto patientInfo = new PatientInfoDto();
 
         Patient patient = entityManager.find(Patient.class, patientId);
@@ -91,7 +92,7 @@ public class PatientInfoService {
             patientInfo.setPhoneNumber1Type(phoneDetails.getPhoneType());
         }
 
-        UserRequestHistory userReq = userRequestRepo.findByUserId(patient.getUserId());
+        UserRequestHistory userReq = userRequestRepo.findTopByUserId((int)patient.getUserId());
         if (userReq != null) {
             patientInfo.setHealthRequestStatus(userReq.getRequestStatus());
             patientInfo.setHealthRequestMessage(userReq.getRequestComments());
@@ -105,8 +106,13 @@ public class PatientInfoService {
 
         Address address = addressRepo.findByUserId(patient.getUserId());
         if (address != null) {
-            String adr = address.getAddressLine1().concat(", ".concat(address.getCity().concat(", ").concat(address.getState().concat(", ").concat(address.getCountry()))));
-            patientInfo.setQuarantineAddress(adr);
+//            String adr = address.getAddressLine1().concat(", ".concat(address.getCity().concat(", ").concat(address.getState().concat(", ").concat(address.getCountry()))));
+        	 String adr1 = address.getAddressLine1();
+        	 String adr2 = address.getCity();
+        	 String adr3=address.getState();
+        	 String adr4=address.getCountry();
+        	 String adr=adr1+','+adr2+','+adr3+','+adr4;
+        	 patientInfo.setQuarantineAddress(adr);
         }
         return patientInfo;
     }

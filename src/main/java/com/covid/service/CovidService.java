@@ -2,6 +2,7 @@ package com.covid.service;
 
 import com.covid.dto.RegisterDto;
 import com.covid.vo.AddressEntity;
+import com.covid.vo.PatientEntity;
 import com.covid.vo.PhoneNumberEntity;
 import com.covid.vo.PhotoEntity;
 import com.covid.vo.Register;
@@ -13,10 +14,14 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureQuery;
+
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 /**
  * @author SunilAnand
@@ -127,6 +132,10 @@ public class CovidService {
         phoneNumber.setPhoneNumber(register.getMobileNo());
         user.setPhoneNumber(phoneNumber);
         phoneNumber.setUser(user);
+
+        PatientEntity patient = new PatientEntity();
+        user.setPatient(patient);
+        patient.setUser(user);
 
         return user;
     }

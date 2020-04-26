@@ -2,23 +2,13 @@ package com.covid.dto;
 
 import java.util.Date;
 
-import org.joda.time.DateTime;
-
 public class GeofenceDto {
-	
-	private int locationId;
 	private int patientId;
 	private Double latitude;
 	private Double longitude;
 	private Double radius;
 	private Date startDate;
 	private Date endDate;
-	public int getLocationId() {
-		return locationId;
-	}
-	public void setLocationId(int locationId) {
-		this.locationId = locationId;
-	}
 	public int getPatientId() {
 		return patientId;
 	}
