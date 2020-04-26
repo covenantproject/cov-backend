@@ -16,9 +16,6 @@ public class Patient {
 	@Column(name="\"PatientId\"")
 	private long patientId;
 	
-	@Column(name="\"UserId\"")
-	private long userId;
-	
 	@Column(name="\"Nationality\"")
 	private boolean Nationality;
 	
@@ -87,13 +84,6 @@ public class Patient {
 		this.patientId = patientId;
 	}
 
-	public long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
 
 	public boolean isNationality() {
 		return Nationality;

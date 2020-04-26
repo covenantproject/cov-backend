@@ -58,7 +58,7 @@ public class PatientInfoService {
         }
         patientInfo.setPatientID(patient.getPatientId());
 
-        UserEntity user = userRepo.findByUserId(patient.getUserId());
+        UserEntity user = userRepo.findByUserId(patient.getPatientId());
         if (user != null) {
             patientInfo.setFirstName(user.getFirstName());
             patientInfo.setLastName(user.getLastName());
@@ -70,7 +70,6 @@ public class PatientInfoService {
         if (patientStaus != null) {
             patientInfo.setCovid19Status(patientStaus.getCOVID19Status());
             patientInfo.setQuarantineStatus(patientStaus.getQuarantineStatus());
-            patientInfo.setIsolationStatus(patientStaus.getIsolationStatus());
             patientInfo.setQuarantineStartDate(patientStaus.getQuarantineStartDateTime());
             patientInfo.setQuarantineEndDate(patientStaus.getQuarantineEndDateTime());
             patientInfo.setQuarantineRequestStatus(patientStaus.getQuarantineRequestStatus());
@@ -81,7 +80,7 @@ public class PatientInfoService {
             patientInfo.setLongitude(patientStaus.getLongitude());
         }
 
-        PhoneNumber phoneDetails = phoneNoRepo.findByUserId(patient.getUserId());
+        PhoneNumber phoneDetails = phoneNoRepo.findByUserId(patient.getPatientId());
         if (phoneDetails != null) {
             patientInfo.setPhoneNumber1(phoneDetails.getPhoneNumber());
             patientInfo.setPhoneNumber1HasInternet(phoneDetails.getHasInternetAccess());
@@ -91,19 +90,19 @@ public class PatientInfoService {
             patientInfo.setPhoneNumber1Type(phoneDetails.getPhoneType());
         }
 
-        UserRequestHistory userReq = userRequestRepo.findByUserId(patient.getUserId());
+        UserRequestHistory userReq = userRequestRepo.findByUserId(patient.getPatientId());
         if (userReq != null) {
             patientInfo.setHealthRequestStatus(userReq.getRequestStatus());
             patientInfo.setHealthRequestMessage(userReq.getRequestComments());
         }
 
-        AppHeartbeatHistory heartbeat = heartbeatRepo.findByPrimaryUserId(patient.getUserId());
+        AppHeartbeatHistory heartbeat = heartbeatRepo.findByPrimaryUserId(patient.getPatientId());
         if (heartbeat != null) {
             patientInfo.setHeartbeatStatus(heartbeat.getHeartBeatStatus());
             patientInfo.setHeartbeatTime(heartbeat.getHeartbeatDateTime());
         }
 
-        Address address = addressRepo.findByUserId(patient.getUserId());
+        Address address = addressRepo.findByUserId(patient.getPatientId());
         if (address != null) {
             String adr = address.getAddressLine1().concat(", ".concat(address.getCity().concat(", ").concat(address.getState().concat(", ").concat(address.getCountry()))));
             patientInfo.setQuarantineAddress(adr);

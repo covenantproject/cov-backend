@@ -38,7 +38,7 @@ public class HomeDetailsService {
         if (patient == null) {
             throw new RuntimeException("NO_DETAILS_FOUND");
         }
-        LocationHistory status = locationHistoryRepo.findByUserId(patient.getUserId());
+        LocationHistory status = locationHistoryRepo.findByUserId(patient.getPatientId());
         if (status != null) {
             homeDetails.setCurrentlatitude(status.getLatitude());
             homeDetails.setCurrentlongitutude(status.getLongitude());

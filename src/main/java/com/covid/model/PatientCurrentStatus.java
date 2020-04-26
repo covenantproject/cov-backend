@@ -30,22 +30,13 @@ public class PatientCurrentStatus {
     @Column(name = "\"QuarantineStatus\"")
     private String QuarantineStatus;
 
-    @Column(name = "\"IsolationStatus\"")
-    private String IsolationStatus;
-
     @Column(name = "\"QuarantineStartDateTime\"")
     private Date QuarantineStartDateTime;
 
     @Column(name = "\"QuarantineEndDateTime\"")
     private Date QuarantineEndDateTime;
 
-    @Column(name = "\"IsolationStartDateTime\"")
-    private Date IsolationStartDateTime;
-
-    @Column(name = "\"IsolationEndDateTime\"")
-    private Date IsolationEndDateTime;
-
-    @Column(name = "\"QuarantineRequestStatus\"")
+    @Column(name = "\"QuarIsltRequestStatus\"")
     private String QuarantineRequestStatus;
 
     @Column(name = "\"MedicalRequestStatus\"")
@@ -107,14 +98,6 @@ public class PatientCurrentStatus {
         QuarantineStatus = quarantineStatus;
     }
 
-    public String getIsolationStatus() {
-        return IsolationStatus;
-    }
-
-    public void setIsolationStatus(String isolationStatus) {
-        IsolationStatus = isolationStatus;
-    }
-
     public Date getQuarantineStartDateTime() {
         return QuarantineStartDateTime;
     }
@@ -129,22 +112,6 @@ public class PatientCurrentStatus {
 
     public void setQuarantineEndDateTime(Date quarantineEndDateTime) {
         QuarantineEndDateTime = quarantineEndDateTime;
-    }
-
-    public Date getIsolationStartDateTime() {
-        return IsolationStartDateTime;
-    }
-
-    public void setIsolationStartDateTime(Date isolationStartDateTime) {
-        IsolationStartDateTime = isolationStartDateTime;
-    }
-
-    public Date getIsolationEndDateTime() {
-        return IsolationEndDateTime;
-    }
-
-    public void setIsolationEndDateTime(Date isolationEndDateTime) {
-        IsolationEndDateTime = isolationEndDateTime;
     }
 
     public String getQuarantineRequestStatus() {
