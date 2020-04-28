@@ -36,6 +36,8 @@ public class GeofenceLocation {
 	@Column(name = "\"GeoFenceEndDate\"")
 	private Date GeoFenceEndDate;
 
+	private Boolean geoFenceSet;
+
 	public int getGeofenceLocationId() {
 		return GeofenceLocationId;
 	}
@@ -90,6 +92,14 @@ public class GeofenceLocation {
 
 	public void setGeoFenceEndDate(Date geoFenceEndDate) {
 		GeoFenceEndDate = geoFenceEndDate;
+	}
+
+	public Boolean getGeoFenceSet() {
+		return geoFenceSet;
+	}
+
+	public void setGeoFenceSet(Boolean geoFenceSet) {
+		this.geoFenceSet = geoFenceSet;
 	}
 
 }

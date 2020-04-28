@@ -32,12 +32,14 @@ public class GeofenceService {
 				.registerStoredProcedureParameter("geofenceRadiusMetres", Double.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("geofenceStartDate", Date.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("geofenceEndDate", Date.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("geofenceSet", Boolean.class, ParameterMode.IN)
 				.setParameter("patientId", geofenceDto.getPatientId())
 				.setParameter("geofenceLattitude", geofenceDto.getLatitude())
 				.setParameter("geofenceLongitude", geofenceDto.getLongitude())
 				.setParameter("geofenceRadiusMetres", geofenceDto.getRadius())
 				.setParameter("geofenceStartDate", geofenceDto.getStartDate())
-				.setParameter("geofenceEndDate", geofenceDto.getEndDate());
+				.setParameter("geofenceEndDate", geofenceDto.getEndDate())
+				.setParameter("geofenceSet", geofenceDto.getGeoFenceSet());
 
 		query.execute();
 		List<Object> result = query.getResultList();
@@ -69,10 +71,10 @@ public class GeofenceService {
 		GeofenceLocation gf=new GeofenceLocation();
 		while (itr.hasNext()) {
 			Object[] obj = (Object[]) itr.next();
-			if (obj[0] != null) {
+			if (obj[1] != null) {
 				gf.setPatientId(Integer.parseInt(String.valueOf(obj[1])));
 			}
-			if (obj[1] != null) {
+			if (obj[0] != null) {
 				gf.setGeofenceLocationId(Integer.parseInt(String.valueOf(obj[0])));
 			}
 			if (obj[2] != null) {
@@ -92,6 +94,10 @@ public class GeofenceService {
 			if (obj[6] != null) {
 				Date dt=dateFormat.parse(String.valueOf(obj[6]));
 				gf.setGeoFenceEndDate(dt);
+			}
+			if (obj[7] != null) {
+				Boolean bl = Boolean.parseBoolean(String.valueOf(obj[7]));
+				gf.setGeoFenceSet(bl);
 			}
 			geoFenceList.add(gf);
 		}

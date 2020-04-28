@@ -28,6 +28,7 @@ CREATE TABLE public."User"
     "Gender" character varying(10) COLLATE pg_catalog."default",
     "ProfilePhotoId" integer,
 	"OTPCode" character varying COLLATE pg_catalog."default",
+	"UserName" character varying(32) COLLATE pg_catalog."default",
     CONSTRAINT "User_pkey" PRIMARY KEY ("UserId"),
 	CONSTRAINT "User_ProfilePhotoId_fkey" FOREIGN KEY ("ProfilePhotoId")
         REFERENCES public."UserPhotos" ("PhotoId") MATCH SIMPLE
@@ -62,7 +63,7 @@ TABLESPACE pg_default;
 --HealthProfessional
 CREATE TABLE public."HealthProfessional"
 (
-    "HealthProfessionalId" integer NOT NULL,
+    "HealthProfessionalId" integer NOT NULL,	
     "SupervisorId" integer,
     "HealthProfessionalJobTitle" character varying(15) COLLATE pg_catalog."default",
     "WorkLocationId" integer,
@@ -231,20 +232,20 @@ TABLESPACE pg_default;
 CREATE TABLE public."Address"
 (
     "AddressId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-	"UserId" integer,
-    "AddressType" character varying(10) COLLATE pg_catalog."default",
-	"CompanyName" character varying(10) COLLATE pg_catalog."default",
-	"InCareOf" character varying(10) COLLATE pg_catalog."default",
-	"AddressLine1" character varying(10) COLLATE pg_catalog."default",
-	"AddressLine2" character varying(10) COLLATE pg_catalog."default",
-	"AddressLine3" character varying(10) COLLATE pg_catalog."default",
-	"City" character varying(10) COLLATE pg_catalog."default",
-	"DistrictCounty" character varying(10) COLLATE pg_catalog."default",
-	"State" character varying(10) COLLATE pg_catalog."default",
-	"PostCode" character varying(10) COLLATE pg_catalog."default",
-	"Country" character varying(10) COLLATE pg_catalog."default",
+    "UserId" integer,
+    "AddressType" character varying(24) COLLATE pg_catalog."default",
+    "CompanyName" character varying(32) COLLATE pg_catalog."default",
+    "InCareOf" character varying(32) COLLATE pg_catalog."default",
+    "AddressLine1" character varying(125) COLLATE pg_catalog."default",
+    "AddressLine2" character varying(32) COLLATE pg_catalog."default",
+    "AddressLine3" character varying(32) COLLATE pg_catalog."default",
+    "City" character varying(32) COLLATE pg_catalog."default",
+    "DistrictCounty" character varying(32) COLLATE pg_catalog."default",
+    "State" character varying(32) COLLATE pg_catalog."default",
+    "PostCode" character varying(12) COLLATE pg_catalog."default",
+    "Country" character varying(32) COLLATE pg_catalog."default",
     CONSTRAINT "Address_pkey" PRIMARY KEY ("AddressId"),
-	CONSTRAINT "Address_UserId_fkey" FOREIGN KEY ("UserId")
+    CONSTRAINT "Address_UserId_fkey" FOREIGN KEY ("UserId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
@@ -259,17 +260,17 @@ TABLESPACE pg_default;
 CREATE TABLE public."ExternalIdentifier"
 (
     "IdentificationId" integer NOT NULL GENERATED ALWAYS AS IDENTITY ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
-	"UserId" integer,
-    "IDType" character varying(10) COLLATE pg_catalog."default",
-	"IDTypeURI" character varying(10) COLLATE pg_catalog."default",
-	"IssuingAuthorityName" character varying(10) COLLATE pg_catalog."default",
-	"IssuingAuthorityID" character varying(10) COLLATE pg_catalog."default",
-	"IssuingAuthorityURI" character varying(10) COLLATE pg_catalog."default",
-	"IDNumber" character varying(20) COLLATE pg_catalog."default",
-	"IssueDate" character varying(10) COLLATE pg_catalog."default",
-	"ExpirationDate" character varying(10) COLLATE pg_catalog."default",
+    "UserId" integer,
+    "IDType" character varying(32) COLLATE pg_catalog."default",
+    "IDTypeURI" character varying(128) COLLATE pg_catalog."default",
+    "IssuingAuthorityName" character varying(32) COLLATE pg_catalog."default",
+    "IssuingAuthorityID" character varying(128) COLLATE pg_catalog."default",
+    "IssuingAuthorityURI" character varying(128) COLLATE pg_catalog."default",
+    "IDNumber" character varying(20) COLLATE pg_catalog."default",
+    "IssueDate" character varying(10) COLLATE pg_catalog."default",
+    "ExpirationDate" character varying(10) COLLATE pg_catalog."default",
     CONSTRAINT "ExternalIdentifier_pkey" PRIMARY KEY ("IdentificationId"),
-	CONSTRAINT "ExternalIdentifier_UserId_fkey" FOREIGN KEY ("UserId")
+    CONSTRAINT "ExternalIdentifier_UserId_fkey" FOREIGN KEY ("UserId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
@@ -392,6 +393,7 @@ CREATE TABLE public."PatientStatus"
 	"Latitude" float,
 	"Longitude" float,
 	"GeofenceStatus" character varying COLLATE pg_catalog."default",
+	"GeofenceSet" boolean DEFAULT false,
 	"QuarantineStatus" character varying COLLATE pg_catalog."default",
 	"IsolationStatus" character varying COLLATE pg_catalog."default",
 	"QuarantineStartDateTime" timestamp without time zone,
@@ -405,7 +407,7 @@ CREATE TABLE public."PatientStatus"
 	"HealthStatusAlert" character varying COLLATE pg_catalog."default",
     CONSTRAINT "PatientStatus_pkey" PRIMARY KEY ("PatientStatusId"),
 	CONSTRAINT "PatientStatus_PatientId_fkey" FOREIGN KEY ("PatientId")
-        REFERENCES public."Patient" ("PatientId") MATCH SIMPLE
+        REFERENCES public."User" ("UserId") MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )

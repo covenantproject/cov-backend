@@ -7,10 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/**
- * @author SunilAnand
- * @since 2020-04-14
- **/
 @Entity
 @Table(name = "`UserPhotos`")
 public class PhotoEntity {

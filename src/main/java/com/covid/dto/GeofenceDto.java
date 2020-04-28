@@ -9,6 +9,7 @@ public class GeofenceDto {
 	private Double radius;
 	private Date startDate;
 	private Date endDate;
+	private Boolean geoFenceSet;
 	public int getPatientId() {
 		return patientId;
 	}
@@ -45,7 +46,12 @@ public class GeofenceDto {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-
+	public Boolean getGeoFenceSet() {
+		return geoFenceSet;
+	}
+	public void setGeoFenceSet(Boolean geoFenceSet) {
+		this.geoFenceSet = geoFenceSet;
+	}
 	
 }	
 

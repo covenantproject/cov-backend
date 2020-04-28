@@ -1,7 +1,7 @@
 --public.getgeofencelocation
 CREATE OR REPLACE FUNCTION public.getgeofencelocation(
 	userid integer)
-    RETURNS TABLE(geofencelocationid integer, patientid integer, geofencelatitude double precision, geofencelongitude double precision, geofenceradiusmetres double precision, geofencestartdate timestamp without time zone, geofenceenddate timestamp without time zone) 
+    RETURNS TABLE(geofencelocationid integer, patientid integer, geofencelatitude double precision, geofencelongitude double precision, geofenceradiusmetres double precision, geofencestartdate timestamp without time zone, geofenceenddate timestamp without time zone, geofenceset boolean) 
     LANGUAGE 'plpgsql'
 
     COST 100
@@ -11,8 +11,29 @@ AS $BODY$
 DECLARE 
  patientId integer;
 BEGIN
-		RETURN QUERY(SELECT * FROM public."GeofenceLocation" WHERE "PatientId" IN (SELECT "PatientId" FROM
-					public."Patient" WHERE "UserId"=$1));
+		IF EXISTS(select 1 FROM public."GeofenceLocation" gf
+		LEFT JOIN public."Patient" p ON p."PatientId" = gf."PatientId"
+		LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."UserId" WHERE p."UserId"=$1) THEN		
+			RETURN QUERY(
+				SELECT gf."GeofenceLocationId", gf."PatientId", gf."GeoFenceLatitude", gf."GeoFenceLongitude",
+				gf."GeoFenceRadiusMetres", gf."GeoFenceStartDate", gf."GeoFenceEndDate", 
+				CASE WHEN ps."GeofenceSet" is null THEN false ELSE ps."GeofenceSet" END as "GeofenceSet" 
+				FROM public."GeofenceLocation" gf
+				LEFT JOIN public."Patient" p ON p."PatientId" = gf."PatientId"
+				LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."UserId"
+				where p."UserId"=$1 order by gf."GeofenceLocationId" desc limit 1
+			);
+		ELSE
+			RETURN QUERY(
+				SELECT null::integer as "GeofenceLocationId", p."PatientId", null::double precision as "GeoFenceLatitude", null::double precision as "GeoFenceLongitude",
+				null::double precision as "GeoFenceRadiusMetres", null::timestamp as "GeoFenceStartDate", null::timestamp as "GeoFenceEndDate", 
+				CASE WHEN ps."GeofenceSet" is null THEN false ELSE ps."GeofenceSet" END as "GeofenceSet" 
+				FROM public."Patient" p 
+				LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."UserId"
+				where p."UserId"=$1 limit 1
+			);
+		END IF;
+				
 END; $BODY$;
 
 
@@ -130,10 +151,9 @@ END
 $BODY$;
 
 
-
 --public.registernewhealthpro
 CREATE OR REPLACE FUNCTION public.registernewhealthpro(
-	title character varying,
+	title character varying,	
 	firstname character varying,
 	lastname character varying,
 	suffix character varying,
@@ -145,7 +165,8 @@ CREATE OR REPLACE FUNCTION public.registernewhealthpro(
 	healthprojobtitle character varying,
 	healthproofficeaddress character varying,
 	healthprolocationid integer,
-	supervisorid integer)
+	supervisorid integer DEFAULT NULL::integer,
+	username character varying DEFAULT NULL::varchar)
     RETURNS text
     LANGUAGE 'plpgsql'
 
@@ -155,8 +176,8 @@ AS $BODY$DECLARE
  userID integer;
 BEGIN
 	INSERT INTO public."User"(
-	 "Title", "FirstName","LastName","Suffix","Gender", "DateOfBirth" )
-	VALUES ($1, $2,$3,$4,$5,$6)
+	 "Title", "FirstName","LastName","Suffix","Gender", "DateOfBirth", "UserName")
+	VALUES ($1, $2,$3,$4,$5,$6,$14)
 	RETURNING public."User"."UserId" INTO userID;
 	INSERT INTO public."EmailAddress"(
 	"UserId", "EmailAddress")
@@ -165,13 +186,18 @@ BEGIN
 	"UserId","PhoneNumber")
 	VALUES (userID, $8);
 	
-	INSERT INTO public."HealthProfessional"(
-	 "HealthProfessionalId","SupervisorId", "HealthProfessionalJobTitle", "WorkLocationId")
-	VALUES (userID,$13,$10,$12);
+	IF ($13 = 0) THEN
+		INSERT INTO public."HealthProfessional"(
+		 "HealthProfessionalId", "HealthProfessionalJobTitle", "WorkLocationId")
+		VALUES (userID,$10,$12);
+	ELSE
+		INSERT INTO public."HealthProfessional"(
+		 "HealthProfessionalId","SupervisorId", "HealthProfessionalJobTitle", "WorkLocationId")
+		VALUES (userID,$13,$10,$12);
+	END IF;
 	
 	RETURN 'SUCCESS';
 END; $BODY$;
-
 
 
 --public.savepatientproviderrela
@@ -202,18 +228,26 @@ CREATE OR REPLACE FUNCTION public.updategeofencelocation(
 	geofencelongitude double precision,
 	geofenceradiusmetres double precision,
 	geofencestartdate date,
-	geofenceenddate date)
+	geofenceenddate date,
+	geofenceset boolean)
     RETURNS text
     LANGUAGE 'plpgsql'
 
     COST 100
     VOLATILE 
-AS $BODY$
+AS $BODY$DECLARE 
+ userID integer;
 BEGIN
 	SELECT "PatientId" into  userID from public."Patient" where "UserId"=$1;
 	INSERT INTO public."GeofenceLocation"(
 	 "PatientId", "GeoFenceLatitude", "GeoFenceLongitude", "GeoFenceRadiusMetres", "GeoFenceStartDate", "GeoFenceEndDate")
 	VALUES (userID, $2,$3,$4,$5,$6);
+	
+	IF EXISTS (select 1 FROM public."PatientStatus" where "PatientId"=$1) THEN
+		Update public."PatientStatus" SET "GeofenceSet" = $7 where "PatientId"=$1;
+	ELSE 
+		INSERT INTO public."PatientStatus"("PatientId", "GeofenceSet")VALUES($1, $7);
+	END IF;
 	RETURN 'SUCCESS';
 END; $BODY$;
 

@@ -48,7 +48,7 @@ public class GeofenceController {
 			logger.error("EXCEPTION_IN_Geofence", ex);
 			throw new RuntimeException("REC_NOT_FOUND");
 		}
-		model.addAttribute("locationHierarchy", geofence);
+		model.addAttribute("geoFenceData", geofence);
 		return model;
 	}
 }

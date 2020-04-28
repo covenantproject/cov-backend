@@ -2,6 +2,7 @@ package com.covid.service;
 
 import com.covid.dto.RegisterDto;
 import com.covid.vo.AddressEntity;
+import com.covid.vo.ExternalIdentifierEntity;
 import com.covid.vo.PatientEntity;
 import com.covid.vo.PhoneNumberEntity;
 import com.covid.vo.PhotoEntity;
@@ -38,27 +39,32 @@ public class CovidService {
 
     @Transactional
     public Long registerUser(Register register) {
-        UserEntity user = convertToEntity(register);
-        entityManager.persist(user);
-        return user.getUserId();
+        try {
+            UserEntity user = convertToEntity(register);
+            entityManager.persist(user);
+            return user.getUserId();
+        } catch (Exception ex) {
+            String msg = String.format("Register couldn't complete");
+            throw new RuntimeException(msg, ex);
+        }
     }
 
     public RegisterDto getUserProfile(Long userId) {
-        UserEntity user = entityManager.find(UserEntity.class, userId); 
-        RegisterDto userDetails=new RegisterDto();
-      
+        UserEntity user = entityManager.find(UserEntity.class, userId);
+        RegisterDto userDetails = new RegisterDto();
+
         if (user == null) {
             throw new RuntimeException("User with id " + userId + " does not exist");
-        }else {
-        	 if(user.getPhotoId()!=null) {
-            	 PhotoEntity photo=entityManager.find(PhotoEntity.class, user.getPhotoId()); 
-            	 userDetails=convertToVo(user);
-            	 userDetails.setPhotoPath(photo.getPhotoPath()); 
-            }else {
-            	userDetails=convertToVo(user);
+        } else {
+            if (user.getPhotoId() != null) {
+                PhotoEntity photo = entityManager.find(PhotoEntity.class, user.getPhotoId());
+                userDetails = convertToVo(user);
+                userDetails.setPhotoPath(photo.getPhotoPath());
+            } else {
+                userDetails = convertToVo(user);
             }
         }
-       
+
         return userDetails;
     }
 
@@ -91,7 +97,7 @@ public class CovidService {
     }
 
     private RegisterDto convertToVo(UserEntity user) {
-    	RegisterDto register = new RegisterDto();
+        RegisterDto register = new RegisterDto();
         register.setTitle(user.getTitle());
         register.setFirstName(user.getFirstName());
         register.setMiddleName(user.getMiddleName());
@@ -101,11 +107,21 @@ public class CovidService {
         register.setSuffix(user.getSuffix());
         register.setDob(user.getDateOfBirth());
         register.setGender(user.getGender());
-        if(user.getAddress()!=null) {
-        	register.setAddress(user.getAddress().getAddressLine1());
+        register.setProofType(user.getExternalIdentifier().getIDType());
+        register.setProofAuthority(user.getExternalIdentifier().getIDAuthority());
+        register.setProofNumber(user.getExternalIdentifier().getIDNumber());
+        if (user.getAddress() != null) {
+            register.setAddressType(user.getAddress().getAddressType());
+            register.setAddressLine1(user.getAddress().getAddressLine1());
+            register.setAddressLine2(user.getAddress().getAddressLine2());
+            register.setAddressLine3(user.getAddress().getAddressLine3());
+            register.setCity(user.getAddress().getCity());
+            register.setDistrict(user.getAddress().getDistrict());
+            register.setState(user.getAddress().getState());
+            register.setPinCode(user.getAddress().getPinCode());
         }
-        if(user.getPhoneNumber()!=null) {
-        	register.setMobileNo(user.getPhoneNumber().getPhoneNumber());
+        if (user.getPhoneNumber() != null) {
+            register.setMobileNo(user.getPhoneNumber().getPhoneNumber());
         }
         return register;
     }
@@ -124,7 +140,14 @@ public class CovidService {
         user.setPhotoId(register.getPhotoId());
 
         AddressEntity address = new AddressEntity();
-        address.setAddressLine1(register.getAddress());
+        address.setAddressType(register.getAddressType());
+        address.setAddressLine1(register.getAddressLine1());
+        address.setAddressLine2(register.getAddressLine2());
+        address.setAddressLine3(register.getAddressLine3());
+        address.setCity(register.getCity());
+        address.setDistrict(register.getDistrict());
+        address.setState(register.getState());
+        address.setPinCode(register.getPinCode());
         user.setAddress(address);
         address.setUser(user);
 
@@ -132,6 +155,13 @@ public class CovidService {
         phoneNumber.setPhoneNumber(register.getMobileNo());
         user.setPhoneNumber(phoneNumber);
         phoneNumber.setUser(user);
+
+        ExternalIdentifierEntity externalIdentifier = new ExternalIdentifierEntity();
+        externalIdentifier.setIDType(register.getProofType());
+        externalIdentifier.setIDAuthority(register.getProofAuthority());
+        externalIdentifier.setIDNumber(register.getProofNumber());
+        user.setExternalIdentifier(externalIdentifier);
+        externalIdentifier.setUser(user);
 
         PatientEntity patient = new PatientEntity();
         user.setPatient(patient);

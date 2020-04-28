@@ -9,10 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/**
- * @author SunilAnand
- * @since 2020-04-14
- **/
 @Entity
 @Table(name = "`PhoneNumber`")
 public class PhoneNumberEntity {

@@ -21,7 +21,7 @@ public class HealthProfessionalService {
 
 	public String saveHealthPro(HealthProfessionalDto healthProf) {
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("registerNewHealthPro")
-				.registerStoredProcedureParameter("title", String.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("title", String.class, ParameterMode.IN)				
 				.registerStoredProcedureParameter("firstName", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("lastName", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("suffix", String.class, ParameterMode.IN)
@@ -34,8 +34,9 @@ public class HealthProfessionalService {
 				.registerStoredProcedureParameter("healthProOfficeAddress", String.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("healthProLocationId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("supervisorId", Integer.class, ParameterMode.IN)
+				.registerStoredProcedureParameter("userName", String.class, ParameterMode.IN)
 
-				.setParameter("title", healthProf.getTitle()).setParameter("firstName", healthProf.getFirstName())
+				.setParameter("title", healthProf.getTitle()).setParameter("firstName", healthProf.getFirstName())				
 				.setParameter("lastName", healthProf.getLastName()).setParameter("suffix", healthProf.getSuffix())
 				.setParameter("gender", healthProf.getGender()).setParameter("dateOfBirth", healthProf.getDateOfBirth())
 				.setParameter("emailAddress", healthProf.getEmailAddress())
@@ -44,7 +45,8 @@ public class HealthProfessionalService {
 				.setParameter("healthProJobTitle", healthProf.getHealthProJobTitle())
 				.setParameter("healthProOfficeAddress", healthProf.getHealthProOfficeAddress())
 				.setParameter("healthProLocationId", healthProf.getHealthProLocationId())
-				.setParameter("supervisorId", healthProf.getSupervisorId());
+				.setParameter("supervisorId", healthProf.getSupervisorId())
+				.setParameter("userName", healthProf.getUserName());
 		query.execute();
 		List<Object> result = (List<Object>) query.getResultList();
 		if (result.size() != 0) {

@@ -12,11 +12,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import java.util.Date;
 
-/**
- * @author SunilAnand
- * @since 2020-04-14
- **/
-
 @Entity
 @Table(name = "`User`")
 public class UserEntity {
@@ -69,9 +64,8 @@ public class UserEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PatientEntity patient;
 
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "`ProfilePhotoId`", referencedColumnName = "`PhotoId`")
-//    private PhotoEntity photo;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private ExternalIdentifierEntity externalIdentifier;
 
     public long getUserId() {
         return userId;
@@ -169,8 +163,20 @@ public class UserEntity {
         this.phoneNumber = phoneNumber;
     }
 
+    public PatientEntity getPatient() {
+        return patient;
+    }
+
     public void setPatient(PatientEntity patient) {
         this.patient = patient;
+    }
+
+    public ExternalIdentifierEntity getExternalIdentifier() {
+        return externalIdentifier;
+    }
+
+    public void setExternalIdentifier(ExternalIdentifierEntity externalIdentifier) {
+        this.externalIdentifier = externalIdentifier;
     }
 
     public Long getPhotoId() {

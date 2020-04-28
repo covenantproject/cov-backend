@@ -17,11 +17,18 @@ public class HealthProfessionalDto {
 	private String healthProOfficeAddress;
 	private int healthProLocationId;
 	private int supervisorId;
+	private String userName;
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -95,8 +102,4 @@ public class HealthProfessionalDto {
 	public void setSupervisorId(int supervisorId) {
 		this.supervisorId = supervisorId;
 	}
-	
-	
-	
-
 }
