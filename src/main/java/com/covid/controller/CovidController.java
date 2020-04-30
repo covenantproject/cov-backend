@@ -1,6 +1,7 @@
 package com.covid.controller;
 
 import com.covid.dto.RegisterDto;
+import com.covid.dto.UserDto;
 import com.covid.service.CovidService;
 import com.covid.vo.Register;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,5 +33,5 @@ public class CovidController {
     @RequestMapping(value = "/doUpload", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public Long upload(@RequestParam MultipartFile file) {
         return covidService.uploadFile(file);
-    }
+    }    
 }

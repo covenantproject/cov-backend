@@ -1,6 +1,7 @@
 package com.covid.service;
 
 import com.covid.dto.RegisterDto;
+import com.covid.dto.UserDto;
 import com.covid.vo.AddressEntity;
 import com.covid.vo.ExternalIdentifierEntity;
 import com.covid.vo.PatientEntity;
@@ -66,6 +67,28 @@ public class CovidService {
         }
 
         return userDetails;
+    }
+
+    public UserDto getUserId(String username) {
+        StoredProcedureQuery query = entityManager.createStoredProcedureQuery("getuserid")
+        .registerStoredProcedureParameter("uname", String.class, ParameterMode.IN)
+        .setParameter("uname", username);
+        query.execute();
+        List list= query.getResultList();	
+        Iterator itr = list.iterator();
+        UserDto usr = new UserDto();
+        while (itr.hasNext()) {
+            
+            Object[] obj = (Object[]) itr.next();
+            if (obj[0] != null) {
+                usr.setuserid(Integer.parseInt(String.valueOf(obj[0])));
+            }
+            if (obj[1] != null) {
+                usr.setusername(String.valueOf(obj[1]));
+            }
+        }
+
+        return usr;	
     }
 
     @Transactional

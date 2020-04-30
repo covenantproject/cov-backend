@@ -47,7 +47,7 @@ CREATE OR REPLACE FUNCTION public.getlocationhierarchy(
     VOLATILE 
     ROWS 1000
 AS $BODY$BEGIN
-	 RETURN QUERY(SELECT * FROM public."LocationHierarchy"  WHERE "LocationId" = $1);
+	 RETURN QUERY(SELECT * FROM public."LocationHierarchy"  WHERE "ParentLocationId" = $1);
 END; $BODY$;
 
 
@@ -277,4 +277,40 @@ BEGIN
 END
 $BODY$;
 
+--public.getuserhierarchy
+CREATE OR REPLACE FUNCTION public.getuserhierarchy(superid integer)
+    RETURNS TABLE(healthProId integer, title character varying, firstName character varying, lastName character varying, suffix character varying, healthProType character varying, healthProJobTitle character varying, healthProOfficeAddress character varying, healthProLocationId integer, supervisorId integer) 
+    LANGUAGE 'plpgsql'
 
+    COST 100
+    VOLATILE 
+    ROWS 1000
+AS $BODY$BEGIN
+		IF($1 is null OR $1 = 0) THEN	
+			RETURN QUERY(SELECT h."HealthProfessionalId" as healthProId, u."Title", u."FirstName", u."LastName", u."Suffix", null::varchar as healthProType,
+			h."HealthProfessionalJobTitle" as healthProJobTitle, null::varchar as healthProOfficeAddress, h."WorkLocationId" as healthProLocationId,
+			h."SupervisorId" as supervisorId FROM public."HealthProfessional" h 
+			LEFT JOIN public."User" u ON h."HealthProfessionalId" = u."UserId" );
+		ELSE
+			RETURN QUERY(SELECT h."HealthProfessionalId" as healthProId, u."Title", u."FirstName", u."LastName", u."Suffix", null::varchar as healthProType,
+			h."HealthProfessionalJobTitle" as healthProJobTitle, null::varchar as healthProOfficeAddress, h."WorkLocationId" as healthProLocationId,
+			h."SupervisorId" as supervisorId FROM public."HealthProfessional" h 
+			LEFT JOIN public."User" u ON h."HealthProfessionalId" = u."UserId"  
+			WHERE h."SupervisorId" = $1 );
+		END IF;
+END; $BODY$;
+
+
+--public.getuserid
+CREATE OR REPLACE FUNCTION public.getuserid(
+	uname character varying)
+    RETURNS TABLE(userid integer, username character varying) 
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+AS $BODY$
+BEGIN
+	RETURN QUERY(SELECT "UserId", "UserName" FROM public."User" where LOWER("UserName")=TRIM(LOWER($1)));
+END; $BODY$;

@@ -43,8 +43,9 @@ public class LocationHierarchyService {
 		query.execute();
 		List list= query.getResultList();	
 		Iterator itr = list.iterator();
-		LocationHierarchy lc=new LocationHierarchy();
+		
 		while (itr.hasNext()) {
+			LocationHierarchy lc=new LocationHierarchy();
 			Object[] obj = (Object[]) itr.next();
 			if (obj[0] != null) {
 				lc.setLocationId(Integer.parseInt(String.valueOf(obj[0])));

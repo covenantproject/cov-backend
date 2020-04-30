@@ -1,24 +1,17 @@
 package com.covid.dto;
 
-import java.util.Date;
-
-public class HealthProfessionalDto {
+public class HealthProHierarchyDto {
 	
 	private int healthProId;
 	private String title;
 	private String firstName;
 	private String lastName;
-	private String suffix;
-	private String gender;
-	private Date dateOfBirth;
-	private String emailAddress;
-	private String phoneNumber;
+	private String suffix;	
 	private String healthProType;
 	private String healthProJobTitle;
 	private String healthProOfficeAddress;
 	private int healthProLocationId;
 	private int supervisorId;
-	private String userName;
 	public int gethealthProId() {
 		return healthProId;
 	}
@@ -30,12 +23,6 @@ public class HealthProfessionalDto {
 	}
 	public void setTitle(String title) {
 		this.title = title;
-	}
-	public String getUserName() {
-		return userName;
-	}
-	public void setUserName(String userName) {
-		this.userName = userName;
 	}
 	public String getFirstName() {
 		return firstName;
@@ -54,30 +41,6 @@ public class HealthProfessionalDto {
 	}
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
-	}
-	public String getGender() {
-		return gender;
-	}
-	public void setGender(String gender) {
-		this.gender = gender;
-	}
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-	public String getEmailAddress() {
-		return emailAddress;
-	}
-	public void setEmailAddress(String emailAddress) {
-		this.emailAddress = emailAddress;
-	}
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
 	}
 	public String getHealthProType() {
 		return healthProType;

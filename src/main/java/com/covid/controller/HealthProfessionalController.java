@@ -6,11 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.covid.dto.HealthProfessionalDto;
+
+import java.util.*;
+
+import com.covid.dto.*;
+import com.covid.service.CovidService;
 import com.covid.service.HealthProfessionalService;
 
 @Controller
@@ -21,19 +28,37 @@ public class HealthProfessionalController {
 	@Autowired
 	HealthProfessionalService healthProService;
 
+	@Autowired
+    private CovidService covidService;
+
 	@PostMapping("/registerNewHealthPro")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public @ResponseBody ModelMap saveHealthPro(@RequestBody HealthProfessionalDto healthProf) {
-		ModelMap model = new ModelMap();
+	public @ResponseBody String saveHealthPro(@RequestBody HealthProfessionalDto healthProf) {
+		String userId = "";
 		try {
-			healthProService.saveHealthPro(healthProf);
+			userId = healthProService.saveHealthPro(healthProf);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_HealthProfessional", ex);
 			throw new RuntimeException("Save Couldn't Complete");
 		}
 
-		model.addAttribute("status", "Success");
-		model.addAttribute("error", "");
-		return model;
+		return userId;
 	}
+
+	@GetMapping("/getHealthProHierarchy")
+	public @ResponseBody List<HealthProHierarchyDto> getLocationhierarchy(@RequestParam int supervisorID) {
+		List<HealthProHierarchyDto> usrHierarchy = new ArrayList<HealthProHierarchyDto>();
+		try {
+			usrHierarchy = healthProService.getUsrHierarchy(supervisorID);
+		} catch (Exception ex) {
+			logger.error("EXCEPTION_IN_getHealthProHierarchy", ex);
+			throw new RuntimeException("REC_NOT_FOUND");
+		}
+		return usrHierarchy;
+	}
+
+	@RequestMapping(value = "/getUserId", method = RequestMethod.GET)
+    public @ResponseBody UserDto getUserId(@RequestParam String username) {
+        return covidService.getUserId(username);
+    }
 }
