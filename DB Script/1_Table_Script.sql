@@ -368,6 +368,7 @@ CREATE  TABLE release1.medication (
 --CREATE TYPE QuarantineStatus AS ENUM ('Not quarantined', 'Quarantine started', 'Quarantine ended', 'On leave');
 --CREATE TYPE IsolationStatus AS ENUM ('Not isolated', 'Isolation started', 'Isolation ended');
 --PatientStatus
+-- latitude and longitude changed from double/float to numeric for exact precision
 CREATE  TABLE release1.patient_status ( 
 	patient_status_id    integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	patient_id          integer  NOT NULL ,
@@ -382,8 +383,8 @@ CREATE  TABLE release1.patient_status (
 	geofence_status     character varying(16)   ,
 	app_heartbeat_status character varying(16)   ,
 	updated_date_time    timestamp DEFAULT timezone('utc'::text, now())  ,
-	latitude           float8   ,
-	longitude          float8   ,
+	latitude           numeric(10, 8)   , -- -90 to +90 degrees
+	longitude          numeric(11, 8)   , -- -180 to +180 degrees
 	comments           character varying(128)   ,
 	CONSTRAINT patient_status_pkey PRIMARY KEY (patient_status_id),
 	CONSTRAINT patient_status_patient_id_fkey FOREIGN KEY (patient_id)
@@ -396,8 +397,8 @@ CREATE  TABLE release1.patient_status (
 CREATE  TABLE release1.device_location ( 
 	device_location_id   integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
 	device_app_id        integer  NOT NULL ,
-	latitude           float8   ,
-	longitude          float8   ,
+	latitude           numeric(10, 8)   , -- -90 to +90 degrees
+	longitude          numeric(11, 8)   , -- -180 to +180 degrees
 	location_id         integer   ,
 	address_id          integer   ,
 	location_service_type character varying(10)   ,
@@ -530,8 +531,8 @@ CREATE  TABLE release1.patient_geofenced_location (
 	geofenced_location_id integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
 	patient_id          integer  NOT NULL ,
 	address_id integer   ,
-	latitude  float8   ,
-	longitude float8   ,
+	latitude           numeric(10, 8)   , -- -90 to +90 degrees
+	longitude          numeric(11, 8)   , -- -180 to +180 degrees
 	radius_metres float8   ,
 	geofence_status character varying(32),
 	CONSTRAINT geofenced_location_pkey PRIMARY KEY ( geofenced_location_id ),
