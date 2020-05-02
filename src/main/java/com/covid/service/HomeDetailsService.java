@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.dto.HomeDetailsDto;
-import com.covid.model.LocationHistory;
 import com.covid.model.Patient;
 import com.covid.repository.LocationHistoryRepo;
 import com.covid.repository.PatientRepo;
@@ -19,6 +18,7 @@ import com.covid.repository.UserRepo;
 @Service
 public class HomeDetailsService {
 
+	
     @Autowired
     LocationHistoryRepo locationHistoryRepo;
 
