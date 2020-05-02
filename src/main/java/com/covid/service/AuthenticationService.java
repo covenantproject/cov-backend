@@ -1,5 +1,6 @@
 package com.covid.service;
 
+import static com.covid.util.CovidUtils.cast;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -40,9 +41,9 @@ public class AuthenticationService {
 
     private PhoneNumber findModilePhoneNumber(String mobileNo) {
         PhoneNumber phoneNumber =  repo.findOne(PhoneNumber.class, 
-        		Arrays.asList(Pair.of(PhoneNumber_.phoneNumber, mobileNo)
-        				,Pair.of(PhoneNumber_.phoneType, PhoneNumberType.mobile.name())
-        		)
+        		Pair.of(PhoneNumber_.phoneNumber, mobileNo)
+        		,Pair.of(PhoneNumber_.phoneType, PhoneNumberType.mobile.name())
+        		
         );
         return phoneNumber;
     }

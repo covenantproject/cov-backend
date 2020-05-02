@@ -1,8 +1,8 @@
 package com.covid.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import javax.persistence.EntityManager;
@@ -37,14 +37,15 @@ public class EntityRepo {
     	
     }
     
-    public<E, T extends Object> List<E> find(Class<E> clazz, List<Pair<SingularAttribute<E, T>, T>> conditions, List<Order> orders){
+    @SafeVarargs
+    public final <E, T extends Object> List<E> find(Class<E> clazz, BiFunction<CriteriaBuilder, CriteriaQuery<E>, List<Order>> orderFunc, Pair<SingularAttribute<E, T>, T>... conditions){
     	CriteriaBuilder cb = em.getCriteriaBuilder();
     	CriteriaQuery<E> query = cb.createQuery(clazz);
     	Root<E> from = query.from(clazz);
     	CriteriaQuery<E> select = query.select(from);
    
     	
-    	List<Predicate> preds = new ArrayList<>(conditions.size());
+    	List<Predicate> preds = new ArrayList<>(conditions.length);
     	for(Pair<SingularAttribute<E, T>, T> con: conditions) {
     		SingularAttribute<E, T> column = con.getLeft();
     		Object value = con.getRight();
@@ -58,8 +59,8 @@ public class EntityRepo {
     	Predicate conds = cb.and(array);
     	query.where(conds);
     	
-    	if(orders != null && orders.isEmpty() == false) {
-    		select.orderBy(orders);
+    	if(orderFunc != null) {
+    		select.orderBy(orderFunc.apply(cb, query));
     	}
 
     	TypedQuery<E> typedQuery = em.createQuery(select);
@@ -68,12 +69,10 @@ public class EntityRepo {
     	return result;
     }
 	
-    public<E, T extends Object> List<E> find(Class<E> clazz, Pair<SingularAttribute<E, T>, T> condition){
-    	return find(clazz, Arrays.asList(condition), null);
-    }
     
-    public<E, T extends Object> E findOne(Class<E> clazz, List<Pair<SingularAttribute<E, T>, T> > conditions){
-    	List<E> results = find(clazz, conditions, null);
+    @SafeVarargs
+	public final <E, T extends Object> E findOne(Class<E> clazz, Pair<SingularAttribute<E, T>, T>... conditions){
+    	List<E> results = find(clazz, null, conditions);
     	E result = null;
     	if(results.isEmpty() == false) {
     		result = results.get(0);
@@ -81,14 +80,6 @@ public class EntityRepo {
     	return result;  	
     }
     
-    public<E, T extends Object> E findOne(Class<E> clazz, Pair<SingularAttribute<E, T>, T> condition){
-    	List<E> results = find(clazz, Arrays.asList(condition), null);
-    	E result = null;
-    	if(results.isEmpty() == false) {
-    		result = results.get(0);
-    	}
-    	return result;
-    }
     
     @Transactional
     public<T> void save(@SuppressWarnings("unchecked") T... entities) {

@@ -66,10 +66,8 @@ public class PatientInfoService {
         }
 
         PhoneNumber phoneDetails = repo.findOne(PhoneNumber.class,
-        		Arrays.asList(
-        				cast(Pair.of(PhoneNumber_.userId, patientId))
-        				,cast(Pair.of(PhoneNumber_.isPreferred, Boolean.TRUE))
-        		)
+   				cast(Pair.of(PhoneNumber_.userId, patientId))
+   				,cast(Pair.of(PhoneNumber_.isPreferred, Boolean.TRUE))
         );
         if (phoneDetails != null) {
             patientInfo.setPhoneNumber1(phoneDetails.getPhoneNumber());
@@ -93,10 +91,8 @@ public class PatientInfoService {
         }
 
         Address address = repo.findOne(Address.class,
-        		Arrays.asList(
-        				cast(Pair.of(Address_.userId, patientId))
-        				,cast(Pair.of(Address_.addressType, "")) //TODO
-        		)
+       				cast(Pair.of(Address_.userId, patientId))
+       				,cast(Pair.of(Address_.addressType, "")) //TODO
         );
         
         if (address != null) {
