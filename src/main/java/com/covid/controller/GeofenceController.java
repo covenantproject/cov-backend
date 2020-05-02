@@ -2,6 +2,7 @@ package com.covid.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.covid.dto.GeofenceDto;
-import com.covid.model.GeofenceLocation;
+import com.covid.model.PatientGeofencedLocation;
 import com.covid.service.GeofenceService;
 
 @Controller
@@ -41,7 +43,7 @@ public class GeofenceController {
 	@GetMapping("/getgeofence")
 	public @ResponseBody ModelMap getGeofence(@RequestParam int patientId) {
 		ModelMap model = new ModelMap();
-		List<GeofenceLocation> geofence = new ArrayList<GeofenceLocation>();
+		List<PatientGeofencedLocation> geofence = new ArrayList<PatientGeofencedLocation>();
 		try {
 			geofence = geofenceService.getGeofence(patientId);
 		} catch (Exception ex) {

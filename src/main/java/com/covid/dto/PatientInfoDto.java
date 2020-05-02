@@ -1,5 +1,8 @@
 package com.covid.dto;
 
+import java.math.BigDecimal;
+import java.math.BigDecimal;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class PatientInfoDto {
@@ -24,8 +27,8 @@ public class PatientInfoDto {
     private String geofenceStatus;
     private String heartbeatStatus;
     private Date heartbeatTime;
-    private Double latitude;
-    private Double longitude;
+    private BigDecimal latitude;
+    private BigDecimal longitude;
     private String phoneNumber1;
     private String phoneNumber1Type;
     private Boolean phoneNumber1HasSMS;
@@ -194,19 +197,19 @@ public class PatientInfoDto {
         this.heartbeatTime = heartbeatTime;
     }
 
-    public Double getLatitude() {
+    public BigDecimal getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Double latitude) {
+    public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
     }
 
-    public Double getLongitude() {
+    public BigDecimal getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Double longitude) {
+    public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
     }
 

@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.covid.model.UserRequestHistory;
+
+import com.covid.model.PatientRequestHistory;
 import com.covid.service.UserRequestHistoryService;
 
 @Controller
@@ -21,7 +22,7 @@ public class UserRequestHistoryController {
 	public static final Logger logger = LoggerFactory.getLogger(LocationRoleController.class);
 
 	@PostMapping("/raiseyourhand")
-	public @ResponseBody ModelMap healthHistoryRegister(@RequestBody UserRequestHistory userRequest) {
+	public @ResponseBody ModelMap healthHistoryRegister(@RequestBody PatientRequestHistory userRequest) {
 		ModelMap model = new ModelMap();
 		try {
 			String userrequest = userRequestService.updateUserRequest(userRequest);

@@ -20,7 +20,7 @@ public class PatientInfoController {
 
     @GetMapping("/getPatientInfo")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public PatientInfoDto getPatientForLocation(@RequestParam long patientId) {
+    public PatientInfoDto getPatientForLocation(@RequestParam int patientId) {
         return patientService.getPatientForLocation(patientId);
     }
 

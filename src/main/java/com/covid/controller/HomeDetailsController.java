@@ -26,7 +26,7 @@ public class HomeDetailsController {
 	HomeDetailsService homeDetailService;
 
 	@GetMapping("/homedetails")
-	public @ResponseBody ModelMap getHomeDetailsById(@RequestParam long userId) {
+	public @ResponseBody ModelMap getHomeDetailsById(@RequestParam int userId) {
 		ModelMap model = new ModelMap();
 		HomeDetailsDto homeDetails = homeDetailService.getHomeDetailsById(userId);
 		model.addAttribute("status", "Success");

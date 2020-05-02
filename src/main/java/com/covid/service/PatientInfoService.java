@@ -1,110 +1,106 @@
 package com.covid.service;
 
-import com.covid.dto.PatientLocationDto;
-import com.covid.repository.PatientDao;
+import static com.covid.util.CovidUtils.cast;
+
+import java.util.Arrays;
+
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.dto.PatientInfoDto;
+import com.covid.dto.PatientLocationDto;
 import com.covid.model.Address;
-import com.covid.model.AppHeartbeatHistory;
+import com.covid.model.Address_;
+import com.covid.model.AppHeartbeat;
 import com.covid.model.Patient;
-import com.covid.model.PatientCurrentStatus;
+import com.covid.model.PatientRequestHistory;
+import com.covid.model.PatientRequestHistory_;
+import com.covid.model.PatientStatus;
+import com.covid.model.PatientStatus_;
 import com.covid.model.PhoneNumber;
-import com.covid.model.UserRequestHistory;
-import com.covid.repository.AddressRepo;
-import com.covid.repository.AppHeartbeatHistoryRepo;
-import com.covid.repository.PatientCurrentStatusRepo;
-import com.covid.repository.PhoneNumberRepo;
-import com.covid.repository.UserRepo;
-import com.covid.repository.UserRequestHistoryRepo;
-import com.covid.vo.UserEntity;
-
-import javax.persistence.EntityManager;
+import com.covid.model.PhoneNumber_;
+import com.covid.model.Users;
+import com.covid.model.Users_;
+import com.covid.repository.EntityRepo;
+import com.covid.repository.PatientDao;
 
 @Service
 public class PatientInfoService {
 
     @Autowired
-    UserRepo userRepo;
+    private EntityRepo repo;
 
     @Autowired
-    private EntityManager entityManager;
+    private PatientDao patientDao;
 
-    @Autowired
-    PatientCurrentStatusRepo patientCurrentStatusRepo;
-
-    @Autowired
-    PhoneNumberRepo phoneNoRepo;
-
-    @Autowired
-    AddressRepo addressRepo;
-
-    @Autowired
-    UserRequestHistoryRepo userRequestRepo;
-
-    @Autowired
-    AppHeartbeatHistoryRepo heartbeatRepo;
-
-    @Autowired
-    PatientDao patientDao;
-
-    public PatientInfoDto getPatientForLocation(long patientId) {
+    public PatientInfoDto getPatientForLocation(int patientId) {
         PatientInfoDto patientInfo = new PatientInfoDto();
 
-        Patient patient = entityManager.find(Patient.class, patientId);
+        Patient patient = repo.findByPrimaryKey(Patient.class, patientId);
         if (patient == null) {
             throw new RuntimeException("NO_PATIENT_FOUND");
         }
         patientInfo.setPatientID(patient.getPatientId());
 
-        UserEntity user = userRepo.findByUserId(patient.getPatientId());
+        Users user = repo.findOne(Users.class, Pair.of(Users_.userId, patient.getPatientId()));
         if (user != null) {
             patientInfo.setFirstName(user.getFirstName());
             patientInfo.setLastName(user.getLastName());
-            patientInfo.setSex(user.getGender());
+            patientInfo.setSex(user.getAdminGender());
             patientInfo.setDateOfBirth(user.getDateOfBirth());
         }
 
-        PatientCurrentStatus patientStaus = patientCurrentStatusRepo.findByPatientId(patientId);
+        PatientStatus patientStaus = repo.findOne(PatientStatus.class, Pair.of(PatientStatus_.patientId, patientId));
         if (patientStaus != null) {
-            patientInfo.setCovid19Status(patientStaus.getCOVID19Status());
-            patientInfo.setQuarantineStatus(patientStaus.getQuarantineStatus());
-            patientInfo.setQuarantineStartDate(patientStaus.getQuarantineStartDateTime());
-            patientInfo.setQuarantineEndDate(patientStaus.getQuarantineEndDateTime());
-            patientInfo.setQuarantineRequestStatus(patientStaus.getQuarantineRequestStatus());
+            patientInfo.setCovid19Status(patientStaus.getCovid19Status());
+            patientInfo.setQuarantineStatus(patientStaus.getQuarIsltStatus());
+            patientInfo.setQuarantineStartDate(patientStaus.getQuarIsltStartDateTime());
+            patientInfo.setQuarantineEndDate(patientStaus.getQuarIsltEndDateTime());
+            patientInfo.setQuarantineRequestStatus(patientStaus.getQuarIsltRequestStatus());
             patientInfo.setSuppliesRequestStatus(patientStaus.getSuppliesRequestStatus());
             patientInfo.setGeofenceStatus(patientStaus.getGeofenceStatus());
-            patientInfo.setHealthStatusAlert(patientStaus.getHealthStatusAlert());
+            patientInfo.setHealthStatusAlert(patientStaus.getHealthStatus());
             patientInfo.setLatitude(patientStaus.getLatitude());
             patientInfo.setLongitude(patientStaus.getLongitude());
         }
 
-        PhoneNumber phoneDetails = phoneNoRepo.findByUserId(patient.getPatientId());
+        PhoneNumber phoneDetails = repo.findOne(PhoneNumber.class,
+        		Arrays.asList(
+        				cast(Pair.of(PhoneNumber_.userId, patientId))
+        				,cast(Pair.of(PhoneNumber_.isPreferred, Boolean.TRUE))
+        		)
+        );
         if (phoneDetails != null) {
             patientInfo.setPhoneNumber1(phoneDetails.getPhoneNumber());
             patientInfo.setPhoneNumber1HasInternet(phoneDetails.getHasInternetAccess());
-            patientInfo.setPhoneNumber1HasSMS(phoneDetails.getHasSMSAccess());
-            patientInfo.setPhoneNumber1HasWhatsapp(phoneDetails.getHasWhatsAppAccess());
-            patientInfo.setPhoneNumber1IsPrimaryUser(phoneDetails.getPrimaryUser());
+            patientInfo.setPhoneNumber1HasSMS(phoneDetails.getHasSmsaccess());
+            patientInfo.setPhoneNumber1HasWhatsapp(phoneDetails.getHasWhatsappAccess());
+            patientInfo.setPhoneNumber1IsPrimaryUser(phoneDetails.getIsPrimaryUser());
             patientInfo.setPhoneNumber1Type(phoneDetails.getPhoneType());
         }
 
-        UserRequestHistory userReq = userRequestRepo.findByUserId(patient.getPatientId());
-        if (userReq != null) {
-            patientInfo.setHealthRequestStatus(userReq.getRequestStatus());
-            patientInfo.setHealthRequestMessage(userReq.getRequestComments());
+        PatientRequestHistory prHistory = repo.findOne(PatientRequestHistory.class, Pair.of(PatientRequestHistory_.patientId, patientId));
+        if (prHistory != null) {
+            patientInfo.setHealthRequestStatus(prHistory.getRequestStatus());
+            patientInfo.setHealthRequestMessage(prHistory.getRequestComments());
         }
 
-        AppHeartbeatHistory heartbeat = heartbeatRepo.findByPrimaryUserId(patient.getPatientId());
+        AppHeartbeat heartbeat = null;//TODO get the AppHeartbeat by userId
         if (heartbeat != null) {
-            patientInfo.setHeartbeatStatus(heartbeat.getHeartBeatStatus());
+            patientInfo.setHeartbeatStatus(heartbeat.getHeartbeatStatus());
             patientInfo.setHeartbeatTime(heartbeat.getHeartbeatDateTime());
         }
 
-        Address address = addressRepo.findByUserId(patient.getPatientId());
+        Address address = repo.findOne(Address.class,
+        		Arrays.asList(
+        				cast(Pair.of(Address_.userId, patientId))
+        				,cast(Pair.of(Address_.addressType, "")) //TODO
+        		)
+        );
+        
         if (address != null) {
-            String adr = address.getAddressLine1().concat(", ".concat(address.getCity().concat(", ").concat(address.getState().concat(", ").concat(address.getCountry()))));
+            String adr = address.getAddressLine1().concat(", ".concat(address.getCity().concat(", ").concat(address.getStateTerritory().concat(", ").concat(address.getCountry()))));
             patientInfo.setQuarantineAddress(adr);
         }
         return patientInfo;

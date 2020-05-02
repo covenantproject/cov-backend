@@ -1,26 +1,23 @@
 package com.covid.service;
 
-import java.security.Timestamp;
-import java.text.DateFormat;
+import static com.covid.util.CovidUtils.cast;
+
+import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.dto.GeofenceDto;
-import com.covid.model.GeofenceLocation;
-import com.covid.model.LocationHierarchy;
+import com.covid.model.PatientGeofencedLocation;
 
 @Service
 public class GeofenceService {
@@ -44,9 +41,9 @@ public class GeofenceService {
 				.setParameter("geofenceEndDate", geofenceDto.getEndDate());
 
 		query.execute();
-		List<Object> result = (List<Object>) query.getResultList();
+		List<Object> result = cast(query.getResultList());
 		if (result.size() != 0) {
-			Iterator itr = result.iterator();
+			Iterator<Object> itr = result.iterator();
 			String msg = "";
 			while (itr.hasNext()) {
 				String obj = (String) itr.next();
@@ -60,42 +57,32 @@ public class GeofenceService {
 
 	}
 
-	public List<GeofenceLocation> getGeofence(int patientId) throws ParseException {
+	public List<PatientGeofencedLocation> getGeofence(int patientId) throws ParseException {
 	
-		List<GeofenceLocation> geoFenceList = new ArrayList<GeofenceLocation>();
+		List<PatientGeofencedLocation> geoFenceList = new ArrayList<PatientGeofencedLocation>();
 
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("getGeofenceLocation")
 				.registerStoredProcedureParameter("patientId", Integer.class, ParameterMode.IN)
 				.setParameter("patientId", patientId);
 		query.execute();
-		List list= query.getResultList();	
-		Iterator itr = list.iterator();
-		GeofenceLocation gf=new GeofenceLocation();
-		while (itr.hasNext()) {
-			Object[] obj = (Object[]) itr.next();
+		List<Object[]> list= cast(query.getResultList());	
+		
+		for(Object[] obj: list) {
+			PatientGeofencedLocation gf=new PatientGeofencedLocation();
 			if (obj[0] != null) {
 				gf.setPatientId(Integer.parseInt(String.valueOf(obj[1])));
 			}
 			if (obj[1] != null) {
-				gf.setGeofenceLocationId(Integer.parseInt(String.valueOf(obj[0])));
+				gf.setGeofencedLocationId(Integer.parseInt(String.valueOf(obj[0])));
 			}
 			if (obj[2] != null) {
-				gf.setGeoFenceLatitude(Double.parseDouble(String.valueOf(obj[2])));
+				gf.setLatitude(new BigDecimal(String.valueOf(obj[2])));
 			}
 			if (obj[3] != null) {
-				gf.setGeoFenceLongitude(Double.parseDouble(String.valueOf(obj[3])));
+				gf.setLongitude(new BigDecimal(String.valueOf(obj[3])));
 			}
 			if (obj[4] != null) {
-				gf.setGeoFenceRadiusMetres(Double.parseDouble(String.valueOf(obj[4])));
-			}
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			if (obj[5] != null) {
-				 Date dt=dateFormat.parse(String.valueOf(obj[5]));
-				 gf.setGeoFenceStartDate(dt);
-			}
-			if (obj[6] != null) {
-				Date dt=dateFormat.parse(String.valueOf(obj[6]));
-				gf.setGeoFenceEndDate(dt);
+				gf.setRadiusMetres(Double.parseDouble(String.valueOf(obj[4])));
 			}
 			geoFenceList.add(gf);
 		}

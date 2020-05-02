@@ -1,20 +1,25 @@
 package com.covid.service;
 
-import com.covid.model.PhoneNumber;
-import com.covid.repository.PhoneNumberRepo;
-import com.covid.repository.UserRepo;
-import com.covid.vo.UserEntity;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import com.covid.model.PhoneNumber;
+import com.covid.model.PhoneNumber_;
+import com.covid.model.Users;
+import com.covid.model.Users_;
+import com.covid.model.type.PhoneNumberType;
+import com.covid.repository.EntityRepo;
 
 /**
  * @author SunilAnand
@@ -24,10 +29,8 @@ import java.util.concurrent.ThreadLocalRandom;
 public class AuthenticationService {
 
     @Autowired
-    PhoneNumberRepo phoneNoRepo;
+    private EntityRepo repo;
 
-    @Autowired
-    private UserRepo userRepo;
 
     @Value("${textLocalApiUrl}")
     private String textApiUrl;
@@ -35,8 +38,17 @@ public class AuthenticationService {
     @Value("${textlocalApiKey}")
     private String textApiKey;
 
+    private PhoneNumber findModilePhoneNumber(String mobileNo) {
+        PhoneNumber phoneNumber =  repo.findOne(PhoneNumber.class, 
+        		Arrays.asList(Pair.of(PhoneNumber_.phoneNumber, mobileNo)
+        				,Pair.of(PhoneNumber_.phoneType, PhoneNumberType.mobile.name())
+        		)
+        );
+        return phoneNumber;
+    }
+    
     public void sendOtp(String mobileNo) {
-        PhoneNumber phoneNumber = phoneNoRepo.findByPhoneNumber(mobileNo);
+        PhoneNumber phoneNumber =  this.findModilePhoneNumber(mobileNo);
         if (phoneNumber == null) {
             throw new RuntimeException("REC_NOT_FOUND");
         }
@@ -73,12 +85,12 @@ public class AuthenticationService {
     }
 
     public long verifyOtp(String mobileNo, String otp) {
-        PhoneNumber phoneNumber = phoneNoRepo.findByPhoneNumber(mobileNo);
+        PhoneNumber phoneNumber =  this.findModilePhoneNumber(mobileNo);
         if (phoneNumber == null) {
             throw new RuntimeException("REC_NOT_FOUND");
         }
 
-        UserEntity user = userRepo.findByUserId(phoneNumber.getUserId());
+        Users user = repo.findOne(Users.class, Pair.of(Users_.userId, phoneNumber.getUserId()));
         if (!StringUtils.equals(otp, user.getOtpCode())) {
             throw new RuntimeException("INVALID_OTP");
         }else {
@@ -86,9 +98,9 @@ public class AuthenticationService {
         }
     }
 
-    private void updateUserOtp(Long userId, int otp) {
-        UserEntity user = userRepo.findByUserId(userId);
+    private void updateUserOtp(int userId, int otp) {
+        Users user = repo.findOne(Users.class, Pair.of(Users_.userId, userId));
         user.setOtpCode(String.valueOf(otp));
-        userRepo.save(user);
+        repo.save(user);
     }
 }

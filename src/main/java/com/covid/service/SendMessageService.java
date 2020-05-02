@@ -5,16 +5,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import com.covid.repository.PhoneNumberRepo;
+
+import com.covid.repository.EntityRepo;
 
 @Service
 public class SendMessageService {
 
-    @Autowired
-    PhoneNumberRepo phoneNoRepo;
 
     @Value("${textLocalApiUrl}")
     private String textApiUrl;

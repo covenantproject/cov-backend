@@ -9,8 +9,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.covid.model.HealthHistory;
-import com.covid.service.HealthHistoryService;
+
+import com.covid.model.HealthCheckHistory;
+import com.covid.repository.EntityRepo;
 
 @Controller
 @RequestMapping("/api")
@@ -18,18 +19,17 @@ public class HealthHistoryController {
 
 	public static final Logger logger = LoggerFactory.getLogger(LocationRoleController.class);
 	@Autowired
-	HealthHistoryService healthService;
+	private EntityRepo repo;
 
 	@PostMapping("/updatehealthinfo")
-	public ResponseEntity<HealthHistory> healthHistoryRegister(@RequestBody HealthHistory healthHistory) {
-		HealthHistory health = new HealthHistory();
+	public ResponseEntity<HealthCheckHistory> healthHistoryRegister(@RequestBody HealthCheckHistory healthHistory) {
 		try {
-			health = healthService.updatehealthinfo(healthHistory);
+			repo.save(healthHistory);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_HealthHistory", ex);
 			throw new RuntimeException("Save Couldn't Complete");
 		}
 
-		return new ResponseEntity<>(health, HttpStatus.OK);
+		return new ResponseEntity<>(healthHistory, HttpStatus.OK);
 	}
 }

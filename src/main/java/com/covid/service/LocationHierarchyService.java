@@ -1,5 +1,7 @@
 package com.covid.service;
 
+import static com.covid.util.CovidUtils.cast;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -11,8 +13,6 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.covid.dto.LocationAndRoleDto;
-import com.covid.dto.PatientInfoDto;
 import com.covid.model.LocationHierarchy;
 
 @Service
@@ -26,7 +26,7 @@ public class LocationHierarchyService {
 					.registerStoredProcedureParameter("userid", Integer.class, ParameterMode.IN)
 					.setParameter("userid", userId);
 			query.execute();
-			List<Object> result = (List<Object>) query.getResultList();
+			List<Object> result = cast(query.getResultList());
 			if (result.size() != 0) {
 				return result;
 			} else {
@@ -55,7 +55,7 @@ public class LocationHierarchyService {
 				lc.setLocationName(String.valueOf(obj[1]));
 			}
 			if (obj[2] != null) {
-				lc.setLocationAbbreviation(String.valueOf(obj[2]));
+				lc.setLocationAbbr(String.valueOf(obj[2]));
 			}
 			if (obj[3] != null) {
 				lc.setAssignPatients(Boolean.parseBoolean(String.valueOf(obj[3])));
