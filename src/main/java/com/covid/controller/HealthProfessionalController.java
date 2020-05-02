@@ -46,6 +46,7 @@ public class HealthProfessionalController {
 	}
 
 	@GetMapping("/getHealthProHierarchy")
+	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public @ResponseBody List<HealthProHierarchyDto> getLocationhierarchy(@RequestParam int supervisorID) {
 		List<HealthProHierarchyDto> usrHierarchy = new ArrayList<HealthProHierarchyDto>();
 		try {
@@ -58,6 +59,7 @@ public class HealthProfessionalController {
 	}
 
 	@RequestMapping(value = "/getUserId", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ROLE_USER')")
     public @ResponseBody UserDto getUserId(@RequestParam String username) {
         return covidService.getUserId(username);
     }
