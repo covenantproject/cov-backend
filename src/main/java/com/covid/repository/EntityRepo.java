@@ -37,6 +37,10 @@ public class EntityRepo {
     	
     }
     
+    public<T> T execute(Function<EntityManager, T> module) {
+    	return module.apply(em);
+    }
+    
     @SafeVarargs
     public final <E, T extends Object> List<E> find(Class<E> clazz, BiFunction<CriteriaBuilder, CriteriaQuery<E>, List<Order>> orderFunc, Pair<SingularAttribute<E, T>, T>... conditions){
     	CriteriaBuilder cb = em.getCriteriaBuilder();
