@@ -27,7 +27,7 @@ public class PatientDao {
         List<Object> queryParam = new ArrayList<>();
 
         String sql = "select distinct p.\"PatientId\", pu.\"FirstName\", pu.\"LastName\", ps.\"COVID19Status\", ps.\"QuarantineStatus\", ps.\"IsolationStatus\", " +
-                "ps.\"HealthStatusAlert\", ps.\"QuarantineRequestStatus\", ps.\"SuppliesRequestStatus\", ps.\"GeofenceStatus\", ps.\"HeartbeatStatus\", ps.\"Latitude\", ps.\"Longitude\" " +
+                "ps.\"HealthStatusAlert\", ps.\"HealthRequestStatus\", ps.\"QuarantineRequestStatus\", ps.\"SuppliesRequestStatus\", ps.\"GeofenceStatus\", ps.\"HeartbeatStatus\", ps.\"Latitude\", ps.\"Longitude\" " +
                 "from \"Patient\" p " +
                 "LEFT JOIN \"PatientProviderRelationship\" ppr on ppr.\"PatientId\"=p.\"PatientId\" " +
                 "LEFT JOIN \"User\" pu on p.\"UserId\"=pu.\"UserId\" " +
@@ -110,10 +110,19 @@ public class PatientDao {
             dto.setCovid19Status(rs.getString("COVID19Status"));
             dto.setQuarantineStatus(rs.getString("QuarantineStatus"));
             dto.setIsolationStatus(rs.getString("IsolationStatus"));
-            dto.setHealthRequestStatus(rs.getString("HealthStatusAlert"));
+            dto.setHealthRequestStatus(rs.getString("HealthRequestStatus"));
+            dto.setHealthAlertStatus(rs.getString("HealthStatusAlert"));
             dto.setQuarantineRequestStatus(rs.getString("QuarantineRequestStatus"));
             dto.setSuppliesRequestStatus(rs.getString("SuppliesRequestStatus"));
             dto.setGeofenceStatus(rs.getString("GeofenceStatus"));
+            if(rs.getString("GeofenceStatus") == "Outside - near"){
+                dto.setGeofenceCompliant(false);
+            } else if(rs.getString("GeofenceStatus") == "Outside - far"){
+                dto.setGeofenceCompliant(false);
+            } else {
+                dto.setGeofenceCompliant(true);
+            }
+            
             dto.setHeartbeatStatus(rs.getString("HeartbeatStatus"));
             dto.setLatitude(rs.getDouble("Latitude"));
             dto.setLongitude(rs.getDouble("Longitude"));

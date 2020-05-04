@@ -11,4 +11,6 @@ public interface AddressRepo extends CrudRepository<Address,Long> {
 
 	Address findByUserId(long userId);
 
+	Address findFirstByUserId(long userId);
+
 }

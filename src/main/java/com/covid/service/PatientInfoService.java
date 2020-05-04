@@ -104,7 +104,7 @@ public class PatientInfoService {
             patientInfo.setHeartbeatTime(heartbeat.getHeartbeatDateTime());
         }
 
-        Address address = addressRepo.findByUserId(patient.getUserId());
+        Address address = addressRepo.findFirstByUserId(patient.getUserId());
         if (address != null) {
 //            String adr = address.getAddressLine1().concat(", ".concat(address.getCity().concat(", ").concat(address.getState().concat(", ").concat(address.getCountry()))));
         	 String adr1 = address.getAddressLine1();

@@ -20,7 +20,7 @@ public class Patient {
 	private long userId;
 	
 	@Column(name="\"Nationality\"")
-	private boolean Nationality;
+	private Boolean Nationality;
 	
 	@Column(name="\"EmergencyContact1\"")
 	private String EmergencyContact1;
@@ -35,43 +35,43 @@ public class Patient {
 	private String EContact2RelToPt;
 	
 	@Column(name="\"NextOfKin1\"")
-	private boolean NextOfKin1;
+	private Boolean NextOfKin1;
 	
 	@Column(name="\"NofKin1RelToPt\"")
 	private String NofKin1RelToPt;
 	
 	@Column(name="\"NextofKin2\"")
-	private boolean NextofKin2;
+	private Boolean NextofKin2;
 	
 	@Column(name="\"NofKin2RelToPt\"")
 	private String NofKin2RelToPt;
 	
 	@Column(name="\"HasPreExistingConditions\"")
-	private boolean HasPreExistingConditions;
+	private Boolean HasPreExistingConditions;
 	
 	@Column(name="\"HasMedications\"")
-	private boolean HasMedications;
+	private Boolean HasMedications;
 	
 	@Column(name="\"HasAllergies\"")
-	private boolean HasAllergies;
+	private Boolean HasAllergies;
 	
 	@Column(name="\"HasAdvanceDirectives\"")
-	private boolean HasAdvanceDirectives;
+	private Boolean HasAdvanceDirectives;
 	
 	@Column(name="\"NeedsCarer\"")
-	private boolean NeedsCarer;
+	private Boolean NeedsCarer;
 	
 	@Column(name="\"HasInternationalTravel\"")
-	private boolean HasInternationalTravel;
+	private Boolean HasInternationalTravel;
 	
 	@Column(name="\"HasInterstateTravel\"")
-	private boolean HasInterstateTravel;
+	private Boolean HasInterstateTravel;
 	
 	@Column(name="\"HasHighRiskFacilityVisit\"")
-	private boolean HasHighRiskFacilityVisit;
+	private Boolean HasHighRiskFacilityVisit;
 	
 	@Column(name="\"IsHighRiskHealthWorker\"")
-	private boolean IsHighRiskHealthWorker;
+	private Boolean IsHighRiskHealthWorker;
 	
 	@Column(name="\"ClinicalTrialStatus\"")
 	private String ClinicalTrialStatus;

@@ -13,9 +13,11 @@ public class PatientDto {
     private String quarantineRequestStatus;
     private String suppliesRequestStatus;
     private String geofenceStatus;
+    private Boolean geofenceCompliant;
     private String heartbeatStatus;
     private Double latitude;
     private Double longitude;
+    private String healthAlertStatus;
 
     public long getPatientID() {
         return patientID;
@@ -105,6 +107,14 @@ public class PatientDto {
         this.geofenceStatus = geofenceStatus;
     }
 
+    public Boolean getGeofenceCompliant() {
+        return geofenceCompliant;
+    }
+
+    public void setGeofenceCompliant(Boolean geofenceCompliant) {
+        this.geofenceCompliant = geofenceCompliant;
+    }
+
     public String getHeartbeatStatus() {
         return heartbeatStatus;
     }
@@ -127,5 +137,13 @@ public class PatientDto {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    public String getHealthAlertStatus() {
+        return healthAlertStatus;
+    }
+
+    public void setHealthAlertStatus(String healthAlertStatus) {
+        this.healthAlertStatus = healthAlertStatus;
     }
 }
