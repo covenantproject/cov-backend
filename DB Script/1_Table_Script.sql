@@ -404,7 +404,7 @@ CREATE TABLE public."PatientStatus"
 	"MedicalRequestStatus" character varying(10) COLLATE pg_catalog."default",
 	"SuppliesRequestStatus" character varying(10) COLLATE pg_catalog."default",
 	"HeartbeatStatus" character varying COLLATE pg_catalog."default",
-	"HealthStatusAlert" character varying COLLATE pg_catalog."default",
+	"HealthAlert" character varying COLLATE pg_catalog."default",
     CONSTRAINT "PatientStatus_pkey" PRIMARY KEY ("PatientStatusId"),
 	CONSTRAINT "PatientStatus_PatientId_fkey" FOREIGN KEY ("PatientId")
         REFERENCES public."User" ("UserId") MATCH SIMPLE

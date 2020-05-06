@@ -21,14 +21,17 @@ public class PatientInfoController {
     @GetMapping("/getPatientInfo")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public PatientInfoDto getPatientForLocation(@RequestParam long patientId) {
-        return patientService.getPatientForLocation(patientId);
+        try {
+            return patientService.getPatientInfoByUserId(patientId);
+        } catch (Exception ex) {
+            throw new RuntimeException("Something went wrong.");
+        }
     }
 
     @GetMapping("/searchPatient")
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public PatientLocationDto searchPatient(@RequestParam(required = false) Long locationId,
             @RequestParam(required = false) Long healthProId, @RequestParam(required = false) String phoneNumber,
-            @RequestParam(defaultValue = "100") int size, @RequestParam(defaultValue = "0") int from,
             @RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName,
             @RequestParam(required = false) String covid19Status,
             @RequestParam(required = false) String quarantineStatus,
@@ -36,18 +39,18 @@ public class PatientInfoController {
             @RequestParam(required = false) String quarantineRequestStatus,
             @RequestParam(required = false) String medicalRequestStatus,
             @RequestParam(required = false) String suppliesRequestStatus,
+            @RequestParam(required = false) String geofenceCompliant,
             @RequestParam(required = false) String geofenceStatus,
-            @RequestParam(required = false) String heartbeatStatus,
-            @RequestParam(required = false) String healthStatusAlert) {
+            @RequestParam(required = false) String heartbeatStatus, @RequestParam(required = false) String healthAlert,
+            @RequestParam(defaultValue = "100") int size, @RequestParam(defaultValue = "0") int from) {
 
         if (locationId != null || healthProId != null) {
-            //Do Nothing
-        }
-        else if (StringUtils.isBlank(phoneNumber)) {
+            // Do Nothing
+        } else if (StringUtils.isBlank(phoneNumber)) {
             throw new RuntimeException("PHONE_NUMBER_MANDATORY");
         }
         return patientService.searchPatients(locationId, healthProId, phoneNumber, size, from, firstName, lastName,
                 covid19Status, quarantineStatus, isolationStatus, quarantineRequestStatus, medicalRequestStatus,
-                suppliesRequestStatus, geofenceStatus, heartbeatStatus, healthStatusAlert);
+                suppliesRequestStatus, geofenceCompliant, geofenceStatus, heartbeatStatus, healthAlert);
     }
 }

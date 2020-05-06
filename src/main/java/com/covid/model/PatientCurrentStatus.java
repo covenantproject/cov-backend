@@ -57,8 +57,8 @@ public class PatientCurrentStatus {
     @Column(name = "\"GeofenceStatus\"")
     private String geofenceStatus;
 
-    @Column(name = "\"HealthStatusAlert\"")
-    private String healthStatusAlert;
+    @Column(name = "\"HealthAlert\"")
+    private String healthAlert;
 
     @Column(name = "\"Latitude\"")
     private Double latitude;
@@ -195,11 +195,11 @@ public class PatientCurrentStatus {
         this.geofenceStatus = geofenceStatus;
     }
 
-    public String getHealthStatusAlert() {
-        return healthStatusAlert;
+    public String getHealthAlert() {
+        return healthAlert;
     }
 
-    public void setHealthStatusAlert(String healthStatusAlert) {
-        this.healthStatusAlert = healthStatusAlert;
+    public void setHealthAlert(String healthAlert) {
+        this.healthAlert = healthAlert;
     }
 }

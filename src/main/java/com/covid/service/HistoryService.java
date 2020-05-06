@@ -70,7 +70,10 @@ public class HistoryService {
 				lc.setComments(String.valueOf(obj[12]));
 			}
 			if (obj[13] != null) {
-				lc.setTimestamp(String.valueOf(obj[13]));
+				String dateTimeString = String.valueOf(obj[13]);
+				dateTimeString = dateTimeString.replace(' ', 'T');
+				String parsedDateTime = dateTimeString.split("\\.", 2)[0]+".000+0000";
+				lc.setTimestamp(parsedDateTime);
 			}
 			historyList.add(lc);
 		}

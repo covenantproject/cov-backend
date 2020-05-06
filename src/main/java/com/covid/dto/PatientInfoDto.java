@@ -8,22 +8,22 @@ public class PatientInfoDto {
     private String firstName;
     private String lastName;
     private String sex;
-    private Date dateOfBirth;
+    private String dateOfBirth;
     private String householdId;
     private String covid19Status;
     private String quarantineStatus;
     private String isolationStatus;
-    private Date quarantineStartDate;
-    private Date quarantineEndDate;
+    private String quarantineStartDate;
+    private String quarantineEndDate;
     private String healthRequestStatus;
     private String healthRequestMessage;
     private String quarantineRequestStatus;
     private String suppliesRequestStatus;
     private String suppliesRequestMessage;
-    private String healthStatusAlert;
+    private String healthAlert;
     private String geofenceStatus;
     private String heartbeatStatus;
-    private Date heartbeatTime;
+    private String heartbeatTime;
     private Double latitude;
     private Double longitude;
     private String phoneNumber1;
@@ -66,11 +66,11 @@ public class PatientInfoDto {
         this.sex = sex;
     }
 
-    public Date getDateOfBirth() {
+    public String getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -106,19 +106,19 @@ public class PatientInfoDto {
         this.isolationStatus = isolationStatus;
     }
 
-    public Date getQuarantineStartDate() {
+    public String getQuarantineStartDate() {
         return quarantineStartDate;
     }
 
-    public void setQuarantineStartDate(Date quarantineStartDate) {
+    public void setQuarantineStartDate(String quarantineStartDate) {
         this.quarantineStartDate = quarantineStartDate;
     }
 
-    public Date getQuarantineEndDate() {
+    public String getQuarantineEndDate() {
         return quarantineEndDate;
     }
 
-    public void setQuarantineEndDate(Date quarantineEndDate) {
+    public void setQuarantineEndDate(String quarantineEndDate) {
         this.quarantineEndDate = quarantineEndDate;
     }
 
@@ -162,12 +162,12 @@ public class PatientInfoDto {
         this.suppliesRequestMessage = suppliesRequestMessage;
     }
 
-    public String getHealthStatusAlert() {
-        return healthStatusAlert;
+    public String getHealthAlert() {
+        return healthAlert;
     }
 
-    public void setHealthStatusAlert(String healthStatusAlert) {
-        this.healthStatusAlert = healthStatusAlert;
+    public void setHealthAlert(String healthAlert) {
+        this.healthAlert = healthAlert;
     }
 
     public String getGeofenceStatus() {
@@ -186,11 +186,11 @@ public class PatientInfoDto {
         this.heartbeatStatus = heartbeatStatus;
     }
 
-    public Date getHeartbeatTime() {
+    public String getHeartbeatTime() {
         return heartbeatTime;
     }
 
-    public void setHeartbeatTime(Date heartbeatTime) {
+    public void setHeartbeatTime(String heartbeatTime) {
         this.heartbeatTime = heartbeatTime;
     }
 

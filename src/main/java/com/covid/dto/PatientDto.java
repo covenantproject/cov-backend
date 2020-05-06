@@ -9,7 +9,7 @@ public class PatientDto {
     private String covid19Status;
     private String quarantineStatus;
     private String isolationStatus;
-    private String healthRequestStatus;
+    private String medicalRequestStatus;
     private String quarantineRequestStatus;
     private String suppliesRequestStatus;
     private String geofenceStatus;
@@ -17,7 +17,7 @@ public class PatientDto {
     private String heartbeatStatus;
     private Double latitude;
     private Double longitude;
-    private String healthAlertStatus;
+    private String healthAlert;
 
     public long getPatientID() {
         return patientID;
@@ -75,12 +75,12 @@ public class PatientDto {
         this.isolationStatus = isolationStatus;
     }
 
-    public String getHealthRequestStatus() {
-        return healthRequestStatus;
+    public String getMedicalRequestStatus() {
+        return medicalRequestStatus;
     }
 
-    public void setHealthRequestStatus(String healthRequestStatus) {
-        this.healthRequestStatus = healthRequestStatus;
+    public void setMedicalRequestStatus(String medicalRequestStatus) {
+        this.medicalRequestStatus = medicalRequestStatus;
     }
 
     public String getQuarantineRequestStatus() {
@@ -139,11 +139,11 @@ public class PatientDto {
         this.longitude = longitude;
     }
 
-    public String getHealthAlertStatus() {
-        return healthAlertStatus;
+    public String getHealthAlert() {
+        return healthAlert;
     }
 
-    public void setHealthAlertStatus(String healthAlertStatus) {
-        this.healthAlertStatus = healthAlertStatus;
+    public void setHealthAlert(String healthAlert) {
+        this.healthAlert = healthAlert;
     }
 }

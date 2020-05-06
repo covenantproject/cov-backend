@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.covid.dto.PatientLocationDto;
+
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,21 +20,20 @@ public class PatientDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
     public PatientLocationDto searchPatients(Long locationId, Long userId, String phoneNumber, int size, int from,
-                                             String firstName, String lastName, String covid19Status, String quarantineStatus, String isolationStatus,
-                                             String quarantineRequestStatus, String medicalRequestStatus, String suppliesRequestStatus,
-                                             String geofenceStatus, String heartbeatStatus, String healthStatusAlert) {
+            String firstName, String lastName, String covid19Status, String quarantineStatus, String isolationStatus,
+            String quarantineRequestStatus, String medicalRequestStatus, String suppliesRequestStatus,
+            String geofenceCompliant, String geofenceStatus, String heartbeatStatus, String healthAlert) {
 
         List<Object> queryParam = new ArrayList<>();
 
-        String sql = "select distinct p.\"PatientId\", pu.\"FirstName\", pu.\"LastName\", ps.\"COVID19Status\", ps.\"QuarantineStatus\", ps.\"IsolationStatus\", " +
-                "ps.\"HealthStatusAlert\", ps.\"HealthRequestStatus\", ps.\"QuarantineRequestStatus\", ps.\"SuppliesRequestStatus\", ps.\"GeofenceStatus\", ps.\"HeartbeatStatus\", ps.\"Latitude\", ps.\"Longitude\" " +
-                "from \"Patient\" p " +
-                "LEFT JOIN \"PatientProviderRelationship\" ppr on ppr.\"PatientId\"=p.\"PatientId\" " +
-                "LEFT JOIN \"User\" pu on p.\"UserId\"=pu.\"UserId\" " +
-                "LEFT JOIN \"PatientStatus\" ps on p.\"PatientId\"=ps.\"PatientId\" " +
-                "LEFT JOIN \"PhoneNumber\" pn on p.\"UserId\"=pn.\"UserId\" where 1=1 ";
+        String sql = "select distinct p.\"PatientId\", pu.\"FirstName\", pu.\"LastName\", ps.\"COVID19Status\", ps.\"QuarantineStatus\", ps.\"IsolationStatus\", "
+                + "ps.\"HealthAlert\", ps.\"MedicalRequestStatus\", ps.\"QuarantineRequestStatus\", ps.\"SuppliesRequestStatus\", ps.\"GeofenceStatus\", ps.\"HeartbeatStatus\", ps.\"Latitude\", ps.\"Longitude\" "
+                + "from \"Patient\" p "
+                + "LEFT JOIN \"PatientProviderRelationship\" ppr on ppr.\"PatientId\"=p.\"PatientId\" "
+                + "LEFT JOIN \"User\" pu on p.\"UserId\"=pu.\"UserId\" "
+                + "LEFT JOIN \"PatientStatus\" ps on p.\"PatientId\"=ps.\"PatientId\" "
+                + "LEFT JOIN \"PhoneNumber\" pn on p.\"UserId\"=pn.\"UserId\" where 1=1 ";
 
         if (locationId != null && userId != null) {
             sql += " and ppr.\"RelationshipFacilityLocation\"=? and ppr.\"ProviderId\"=? ";
@@ -90,14 +91,25 @@ public class PatientDao {
             queryParam.add(geofenceStatus);
         }
 
+        if (StringUtils.isNotBlank(geofenceCompliant)) {
+            if (geofenceCompliant == "true") {
+                sql += " and ps.\"GeofenceStatus\"='Inside'";
+                queryParam.add(geofenceStatus);
+            }
+            if (geofenceCompliant == "false") {
+                sql += " and ps.\"GeofenceStatus\" IN ('Outside - near, 'Outside - far')";
+                queryParam.add(geofenceStatus);
+            }
+        }
+
         if (StringUtils.isNotBlank(heartbeatStatus)) {
             sql += " and ps.\"HeartbeatStatus\"=?";
             queryParam.add(heartbeatStatus);
         }
 
-        if (StringUtils.isNotBlank(healthStatusAlert)) {
-            sql += " and ps.\"HealthStatusAlert\"=?";
-            queryParam.add(healthStatusAlert);
+        if (StringUtils.isNotBlank(healthAlert)) {
+            sql += " and ps.\"HealthAlert\"=?";
+            queryParam.add(healthAlert);
         }
 
         sql += " order by p.\"PatientId\" ";
@@ -108,21 +120,24 @@ public class PatientDao {
             dto.setFirstName(rs.getString("FirstName"));
             dto.setLastName(rs.getString("LastName"));
             dto.setCovid19Status(rs.getString("COVID19Status"));
+            dto.setMedicalRequestStatus(rs.getString("MedicalRequestStatus"));
             dto.setQuarantineStatus(rs.getString("QuarantineStatus"));
             dto.setIsolationStatus(rs.getString("IsolationStatus"));
-            dto.setHealthRequestStatus(rs.getString("HealthRequestStatus"));
-            dto.setHealthAlertStatus(rs.getString("HealthStatusAlert"));
+            dto.setHealthAlert(rs.getString("HealthAlert"));
             dto.setQuarantineRequestStatus(rs.getString("QuarantineRequestStatus"));
             dto.setSuppliesRequestStatus(rs.getString("SuppliesRequestStatus"));
             dto.setGeofenceStatus(rs.getString("GeofenceStatus"));
-            if(rs.getString("GeofenceStatus") == "Outside - near"){
+            if (rs.getString("GeofenceStatus") != null && rs.getString("GeofenceStatus").equals("Outside - near")) {
                 dto.setGeofenceCompliant(false);
-            } else if(rs.getString("GeofenceStatus") == "Outside - far"){
+            } else if (rs.getString("GeofenceStatus") != null
+                    && rs.getString("GeofenceStatus").equals("Outside - far")) {
                 dto.setGeofenceCompliant(false);
+            } else if (rs.getString("GeofenceStatus") == null) {
+                dto.setGeofenceCompliant(null);
             } else {
                 dto.setGeofenceCompliant(true);
             }
-            
+
             dto.setHeartbeatStatus(rs.getString("HeartbeatStatus"));
             dto.setLatitude(rs.getDouble("Latitude"));
             dto.setLongitude(rs.getDouble("Longitude"));

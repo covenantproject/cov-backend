@@ -32,15 +32,15 @@ public class LocationHistoryController {
 			@RequestBody LocationHistory locationHistory) {
 		String apiKey = request.getHeader("api-key");
 		if (apiKey.equals(mobileApikey)) {
-			LocationHistory location = new LocationHistory();
+			String msg = "";
 			try {
-				location = locationHistoryService.postLocationHistory(locationHistory);
+				msg = locationHistoryService.saveLocationHistory(locationHistory);
 			} catch (Exception ex) {
 				logger.error("EXCEPTION_IN_LocationHistory", ex);
 				throw new RuntimeException("Save Couldn't Complete");
 			}
 
-			return new ResponseEntity<>(location, HttpStatus.OK);
+			return new ResponseEntity<>(msg, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>("FAILED", HttpStatus.FORBIDDEN);
 		}

@@ -1,7 +1,5 @@
 package com.covid.dto;
 
-import java.util.Date;
-
 public class HistoryDto {
 	
 	private Boolean ishealthupdated;

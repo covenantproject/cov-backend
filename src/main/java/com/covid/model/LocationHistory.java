@@ -17,7 +17,7 @@ public class LocationHistory {
 	private long LocationHistoryId;
 	
 	@Column(name = "\"UserId\"")
-	private long userId;
+	private Integer userId;
 	
 	@Column(name = "\"Latitude\"")
 	private double Latitude;
@@ -37,11 +37,11 @@ public class LocationHistory {
 		LocationHistoryId = locationHistoryId;
 	}
 
-	public long getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -60,8 +60,6 @@ public class LocationHistory {
 	public void setLongitude(double longitude) {
 		Longitude = longitude;
 	}
-
-	
 
 	public String getCode() {
 		return Code;

@@ -24,6 +24,7 @@ BEGIN
 		null::double precision as spo2, "RequestType" as requesttype, "RequestComments" as comments,
 		"RequestDateTime" as timestampVal
 		from public."UserRequestHistory" where "UserId"=$1
+		ORDER BY timestampVal desc			
 		);
 END; $BODY$;
 
@@ -98,6 +99,44 @@ BEGIN
 	where pp."PatientId" in (select "PatientId" from public."Patient" p where p."UserId"=$1));
 END; $BODY$;
 
+
+--public.getpatientinfo
+CREATE OR REPLACE FUNCTION public.getpatientinfo(
+	userid bigint)
+    RETURNS TABLE(patientid integer, firstname character varying, lastname character varying, householdid integer, covid19status character varying, quarantinestatus character varying, isolationstatus character varying, healthrequeststatus character varying, healthrequestmessage character varying, quarantinerequeststatus character varying, suppliesrequeststatus character varying, suppliesrequestmessage character varying, healthstatusalert character varying, geofencestatus character varying, heartbeatstatus character varying, heartbeattime timestamp without time zone, latitude double precision, longitude double precision, quarantinestartdate timestamp without time zone, quarantineenddate timestamp without time zone, sex character varying, dateofbirth timestamp without time zone, phonenumber1 character varying, phonenumber1type character varying, phonenumber1hassms boolean, phonenumber1hasinternet boolean, phonenumber1haswhatsapp boolean, phonenumber1isprimaryuser boolean, quarantineaddress text) 
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+    ROWS 1000
+AS $BODY$begin
+	
+	RETURN QUERY(
+		SELECT p."PatientId", u."FirstName", u."LastName", null::integer as householdId,
+		ps."COVID19Status", ps."QuarantineStatus", ps."IsolationStatus", ps."MedicalRequestStatus",
+		null::varchar as healthRequestMessage, ps."QuarantineRequestStatus", ps."SuppliesRequestStatus",
+		null::varchar as suppliesRequestMessage, ps."HealthAlert", ps."GeofenceStatus", ps."HeartbeatStatus",
+		hrt."HeartbeatDateTime" as heartbeatTime, ps."Latitude", ps."Longitude", ps."QuarantineStartDateTime" as quarantineStartDate,
+		ps."QuarantineEndDateTime" as quarantineEndDate, u."Gender" as sex, u."DateOfBirth",
+		phn."PhoneNumber" as phoneNumber1, phn."PhoneType" as phoneNumber1Type, phn."HasSMSAccess" as phoneNumber1HasSMS,
+		phn."HasInternetAccess" as phoneNumber1HasInternet, phn."HasWhatsAppAccess" as phoneNumber1HasWhatsapp,
+		phn."IsPrimaryUser" as phoneNumber1IsPrimaryUser, CONCAT(a."AddressLine1",', ', a."City",', ', a."State",', ', a."Country")
+		from public."User" u
+		LEFT JOIN public."Patient" p ON u."UserId" = p."UserId" 
+		LEFT JOIN public."PatientStatus" ps ON ps."PatientId" = p."PatientId"
+		LEFT JOIN public."PhoneNumber" phn ON phn."UserId" = u."UserId"
+		LEFT JOIN public."AppHeartbeatHistory" hrt
+			 ON hrt."AppHeartbeatHistoryId" = (SELECT MAX("AppHeartbeatHistoryId") FROM public."AppHeartbeatHistory" WHERE "PrimaryUserId" = u."UserId")
+		LEFT JOIN public."Address" a
+			 ON a."AddressId" = (SELECT MAX("AddressId") FROM public."Address" WHERE "UserId" = u."UserId")
+		WHERE p."PatientId" = $1
+		order by p."PatientId" desc
+	);
+
+END;
+$BODY$;
+
+
 --public.getuserhierarchy
 CREATE OR REPLACE FUNCTION public.getuserhierarchy(
 	superid integer)
@@ -121,6 +160,8 @@ AS $BODY$BEGIN
 			WHERE h."SupervisorId" = $1 );
 		END IF;
 END; $BODY$;
+
+
 
 --public.getuserid
 CREATE OR REPLACE FUNCTION public.getuserid(
@@ -244,6 +285,55 @@ BEGIN
 	RETURN userID;
 END; $BODY$;
 
+
+--public.savelocationhistory
+CREATE OR REPLACE FUNCTION public.savelocationhistory(
+	userid integer,
+	latitude double precision,
+	longitude double precision,
+	code character varying)
+    RETURNS text
+    LANGUAGE 'plpgsql'
+
+    COST 100
+    VOLATILE 
+AS $BODY$
+DECLARE 
+ userID integer;
+ geofenceStatus character varying;
+ deviceId integer;
+BEGIN
+	INSERT INTO public."LocationHistory"(
+	 "UserId", "Latitude", "Longitude", "Code")
+	VALUES ($1, $2,$3,$4);
+	
+	IF $4 = 'GEOFENCE_EXIT' THEN
+		SELECT 'Outside - near' into geofenceStatus;
+	ELSIF $4 = 'GEOFENCE_ENTER' THEN
+		SELECT 'Inside' into geofenceStatus;
+	ELSIF $4 = 'GEOFENCE_FAR' THEN
+		SELECT 'Outside - far' into geofenceStatus;
+	END IF;
+	
+	SELECT "PatientId" into userID from public."Patient" where "UserId"=$1;
+	IF EXISTS (select 1 FROM public."PatientStatus" where "PatientId"=userID) THEN
+		Update public."PatientStatus" SET "GeofenceStatus" = geofenceStatus, "HeartbeatStatus" = 'Online' where "PatientId"=userID;
+	ELSE 
+		INSERT INTO public."PatientStatus"("PatientId", "GeofenceStatus", "HeartbeatStatus")VALUES(userID, geofenceStatus, 'Online');
+	END IF;
+	
+	IF EXISTS (SELECT "DeviceSID" from public."PatientDeviceApp" where "PrimaryUserId"=$1) THEN
+		SELECT "DeviceSID" into deviceId from public."PatientDeviceApp" where "PrimaryUserId"=$1;
+	ELSE
+		INSERT INTO public."PatientDeviceApp"("PrimaryUserId")VALUES($1)
+		RETURNING public."PatientDeviceApp"."DeviceSID" INTO deviceId;
+	END IF;
+	
+	INSERT INTO public."AppHeartbeatHistory"("PrimaryUserId", "DeviceId", "HeartBeatStatus")
+	VALUES($1, deviceId, 'Online');
+	
+	RETURN 'SUCCESS';
+END; $BODY$;
 
 
 --public.savepatientproviderrela
