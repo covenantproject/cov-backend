@@ -92,13 +92,15 @@ public class PatientDao {
         }
 
         if (StringUtils.isNotBlank(geofenceCompliant)) {
-            if (geofenceCompliant == "true") {
+            if (geofenceCompliant.equals("true")) {
                 sql += " and ps.\"GeofenceStatus\"='Inside'";
-                queryParam.add(geofenceStatus);
+                //queryParam.add(geofenceStatus);
             }
-            if (geofenceCompliant == "false") {
-                sql += " and ps.\"GeofenceStatus\" IN ('Outside - near, 'Outside - far')";
-                queryParam.add(geofenceStatus);
+            if (geofenceCompliant.equals("false")) {
+                //sql += " and ps.\"GeofenceStatus\" IN ('Outside - near', 'Outside - far')";
+                sql += " and ps.\"GeofenceStatus\"='Outside - near'";
+                sql += " or ps.\"GeofenceStatus\"='Outside - far'";
+                //queryParam.add(geofenceStatus);
             }
         }
 
