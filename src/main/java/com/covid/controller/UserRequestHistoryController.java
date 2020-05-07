@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.covid.model.PatientRequestHistory;
+import com.covid.model.db.PatientRequestHistory;
 import com.covid.service.UserRequestHistoryService;
 
 @Controller

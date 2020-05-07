@@ -10,18 +10,18 @@ import org.springframework.stereotype.Service;
 
 import com.covid.dto.PatientInfoDto;
 import com.covid.dto.PatientLocationDto;
-import com.covid.model.Address;
-import com.covid.model.Address_;
-import com.covid.model.AppHeartbeat;
-import com.covid.model.Patient;
-import com.covid.model.PatientRequestHistory;
-import com.covid.model.PatientRequestHistory_;
-import com.covid.model.PatientStatus;
-import com.covid.model.PatientStatus_;
-import com.covid.model.PhoneNumber;
-import com.covid.model.PhoneNumber_;
-import com.covid.model.Users;
-import com.covid.model.Users_;
+import com.covid.model.db.Address;
+import com.covid.model.db.AppHeartbeat;
+import com.covid.model.db.Patient;
+import com.covid.model.db.PatientRequestHistory;
+import com.covid.model.db.PatientStatus;
+import com.covid.model.db.PhoneNumber;
+import com.covid.model.db.Users;
+import com.covid.model.meta.Address_;
+import com.covid.model.meta.PatientRequestHistory_;
+import com.covid.model.meta.PatientStatus_;
+import com.covid.model.meta.PhoneNumber_;
+import com.covid.model.meta.Users_;
 import com.covid.repository.EntityRepo;
 import com.covid.repository.PatientDao;
 
@@ -43,7 +43,7 @@ public class PatientInfoService {
         }
         patientInfo.setPatientID(patient.getPatientId());
 
-        Users user = repo.findOne(Users.class, Pair.of(Users_.userId, patient.getPatientId()));
+        Users user = repo.findOne(repo.get(Users.class).add(Users_.userId, patient.getPatientId()));
         if (user != null) {
             patientInfo.setFirstName(user.getFirstName());
             patientInfo.setLastName(user.getLastName());
@@ -51,7 +51,7 @@ public class PatientInfoService {
             patientInfo.setDateOfBirth(user.getDateOfBirth());
         }
 
-        PatientStatus patientStaus = repo.findOne(PatientStatus.class, Pair.of(PatientStatus_.patientId, patientId));
+        PatientStatus patientStaus = repo.findOne(repo.get(PatientStatus.class).add(PatientStatus_.patientId, patientId));
         if (patientStaus != null) {
             patientInfo.setCovid19Status(patientStaus.getCovid19Status());
             patientInfo.setQuarantineStatus(patientStaus.getQuarIsltStatus());
@@ -65,9 +65,9 @@ public class PatientInfoService {
             patientInfo.setLongitude(patientStaus.getLongitude());
         }
 
-        PhoneNumber phoneDetails = repo.findOne(PhoneNumber.class,
-   				cast(Pair.of(PhoneNumber_.userId, patientId))
-   				,cast(Pair.of(PhoneNumber_.isPreferred, Boolean.TRUE))
+        PhoneNumber phoneDetails = repo.findOne(repo.get(PhoneNumber.class)
+   				.add(PhoneNumber_.userId, patientId)
+   				.add(PhoneNumber_.isPreferred, Boolean.TRUE)
         );
         if (phoneDetails != null) {
             patientInfo.setPhoneNumber1(phoneDetails.getPhoneNumber());
@@ -78,7 +78,7 @@ public class PatientInfoService {
             patientInfo.setPhoneNumber1Type(phoneDetails.getPhoneType());
         }
 
-        PatientRequestHistory prHistory = repo.findOne(PatientRequestHistory.class, Pair.of(PatientRequestHistory_.patientId, patientId));
+        PatientRequestHistory prHistory = repo.findOne(repo.get(PatientRequestHistory.class).add(PatientRequestHistory_.patientId, patientId));
         if (prHistory != null) {
             patientInfo.setHealthRequestStatus(prHistory.getRequestStatus());
             patientInfo.setHealthRequestMessage(prHistory.getRequestComments());
@@ -90,9 +90,9 @@ public class PatientInfoService {
             patientInfo.setHeartbeatTime(heartbeat.getHeartbeatDateTime());
         }
 
-        Address address = repo.findOne(Address.class,
-       				cast(Pair.of(Address_.userId, patientId))
-       				,cast(Pair.of(Address_.addressType, "")) //TODO
+        Address address = repo.findOne(repo.get(Address.class)
+       				.add(Address_.userId, patientId)
+       				.add(Address_.addressType, "") //TODO
         );
         
         if (address != null) {

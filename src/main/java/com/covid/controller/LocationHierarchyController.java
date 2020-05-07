@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.covid.model.LocationHierarchy;
+
+import com.covid.model.db.LocationHierarchy;
 import com.covid.service.LocationHierarchyService;
 
 @Controller

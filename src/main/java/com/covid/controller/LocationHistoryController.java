@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.covid.model.LocationHierarchy;
+import com.covid.model.db.LocationHierarchy;
 import com.covid.repository.EntityRepo;
 
 @Controller

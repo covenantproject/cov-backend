@@ -15,12 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.covid.model.PhoneNumber;
-import com.covid.model.PhoneNumber_;
-import com.covid.model.Users;
-import com.covid.model.Users_;
+import com.covid.model.db.PhoneNumber;
+import com.covid.model.db.Users;
+import com.covid.model.meta.PhoneNumber_;
+import com.covid.model.meta.Users_;
 import com.covid.model.type.PhoneNumberType;
 import com.covid.repository.EntityRepo;
+import com.covid.repository.EntityRepo.Cond.Oper;
 
 /**
  * @author SunilAnand
@@ -40,10 +41,9 @@ public class AuthenticationService {
     private String textApiKey;
 
     private PhoneNumber findModilePhoneNumber(String mobileNo) {
-        PhoneNumber phoneNumber =  repo.findOne(PhoneNumber.class, 
-        		Pair.of(PhoneNumber_.phoneNumber, mobileNo)
-        		,Pair.of(PhoneNumber_.phoneType, PhoneNumberType.mobile.name())
-        		
+        PhoneNumber phoneNumber =  repo.findOne(repo.get(PhoneNumber.class)
+        		.add(PhoneNumber_.phoneNumber, mobileNo)
+        		.add(PhoneNumber_.phoneType, PhoneNumberType.mobile.name()) 
         );
         return phoneNumber;
     }
@@ -91,7 +91,7 @@ public class AuthenticationService {
             throw new RuntimeException("REC_NOT_FOUND");
         }
 
-        Users user = repo.findOne(Users.class, Pair.of(Users_.userId, phoneNumber.getUserId()));
+        Users user = repo.findOne(repo.get(Users.class).add(Users_.userId, phoneNumber.getUserId()));
         if (!StringUtils.equals(otp, user.getOtpCode())) {
             throw new RuntimeException("INVALID_OTP");
         }else {
@@ -100,7 +100,7 @@ public class AuthenticationService {
     }
 
     private void updateUserOtp(int userId, int otp) {
-        Users user = repo.findOne(Users.class, Pair.of(Users_.userId, userId));
+        Users user = repo.findOne(repo.get(Users.class).add(Users_.userId, userId));
         user.setOtpCode(String.valueOf(otp));
         repo.save(user);
     }

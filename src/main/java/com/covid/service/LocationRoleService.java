@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.dto.LocationAndRoleDto;
-import com.covid.model.LocationHierarchy;
+import com.covid.model.db.LocationHierarchy;
 import com.covid.repository.EntityRepo;
 
 

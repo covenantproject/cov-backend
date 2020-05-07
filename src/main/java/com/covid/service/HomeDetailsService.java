@@ -1,19 +1,19 @@
 package com.covid.service;
 
 import static com.covid.util.CovidUtils.cast;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.dto.HomeDetailsDto;
-import com.covid.model.Patient;
-import com.covid.model.Patient_;
+import com.covid.model.db.Patient;
+import com.covid.model.meta.Patient_;
 import com.covid.repository.EntityRepo;
 
 @Service
@@ -28,7 +28,7 @@ public class HomeDetailsService {
 
     public HomeDetailsDto getHomeDetailsById(int userId) {
         HomeDetailsDto homeDetails = new HomeDetailsDto();
-        Patient patient = repo.findOne(Patient.class, Pair.of(Patient_.patientId, userId));
+        Patient patient = repo.findOne(repo.get(Patient.class).add(Patient_.patientId, userId));
         if (patient == null) {
             throw new RuntimeException("NO_DETAILS_FOUND");
         }

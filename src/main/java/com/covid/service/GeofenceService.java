@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.covid.dto.GeofenceDto;
-import com.covid.model.PatientGeofencedLocation;
+import com.covid.model.db.PatientGeofencedLocation;
 
 @Service
 public class GeofenceService {

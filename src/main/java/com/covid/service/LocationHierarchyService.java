@@ -13,7 +13,7 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.covid.model.LocationHierarchy;
+import com.covid.model.db.LocationHierarchy;
 
 @Service
 public class LocationHierarchyService {

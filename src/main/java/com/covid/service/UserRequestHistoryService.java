@@ -10,7 +10,7 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.covid.model.PatientRequestHistory;
+import com.covid.model.db.PatientRequestHistory;
 import com.covid.repository.EntityRepo;
 
 
