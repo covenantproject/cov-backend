@@ -1,16 +1,15 @@
 package com.covid.service;
 
-import java.io.File;
-import java.io.FileInputStream;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.jar.JarEntry;
-import java.util.jar.JarInputStream;
 
 import javax.persistence.EntityManager;
 import javax.persistence.metamodel.ManagedType;
@@ -29,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.covid.model.db.Users;
 import com.covid.model.meta.Users_;
 import com.covid.repository.EntityRepo;
+import com.google.common.reflect.ClassPath;
+import com.google.common.reflect.ClassPath.ClassInfo;
 
 @Component
 @DependsOn({ "entityRepo" })
@@ -43,15 +44,15 @@ public class JpaMetaModelSetupService implements ApplicationListener<ContextRefr
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		EntityManager em = repo.getEntityManager();
 		try {
-			List<Class<?>> entities = getClassesInPackage(Users.class.getPackageName());
-			List<Class<?>> fieldClasses = getClassesInPackage(Users_.class.getPackageName());
+			Set<Class<?>> entities = getClassesInPackage(Users.class);
+			Set<Class<?>> fieldClasses = getClassesInPackage(Users_.class);
 			Map<String, Class<?>> fieldClassMap = new HashMap<>();
 			for (Class<?> clazz : fieldClasses) {
 				fieldClassMap.put(clazz.getSimpleName(), clazz);
 			}
 
 			for (Class<?> entityClass : entities) {
-				String cn = entityClass.getSimpleName() + "_";
+				String cn = entityClass.getSimpleName()+"_";
 				//System.out.println("********************************* " + cn);
 				Class<?> metaClass = fieldClassMap.get(cn);
 				if (metaClass != null) {
@@ -91,49 +92,19 @@ public class JpaMetaModelSetupService implements ApplicationListener<ContextRefr
 		return results;
 	}
 
-	public static final List<Class<?>> getClassesInPackage(String packageName) {
-		String path = packageName.replaceAll("\\.", File.separator);
-		List<Class<?>> classes = new ArrayList<>();
-		String[] classPathEntries = System.getProperty("java.class.path").split(System.getProperty("path.separator"));
-
-		String name;
-		for (String classpathEntry : classPathEntries) {
-			if (classpathEntry.endsWith(".jar")) {
-				File jar = new File(classpathEntry);
-				try {
-					JarInputStream is = new JarInputStream(new FileInputStream(jar));
-					JarEntry entry;
-					while ((entry = is.getNextJarEntry()) != null) {
-						name = entry.getName();
-						if (name.endsWith(".class")) {
-							if (name.contains(path) && name.endsWith(".class")) {
-								String classPath = name.substring(0, entry.getName().length() - 6);
-								classPath = classPath.replaceAll("[\\|/]", ".");
-								classes.add(Class.forName(classPath));
-							}
-						}
-					}
-					is.close();
-				} catch (Exception ex) {
-					// Silence is gold
-				}
-			} else {
-				try {
-					File base = new File(classpathEntry + File.separatorChar + path);
-					for (File file : base.listFiles()) {
-						name = file.getName();
-						if (name.endsWith(".class")) {
-							name = name.substring(0, name.length() - 6);
-							classes.add(Class.forName(packageName + "." + name));
-						}
-					}
-				} catch (Exception ex) {
-					// Silence is gold
-				}
-			}
+	public static final Set<Class<?>> getClassesInPackage(Class<?> clazz)throws Exception {
+		ClassPath path = ClassPath.from(clazz.getClassLoader());
+		Set<ClassInfo> cinfoSet = path.getTopLevelClasses(clazz.getPackageName());
+		Set<Class<?>> result = new HashSet<>();
+		for(ClassInfo c: cinfoSet) {
+			Class<?> z = c.load();
+			result.add(z);
+			//System.out.println(z.getName());
 		}
-
-		return classes;
+		
+		return result;
 	}
 
+
 }
+;

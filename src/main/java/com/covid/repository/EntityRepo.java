@@ -17,8 +17,10 @@ import javax.persistence.metamodel.SingularAttribute;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.lang3.tuple.Triple;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.Ordered;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.covid.model.QuadFunction;
@@ -26,9 +28,10 @@ import com.covid.model.TriFunction;
 import com.covid.repository.EntityRepo.Cond.Oper;
 import com.covid.repository.EntityRepo.Cond.Sort;
 
-@Repository("entityRepo")
+@Component("entityRepo")
 @Transactional
 @org.springframework.core.annotation.Order(Ordered.HIGHEST_PRECEDENCE)
+@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)
 public class EntityRepo{
 
 	@Autowired
@@ -104,7 +107,7 @@ public class EntityRepo{
     	if(results.isEmpty() == false) {
     		result = results.get(0);
     	}
-    	return result;
+    	return result;  	
     }
     
     
