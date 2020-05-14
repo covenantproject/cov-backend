@@ -1,3 +1,15 @@
+# cov-backend
+This repo contains the Java sprint boot code for the backend APIs/application layer, and the SQL code for the database.
+
+Website: https://covn.org
+
+(c) 2020 Covenant Team
+
+Released as open source under the Apache License v2.
+
+# Contributor Agreement
+By contributing ideas or code to this project, you agree to  https://github.com/covenantproject/covenant/blob/master/contributor-agreement.txt
+
 # Prerequisites
 Following needs to be installed for the successful project compilation:
 * Apache Maven
