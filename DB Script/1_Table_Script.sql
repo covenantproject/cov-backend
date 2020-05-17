@@ -13,23 +13,23 @@ CREATE TABLE release1.users
 	first_name character varying(32),
 	middle_name character varying(32),
 	last_name character varying(32),
-	long_full_name character varying(100),
-	short_full_name character varying(30), -- machine readable passport length limit for full name. Separate first names and last names with two spaces.
+	maiden_name character varying(32),
 	display_name character varying(16),
 	-- The ls_*_name fields are updated typically by a staff member if the entered name is in a non-Latin script.
 	ls_first_name character varying(32), -- ls denotes Latin script. 
 	ls_middle_name character varying(32),
 	ls_last_name character varying(32),
-	ls_long_full_name character varying(100),
-	ls_short_full_name character varying(30), -- machine readable passport length limit for full name. Separate first names and last names with two spaces.
+	ls_maiden_name character varying(32),
 	ls_display_name character varying(16),
+	standard_name character varying(30),
 	suffix character varying(16),
 	degree character varying(16),
     date_of_birth timestamp without time zone,
 	age_yrs smallint   ,
     admin_gender character varying(32),
 	biological_sex character varying(32),
-	otp_code character varying,
+	username character varying(32),
+	comments character varying(255),
     CONSTRAINT users_pkey PRIMARY KEY (user_id)
 );
 
@@ -38,8 +38,8 @@ CREATE TABLE release1.user_photo
 (
     photo_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
 	user_id    integer  NOT NULL ,
-    photo_type character varying(32) DEFAULT 'photo_profile',
-	photo_path  character varying(150),
+    photo_type character varying(32) DEFAULT 'phototype_profile',
+	photo_path  character varying(255),
 	file_saved_datetime timestamp without time zone default (now() at time zone 'utc'),
     CONSTRAINT user_photo_pkey PRIMARY KEY (photo_id),
 	CONSTRAINT user_photo_user_id_fkey FOREIGN KEY (user_id)
@@ -127,6 +127,7 @@ CREATE  TABLE release1.demographics (
 	next_of_kin_1_rel_to_pat   character varying(32)   ,
 	next_of_kin_id_2 integer   ,
 	next_of_kin_2_rel_to_pat   character varying(32)   ,
+	comments character varying(2048),
 	CONSTRAINT demographics_pkey PRIMARY KEY ( user_id ),
 	CONSTRAINT demographics_user_id_fkey FOREIGN KEY (user_id)
         REFERENCES release1.users (user_id) MATCH SIMPLE
@@ -208,11 +209,13 @@ CREATE  TABLE release1.phone_number (
 	is_preferred        bool   ,
 	is_primary_user      bool DEFAULT true  ,
 	primary_user_id      integer   ,
-	has_internet_access  bool   ,
-	has_smsaccess       bool   ,
-	has_whatsapp_access  bool   ,
-	has_telegram_access  bool   ,
+	has_internet  bool   ,
+	has_sms       bool   ,
+	has_whatsapp  bool   ,
+	has_telegram  bool   ,
 	provides_location   bool   ,
+	otp_code          character varying (8),
+	phone_hash        character varying(1024)   ,
 	CONSTRAINT phone_number_pkey PRIMARY KEY (phone_number_id), 
 	CONSTRAINT phone_number_primary_user_id_fkey FOREIGN KEY (primary_user_id)
         REFERENCES release1.users (user_id) MATCH SIMPLE
