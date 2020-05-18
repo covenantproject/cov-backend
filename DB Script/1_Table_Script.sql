@@ -150,7 +150,7 @@ CREATE TABLE release1.patient_provider_rel
 	rel_type character varying(15),
 	rel_start_date timestamp without time zone,
 	rel_end_date timestamp without time zone,
-	rel_fac_location integer,
+	location_id integer,
     CONSTRAINT patient_provider_rel_pkey PRIMARY KEY (pat_pro_rel_id),
 	CONSTRAINT patient_provider_rel_patient_id_fkey FOREIGN KEY (patient_id)
         REFERENCES release1.patient (patient_id) MATCH SIMPLE
@@ -160,7 +160,7 @@ CREATE TABLE release1.patient_provider_rel
         REFERENCES release1.health_pro (health_pro_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-	CONSTRAINT patient_provider_rel_fac_location_fkey FOREIGN KEY (rel_fac_location)
+	CONSTRAINT patient_provider_location_id_fkey FOREIGN KEY (location_id)
         REFERENCES release1.location_hierarchy (location_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
