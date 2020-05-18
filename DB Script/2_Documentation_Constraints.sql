@@ -178,9 +178,10 @@ COMMENT ON COLUMN release1.demographics.next_of_kin_2_rel_to_pat IS 'Relationshi
 
 COMMENT ON COLUMN release1.demographics.comments IS 'Other comments about this person.';
 
+
 -- TABLE release1.patient_provider_rel
 
-ALTER TABLE release1.patient_provider_rel ADD CONSTRAINT PatProRelationship_RelType_check CHECK (rel_type IN ('Screening official', 'Quarantine official', 'Isolation official', 'Medical official', 'Field worker', 'Other') );
+ALTER TABLE release1.patient_provider_rel ADD CONSTRAINT patient_provider_rel_rel_type_check CHECK (rel_type IN ('patproreltype_screening_officer', 'patproreltype_quarantine_officer', 'patproreltype_isolation_officer', 'patproreltype_physician', 'patproreltype_nurse', 'patproreltype_labtech', 'patproreltype_field_worker', 'patproreltype_homehealth', 'patproreltype_other') );
 
 COMMENT ON TABLE release1.patient_provider_rel IS 'Relationship between a patient and a health professional (also known as health care provider or simply ''provider'') when they provide care to a patient. Care in this context includes quarantine/isolation service to the patient. Only providers with a patient-provider relationship can view personally identifiable information or protected health information of a patient through the health professional dashboard. Other health professionals can only view summary statistics and reports.';
 
@@ -190,7 +191,7 @@ COMMENT ON COLUMN release1.patient_provider_rel.rel_start_date IS 'Optional.';
 
 COMMENT ON COLUMN release1.patient_provider_rel.rel_end_date IS 'Optional.';
 
-COMMENT ON COLUMN release1.patient_provider_rel.rel_facility_location IS 'Foreign key to Location that is pertinent to this relationship. This may be a local health department or a hospital, etc.';
+COMMENT ON COLUMN release1.patient_provider_rel.location_id IS 'Foreign key to Location that is pertinent to this relationship. This may be a local health department or a hospital, etc.';
 
 
 -- TABLE release1.covid_contact
