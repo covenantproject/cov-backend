@@ -58,6 +58,7 @@ CREATE TABLE release1.location_hierarchy
 	parent_location_id integer DEFAULT NULL,
 	country_code character varying(32),
 	address_id INTEGER,
+	location_type character varying(32),
     CONSTRAINT location_pkey PRIMARY KEY (location_id),
 	CONSTRAINT location_parent_location_id_fkey FOREIGN KEY (parent_location_id)
         REFERENCES release1.location_hierarchy (location_id) MATCH SIMPLE
