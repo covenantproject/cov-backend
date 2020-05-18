@@ -5,6 +5,8 @@
 -- Display_strings table added to support multiple languages.
 -- Note: Postgres varchar field size is in characters (UTF-8 safe), not bytes.
 
+CREATE SCHEMA release1;
+
 --Formerly users. Using plural for this table name because user is a reserved keyword
 CREATE TABLE release1.users
 (
