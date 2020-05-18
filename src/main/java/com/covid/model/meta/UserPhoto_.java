@@ -1,27 +1,32 @@
 package com.covid.model.meta;
 
-import java.util.Date;
+
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
+import com.covid.model.db.Users;
+import java.sql.Timestamp;
+import javax.persistence.metamodel.SetAttribute;
 import com.covid.model.db.UserPhoto;
+
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(UserPhoto.class)
-public abstract class UserPhoto_ {
+public abstract class UserPhoto_{
 
-	public static volatile SingularAttribute<UserPhoto, Date> fileSavedDatetime;
-	public static volatile SingularAttribute<UserPhoto, String> photoPath;
-	public static volatile SingularAttribute<UserPhoto, String> photoType;
 	public static volatile SingularAttribute<UserPhoto, Integer> photoId;
 	public static volatile SingularAttribute<UserPhoto, Integer> userId;
+	public static volatile SingularAttribute<UserPhoto, Users> users;
+	public static volatile SingularAttribute<UserPhoto, String> photoType;
+	public static volatile SingularAttribute<UserPhoto, String> photoPath;
+	public static volatile SingularAttribute<UserPhoto, Timestamp> fileSavedDatetime;
 
-	public static final String FILE_SAVED_DATETIME = "fileSavedDatetime";
-	public static final String PHOTO_PATH = "photoPath";
-	public static final String PHOTO_TYPE = "photoType";
-	public static final String PHOTO_ID = "photoId";
-	public static final String USER_ID = "userId";
-
+	public static final String s_photoId = "photoId";
+	public static final String s_userId = "userId";
+	public static final String s_users = "users";
+	public static final String s_photoType = "photoType";
+	public static final String s_photoPath = "photoPath";
+	public static final String s_fileSavedDatetime = "fileSavedDatetime";
+	
 }
 

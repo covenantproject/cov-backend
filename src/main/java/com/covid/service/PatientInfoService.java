@@ -71,9 +71,9 @@ public class PatientInfoService {
         );
         if (phoneDetails != null) {
             patientInfo.setPhoneNumber1(phoneDetails.getPhoneNumber());
-            patientInfo.setPhoneNumber1HasInternet(phoneDetails.getHasInternetAccess());
-            patientInfo.setPhoneNumber1HasSMS(phoneDetails.getHasSmsaccess());
-            patientInfo.setPhoneNumber1HasWhatsapp(phoneDetails.getHasWhatsappAccess());
+            patientInfo.setPhoneNumber1HasInternet(phoneDetails.getHasInternet());
+            patientInfo.setPhoneNumber1HasSMS(phoneDetails.getHasSms());
+            patientInfo.setPhoneNumber1HasWhatsapp(phoneDetails.getHasWhatsapp());
             patientInfo.setPhoneNumber1IsPrimaryUser(phoneDetails.getIsPrimaryUser());
             patientInfo.setPhoneNumber1Type(phoneDetails.getPhoneType());
         }

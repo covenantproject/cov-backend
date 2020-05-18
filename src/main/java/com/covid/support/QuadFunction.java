@@ -1,4 +1,4 @@
-package com.covid.model;
+package com.covid.support;
 
 public interface QuadFunction<IN1, IN2, IN3, IN4, OUT> {
 	

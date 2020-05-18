@@ -1,16 +1,13 @@
 package com.covid.service;
 
-import static com.covid.util.CovidUtils.cast;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,7 +18,6 @@ import com.covid.model.meta.PhoneNumber_;
 import com.covid.model.meta.Users_;
 import com.covid.model.type.PhoneNumberType;
 import com.covid.repository.EntityRepo;
-import com.covid.repository.EntityRepo.Cond.Oper;
 
 /**
  * @author SunilAnand
@@ -92,7 +88,11 @@ public class AuthenticationService {
         }
 
         Users user = repo.findOne(repo.get(Users.class).add(Users_.userId, phoneNumber.getUserId()));
-        if (!StringUtils.equals(otp, user.getOtpCode())) {
+        
+      //TODO correction get it from phone
+        String userOpt = "dummy";
+        //userOtp = user.getOtpCode();
+        if (!StringUtils.equals(otp, userOpt)) {
             throw new RuntimeException("INVALID_OTP");
         }else {
         	return user.getUserId();
@@ -101,7 +101,8 @@ public class AuthenticationService {
 
     private void updateUserOtp(int userId, int otp) {
         Users user = repo.findOne(repo.get(Users.class).add(Users_.userId, userId));
-        user.setOtpCode(String.valueOf(otp));
+        //TODO correction get it from phone
+        //user.setOtpCode(String.valueOf(otp));
         repo.save(user);
     }
 }

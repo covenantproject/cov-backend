@@ -1,34 +1,42 @@
 package com.covid.model.meta;
 
+
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
 import com.covid.model.db.PreExistingCondition;
+import com.covid.model.db.PreExistingConditionCovidDenorm;
+import com.covid.model.db.Patient;
+import javax.persistence.metamodel.SetAttribute;
+
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(PreExistingCondition.class)
-public abstract class PreExistingCondition_ {
+public abstract class PreExistingCondition_{
 
-	public static volatile SingularAttribute<PreExistingCondition, Boolean> isControlled;
-	public static volatile SingularAttribute<PreExistingCondition, Integer> durationNum;
-	public static volatile SingularAttribute<PreExistingCondition, Integer> patientId;
 	public static volatile SingularAttribute<PreExistingCondition, Integer> preExistingConditionId;
-	public static volatile SingularAttribute<PreExistingCondition, String> durationUnits;
+	public static volatile SingularAttribute<PreExistingCondition, Integer> patientId;
+	public static volatile SingularAttribute<PreExistingCondition, Patient> patient;
+	public static volatile SingularAttribute<PreExistingCondition, String> preExistingConditionCodeSystem;
 	public static volatile SingularAttribute<PreExistingCondition, String> preExistingCondtionConceptCode;
 	public static volatile SingularAttribute<PreExistingCondition, String> preExistingCondtionDescription;
 	public static volatile SingularAttribute<PreExistingCondition, Boolean> isActive;
-	public static volatile SingularAttribute<PreExistingCondition, String> preExistingConditionCodeSystem;
+	public static volatile SingularAttribute<PreExistingCondition, Boolean> isControlled;
+	public static volatile SingularAttribute<PreExistingCondition, Integer> durationNum;
+	public static volatile SingularAttribute<PreExistingCondition, String> durationUnits;
+	public static volatile SetAttribute<PreExistingCondition, PreExistingConditionCovidDenorm> preExistingConditionCovidDenormSet;
 
-	public static final String IS_CONTROLLED = "isControlled";
-	public static final String DURATION_NUM = "durationNum";
-	public static final String PATIENT_ID = "patientId";
-	public static final String PRE_EXISTING_CONDITION_ID = "preExistingConditionId";
-	public static final String DURATION_UNITS = "durationUnits";
-	public static final String PRE_EXISTING_CONDTION_CONCEPT_CODE = "preExistingCondtionConceptCode";
-	public static final String PRE_EXISTING_CONDTION_DESCRIPTION = "preExistingCondtionDescription";
-	public static final String IS_ACTIVE = "isActive";
-	public static final String PRE_EXISTING_CONDITION_CODE_SYSTEM = "preExistingConditionCodeSystem";
-
+	public static final String s_preExistingConditionId = "preExistingConditionId";
+	public static final String s_patientId = "patientId";
+	public static final String s_patient = "patient";
+	public static final String s_preExistingConditionCodeSystem = "preExistingConditionCodeSystem";
+	public static final String s_preExistingCondtionConceptCode = "preExistingCondtionConceptCode";
+	public static final String s_preExistingCondtionDescription = "preExistingCondtionDescription";
+	public static final String s_isActive = "isActive";
+	public static final String s_isControlled = "isControlled";
+	public static final String s_durationNum = "durationNum";
+	public static final String s_durationUnits = "durationUnits";
+	public static final String s_preExistingConditionCovidDenormSet = "preExistingConditionCovidDenormSet";
+	
 }
 
