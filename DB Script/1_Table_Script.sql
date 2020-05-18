@@ -147,7 +147,7 @@ CREATE TABLE release1.patient_provider_rel
     pat_pro_rel_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
 	patient_id integer,
 	health_pro_id integer,
-	rel_type character varying(15),
+	rel_type character varying(32),
 	rel_start_date timestamp without time zone,
 	rel_end_date timestamp without time zone,
 	location_id integer,
