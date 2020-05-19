@@ -479,8 +479,8 @@ CREATE  TABLE release1.app_heartbeat (
 	app_heartbeat_id     integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
 	device_app_id        integer  NOT NULL ,
 	heartbeat_date_time  timestamp DEFAULT timezone('utc'::text, now())  ,
-	heart_beat_ip4_address character varying(16)   ,
-	heart_beat_ip6_address character varying(40)   ,
+	heartbeat_ip4_address character varying(16)   ,
+	heartbeat_ip6_address character varying(40)   ,
 	heartbeat_status    character varying(10)   ,
 	CONSTRAINT app_heartbeat_pkey PRIMARY KEY ( app_heartbeat_id ),
 	CONSTRAINT app_heartbeat_device_app_id_fkey FOREIGN KEY (device_app_id)
