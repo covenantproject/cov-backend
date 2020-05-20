@@ -367,7 +367,7 @@ COMMENT ON COLUMN release1.patient_status.longitude IS 'Latest known location of
 
 ALTER TABLE release1.device_location ADD CONSTRAINT device_location_location_service_type_check CHECK (location_service_type IN ('locservoce_gps', 'locservice_highres', 'locservice_cellular', 'locservice_other') );
 
-ALTER TABLE release1.device_location ADD CONSTRAINT device_location_LocationCheckReason_check CHECK (location_check_reason IN ('loccheck_reason_routine', 'locchec_reason_device_idle', 'loccheck_reason_random', 'loccheck_reason_random', 'loccheck_reason_other') );
+ALTER TABLE release1.device_location ADD CONSTRAINT device_location_LocationCheckReason_check CHECK (location_check_reason IN ('loccheck_reason_routine', 'locchec_reason_device_idle', 'loccheck_reason_random',  'loccheck_reason_other') );
 
 ALTER TABLE release1.device_location ADD CONSTRAINT device_location_LocationCheckResult_check CHECK (location_check_result IN ('loccheck_result_success', 'loccheck_result_failed', 'loccheck_result_delayedresponse') );
 

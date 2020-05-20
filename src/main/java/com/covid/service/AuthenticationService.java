@@ -16,7 +16,7 @@ import com.covid.model.db.PhoneNumber;
 import com.covid.model.db.Users;
 import com.covid.model.meta.PhoneNumber_;
 import com.covid.model.meta.Users_;
-import com.covid.model.type.PhoneNumberType;
+import com.covid.model.type.PhoneType;
 import com.covid.repository.EntityRepo;
 
 /**
@@ -39,7 +39,7 @@ public class AuthenticationService {
     private PhoneNumber findModilePhoneNumber(String mobileNo) {
         PhoneNumber phoneNumber =  repo.findOne(repo.get(PhoneNumber.class)
         		.add(PhoneNumber_.phoneNumber, mobileNo)
-        		.add(PhoneNumber_.phoneType, PhoneNumberType.mobile.name()) 
+        		.add(PhoneNumber_.phoneType, PhoneType.phoneMobile.name()) 
         );
         return phoneNumber;
     }
