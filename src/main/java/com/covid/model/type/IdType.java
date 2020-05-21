@@ -1,17 +1,25 @@
 package com.covid.model.type;
 
-public enum IdType {
-	idOciNumIn,
-	idMrn,
-	idPatientidNum,
-	idOther,
-	idNationalId,
-	idAadhaarNumIn,
-	idTaxId,
-	idSsnUs,
-	idPancardNumIn,
-	idDrivingLicense,
-	idPassport,
-	idMedicalLicenseNum,
+public enum IdType implements BaseEnum{
+	medicalLicenseNum("id_medical_license_num"),
+	pancardNumIn("id_pancard_num_in"),
+	drivingLicense("id_driving_license"),
+	patientnum("id_patientid_num"),
+	taxId("id_tax_id"),
+	aadhaarNumIn("id_aadhaar_num_in"),
+	ssnUs("id_ssn_us"),
+	other("id_other"),
+	passport("id_passport"),
+	nationalId("id_national_id"),
+	ociNumIn("id_oci_num_in"),
+	mrn("id_mrn"),
 	;
+	private final String key;
+	private IdType(String key) {
+		this.key = key;
+	}
+	@Override
+	public String getKey() {
+		return this.key;
+	}
 }

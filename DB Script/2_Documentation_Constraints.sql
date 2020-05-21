@@ -454,7 +454,7 @@ ALTER TABLE release1.health_check_history ADD CONSTRAINT health_check_history_he
 
 ALTER TABLE release1.health_check_history ADD CONSTRAINT health_check_history_healthcheck_reason_check CHECK (health_check_reason IN ('healthcheck_reason_routine', 'healthcheck_reason_device_idle', 'healthcheck_reason_user_init', 'healthcheck_reason_pro_init', 'healthcheck_reason_other') );
 
-ALTER TABLE release1.health_check_history ADD CONSTRAINT health_check_history_progressstatus_check CHECK (progress_status IN ('healthprofess_getting_better', 'healthprogress_getting_worse', 'healthprofess_staying_same') );
+ALTER TABLE release1.health_check_history ADD CONSTRAINT health_check_history_progressstatus_check CHECK (progress_status IN ('healthprogress_getting_better', 'healthprogress_getting_worse', 'healthprogress_getting_same') );
 
 COMMENT ON TABLE release1.health_check_history IS 'Health check history collected via the mobile app - the patient is prompted to fill in their current health status. Typically this is done twice a day at 10AM and 8PM. It may be done more frequently if the patient''s device hasn''t moved for approximately 2 hours. The patient may also fill in at other times if they want to.';
 

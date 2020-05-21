@@ -1,9 +1,17 @@
 package com.covid.model.type;
 
-public enum PhoneType {
-	phoneHome,
-	phoneMobile,
-	phoneWork,
-	phoneOther,
+public enum PhoneType implements BaseEnum{
+	work("phone_work"),
+	mobile("phone_mobile"),
+	other("phone_other"),
+	home("phone_home"),
 	;
+	private final String key;
+	private PhoneType(String key) {
+		this.key = key;
+	}
+	@Override
+	public String getKey() {
+		return this.key;
+	}
 }

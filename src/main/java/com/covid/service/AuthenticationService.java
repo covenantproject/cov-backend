@@ -39,7 +39,7 @@ public class AuthenticationService {
     private PhoneNumber findModilePhoneNumber(String mobileNo) {
         PhoneNumber phoneNumber =  repo.findOne(repo.get(PhoneNumber.class)
         		.add(PhoneNumber_.phoneNumber, mobileNo)
-        		.add(PhoneNumber_.phoneType, PhoneType.phoneMobile.name()) 
+        		.add(PhoneNumber_.phoneType, PhoneType.mobile.getKey()) 
         );
         return phoneNumber;
     }
