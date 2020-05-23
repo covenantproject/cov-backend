@@ -47,12 +47,12 @@ public class PatientDao {
         }
 
         if (StringUtils.isNotBlank(firstName)) {
-            sql += " and pu.\"FirstName\"=?";
+            sql += " and lower(pu.\"FirstName\")= lower(?)";
             queryParam.add(firstName);
         }
 
         if (StringUtils.isNotBlank(lastName)) {
-            sql += " and pu.\"LastName\"=?";
+            sql += " and lower(pu.\"LastName\")= lower(?)";
             queryParam.add(lastName);
         }
 
