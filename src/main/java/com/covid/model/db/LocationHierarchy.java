@@ -188,7 +188,6 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 	public Integer getKey() {
 		return this.locationId;
 	}
-
 	
 	public static LocationHierarchy of(){
 		return new LocationHierarchy();

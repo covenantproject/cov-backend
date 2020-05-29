@@ -139,7 +139,6 @@ public class EmailAddress extends BaseModel<EmailAddress, Integer> implements ja
 	public Integer getKey() {
 		return this.emailAddressId;
 	}
-
 	
 	public static EmailAddress of(){
 		return new EmailAddress();

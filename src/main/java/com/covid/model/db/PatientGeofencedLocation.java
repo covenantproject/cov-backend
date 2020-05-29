@@ -140,7 +140,6 @@ public class PatientGeofencedLocation extends BaseModel<PatientGeofencedLocation
 	public Integer getKey() {
 		return this.geofencedLocationId;
 	}
-
 	
 	public static PatientGeofencedLocation of(){
 		return new PatientGeofencedLocation();

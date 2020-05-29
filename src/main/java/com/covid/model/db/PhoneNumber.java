@@ -261,7 +261,6 @@ public class PhoneNumber extends BaseModel<PhoneNumber, Integer> implements java
 	public Integer getKey() {
 		return this.phoneNumberId;
 	}
-
 	
 	public static PhoneNumber of(){
 		return new PhoneNumber();

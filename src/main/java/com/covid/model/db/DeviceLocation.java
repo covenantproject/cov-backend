@@ -213,7 +213,6 @@ public class DeviceLocation extends BaseModel<DeviceLocation, Integer> implement
 	public Integer getKey() {
 		return this.deviceLocationId;
 	}
-
 	
 	public static DeviceLocation of(){
 		return new DeviceLocation();

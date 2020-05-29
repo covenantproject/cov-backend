@@ -198,7 +198,6 @@ public class Allergy extends BaseModel<Allergy, Integer> implements java.io.Seri
 	public Integer getKey() {
 		return this.allergyId;
 	}
-
 	
 	public static Allergy of(){
 		return new Allergy();

@@ -164,7 +164,6 @@ public class PreExistingCondition extends BaseModel<PreExistingCondition, Intege
 	public Integer getKey() {
 		return this.preExistingConditionId;
 	}
-
 	
 	public static PreExistingCondition of(){
 		return new PreExistingCondition();

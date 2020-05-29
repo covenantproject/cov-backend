@@ -103,7 +103,6 @@ public class UserPhoto extends BaseModel<UserPhoto, Integer> implements java.io.
 	public Integer getKey() {
 		return this.photoId;
 	}
-
 	
 	public static UserPhoto of(){
 		return new UserPhoto();

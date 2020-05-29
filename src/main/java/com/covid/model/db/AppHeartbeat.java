@@ -129,7 +129,6 @@ public class AppHeartbeat extends BaseModel<AppHeartbeat, Integer> implements ja
 	public Integer getKey() {
 		return this.appHeartbeatId;
 	}
-
 	
 	public static AppHeartbeat of(){
 		return new AppHeartbeat();

@@ -235,7 +235,6 @@ public class PreExistingConditionCovidDenorm extends BaseModel<PreExistingCondit
 	public Integer getKey() {
 		return this.covidPreExistingConditionId;
 	}
-
 	
 	public static PreExistingConditionCovidDenorm of(){
 		return new PreExistingConditionCovidDenorm();

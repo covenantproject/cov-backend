@@ -166,7 +166,6 @@ public class HealthPro extends BaseModel<HealthPro, Integer> implements java.io.
 	public Integer getKey() {
 		return this.healthProId;
 	}
-
 	
 	public static HealthPro of(){
 		return new HealthPro();

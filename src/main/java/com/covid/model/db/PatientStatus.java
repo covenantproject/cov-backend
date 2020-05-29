@@ -236,7 +236,6 @@ public class PatientStatus extends BaseModel<PatientStatus, Integer> implements 
 	public Integer getKey() {
 		return this.patientStatusId;
 	}
-
 	
 	public static PatientStatus of(){
 		return new PatientStatus();

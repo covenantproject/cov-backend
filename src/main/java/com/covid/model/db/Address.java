@@ -224,7 +224,6 @@ public class Address extends BaseModel<Address, Integer> implements java.io.Seri
 	public Integer getKey() {
 		return this.addressId;
 	}
-
 	
 	public static Address of(){
 		return new Address();

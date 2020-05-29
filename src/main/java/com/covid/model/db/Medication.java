@@ -234,7 +234,6 @@ public class Medication extends BaseModel<Medication, Integer> implements java.i
 	public Integer getKey() {
 		return this.medicationId;
 	}
-
 	
 	public static Medication of(){
 		return new Medication();

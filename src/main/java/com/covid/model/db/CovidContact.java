@@ -125,7 +125,6 @@ public class CovidContact extends BaseModel<CovidContact, Integer> implements ja
 	public Integer getKey() {
 		return this.contactId;
 	}
-
 	
 	public static CovidContact of(){
 		return new CovidContact();

@@ -153,7 +153,6 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 	public Integer getKey() {
 		return this.patProRelId;
 	}
-
 	
 	public static PatientProviderRel of(){
 		return new PatientProviderRel();

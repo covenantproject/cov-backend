@@ -197,7 +197,6 @@ public class Demographics extends BaseModel<Demographics, Integer> implements ja
 	public Integer getKey() {
 		return this.userId;
 	}
-
 	
 	public static Demographics of(){
 		return new Demographics();

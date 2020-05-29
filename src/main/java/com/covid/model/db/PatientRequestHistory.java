@@ -176,7 +176,6 @@ public class PatientRequestHistory extends BaseModel<PatientRequestHistory, Inte
 	public Integer getKey() {
 		return this.patientRequestHistoryId;
 	}
-
 	
 	public static PatientRequestHistory of(){
 		return new PatientRequestHistory();

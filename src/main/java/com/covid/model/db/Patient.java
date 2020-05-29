@@ -320,7 +320,6 @@ public class Patient extends BaseModel<Patient, Integer> implements java.io.Seri
 	public Integer getKey() {
 		return this.patientId;
 	}
-
 	
 	public static Patient of(){
 		return new Patient();

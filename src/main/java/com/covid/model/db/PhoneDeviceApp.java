@@ -201,7 +201,6 @@ public class PhoneDeviceApp extends BaseModel<PhoneDeviceApp, Integer> implement
 	public Integer getKey() {
 		return this.deviceAppId;
 	}
-
 	
 	public static PhoneDeviceApp of(){
 		return new PhoneDeviceApp();

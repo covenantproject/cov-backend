@@ -310,7 +310,6 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getKey() {
 		return this.healthHistoryId;
 	}
-
 	
 	public static HealthCheckHistory of(){
 		return new HealthCheckHistory();

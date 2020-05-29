@@ -162,7 +162,6 @@ public class ExternalIdentifier extends BaseModel<ExternalIdentifier, Integer> i
 	public Integer getKey() {
 		return this.identificationId;
 	}
-
 	
 	public static ExternalIdentifier of(){
 		return new ExternalIdentifier();

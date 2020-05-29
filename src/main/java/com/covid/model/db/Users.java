@@ -99,10 +99,10 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private Set<UserPhoto> userPhotoSet;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phoneNumberByPrimaryUserId")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByPrimaryUserId")
 	private Set<PhoneNumber> phoneNumberByPrimaryUserIdSet;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "emailAddressByUserId")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByUserId")
 	private Set<EmailAddress> emailAddressByUserIdSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
@@ -119,13 +119,13 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private Set<PatientRequestHistory> patientRequestHistorySet;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "phoneNumberByUserId")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByUserId")
 	private Set<PhoneNumber> phoneNumberByUserIdSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
 	private Set<Address> addressSet;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "emailAddressByPrimaryUserId")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByPrimaryUserId")
 	private Set<EmailAddress> emailAddressByPrimaryUserIdSet;
 
 
@@ -431,7 +431,6 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	public Integer getKey() {
 		return this.userId;
 	}
-
 	
 	public static Users of(){
 		return new Users();
