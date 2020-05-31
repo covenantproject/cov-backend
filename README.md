@@ -1,7 +1,7 @@
 # Prerequisites
 Following needs to be installed for the successful project compilation:
 * Apache Maven
-* Java JDK
+* Java JDK 1.8 (Attn contributors: please use JDK 1.8. Do not use a newer version)
 
 
 # Install dependencies
@@ -21,10 +21,12 @@ All environment config variables are in the path:
 ### DB Script
 
 DB is PostgreSQL
-Script with schema is available in the following path:
+Database creation script is available in the following path:
 
 ```
-\DB Script\Covenant_Script.sql
+\DB Script\1_Table_Script.sql - creates all the tables in release1 schema
+\DB Script\1_Documentation_Constraints.sql - adds comments to all table and columns. Applies CHECK CONSTRAINTS to char/varchar columns with constrained values.
+
 ```
 
 ### Running the project and base url
