@@ -117,7 +117,7 @@ public class JpaMetaModelSetupService implements ApplicationListener<ContextRefr
 
 	public static final Set<Class<?>> getClassesInPackage(Class<?> clazz) throws Exception {
 		ClassPath path = ClassPath.from(clazz.getClassLoader());
-		Set<ClassInfo> cinfoSet = path.getTopLevelClasses(clazz.getPackageName());
+		Set<ClassInfo> cinfoSet = path.getTopLevelClasses(clazz.getPackage().getName());
 		Set<Class<?>> result = new HashSet<>();
 		for (ClassInfo c : cinfoSet) {
 			Class<?> z = c.load();

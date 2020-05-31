@@ -26,7 +26,7 @@ public class CopyHelper {
 			boolean skip = false;
 			boolean canAccess = false;
 			try {
-				canAccess = f.canAccess(this.src);
+				canAccess = f.isAccessible();
 			} catch (Exception ex) {
 				skip = true;
 			}
@@ -84,7 +84,7 @@ public class CopyHelper {
 					boolean skip = false;
 					boolean tCanAccess = false;
 					try {
-						tCanAccess = tf.canAccess(this.src);
+						tCanAccess = tf.isAccessible();
 					} catch (Exception ex) {
 						skip = true;
 					}
