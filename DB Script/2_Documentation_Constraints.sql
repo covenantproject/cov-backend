@@ -9,23 +9,13 @@ ALTER TABLE release1.users ADD CONSTRAINT users_admin_gender_check CHECK (admin_
 
 ALTER TABLE release1.users ADD CONSTRAINT users_bio_sex_check CHECK (biological_sex IN ('biosex_male', 'biosex_female', 'biosex_other') );
 
-ALTER TABLE release1.users ADD CONSTRAINT users_title CHECK (title IN ('title_mr', 'title_ms', 'title_mrs', 'title_miss', 'title_dr', 'title_prof') );
+ALTER TABLE release1.users ADD CONSTRAINT users_ls_title CHECK (ls_title IN ('title_mr', 'title_ms', 'title_mrs', 'title_miss', 'title_dr', 'title_prof') );
 
-COMMENT ON TABLE release1.users IS 'Contains common information about all users. The two types of users are patients (for the lack fo a better name for those under quarantine, stay at home or isolation) and health professionals - this table contains common information about both types. (Note: ProfilePhoto field has been removed in this version, and a foreign key to the UserPhoto table has been added).';
+COMMENT ON TABLE release1.users IS 'Contains common information about all users. The two types of users are patients (for the lack fo a better name for those under quarantine, stay at home or isolation) and health professionals - this table contains common information about both types. (Note: ProfilePhoto field has been removed in this version, and a foreign key to the UserPhoto table has been added). ls_* fields are in English 26-character Lain script. ns_* fields are in native script including extended Latin characters.';
 
 COMMENT ON COLUMN release1.users.user_id IS 'Primary key for all users (both patients and health professionals)';
 
-COMMENT ON COLUMN release1.users.title IS 'Title can be Mr, Ms, Mrs, Miss, Dr, Prof, or other regional variations.';
-
-COMMENT ON COLUMN release1.users.first_name IS 'Required. First name(s) or Given name(s) of an individual. In some countries, middle name(s) may also be used in addition to First Name(s). If not known or ''no first name''.';
-
-COMMENT ON COLUMN release1.users.middle_name IS 'Optional. Middle name(s) of an individual. Some countries use separate First Name(s) and Middle Name(s) - in such cases, the Middle Name(s) are saved in this field. May also store middle initial(s) instead of middle name(s) based on the individual''s preference.';
-
-COMMENT ON COLUMN release1.users.last_name IS 'Required. Last name(s), Surname(s) or Family name(s) of an individual.';
-
-COMMENT ON COLUMN release1.users.maiden_name IS 'Optional. If the user changed the last name due to marriage, adoption or other reasons, enter this field will hold their previous last name.';
-
-COMMENT ON COLUMN release1.users.display_name IS 'Optional. This may just be the first name, or ''Dr. Last Name'' or an individual, that will be shown on the user interface.';
+COMMENT ON COLUMN release1.users.ls_title IS 'Title can be Mr, Ms, Mrs, Miss, Dr, Prof, or other regional variations.';
 
 COMMENT ON COLUMN release1.users.ls_first_name IS 'Optional. First name in Latin (English) script if their name was entered in a different language script. This might be entered by an administrative user.';
 
@@ -33,15 +23,39 @@ COMMENT ON COLUMN release1.users.ls_middle_name IS 'Optional. Middle name in Lat
 
 COMMENT ON COLUMN release1.users.ls_last_name IS 'Optional. Last name in Latin (English) script if their name was entered in a different language script. This might be entered by an administrative user.';
 
+COMMENT ON COLUMN release1.users.ls_suffix IS 'Optional. Suffix may include I, II, III, Jr, Sr, Esq, etc.';
+
+COMMENT ON COLUMN release1.users.ls_degree IS 'Optional. It is customary to include earned or honorary degrees above the bachelors level. However, for some health care workers (such as nurses), bachelors degrees or fellowships may be included. Do not use periods within a degree - e.g. use ''MD'' instead of ''M.D.'' Separate multiple degrees with commas, e.g. ''MD, PhD''';
+
 COMMENT ON COLUMN release1.users.ls_maiden_name IS 'Optional. Maiden name in Latin (English) script if their name was entered in a different language script. This might be entered by an administrative user.';
 
 COMMENT ON COLUMN release1.users.ls_display_name IS 'Optional. Display name in Latin (English) script if their name was entered in a different language script. This might be entered by an administrative user.';
 
+COMMENT ON COLUMN release1.users.ls_alias_name_1 IS 'Optional. If the person is known by an alternative name, enter the full alternative name.';
+
+COMMENT ON COLUMN release1.users.ls_alias_name_2 IS 'Optional. If the person is known by another alternative name, enter the full alternative name.';
+
+COMMENT ON COLUMN release1.users.ns_title IS 'Optional. Title in native script.';
+
+COMMENT ON COLUMN release1.users.ns_first_name IS 'Optional. First name(s) or Given name(s) in native script';
+
+COMMENT ON COLUMN release1.users.ns_middle_name IS 'Optional. Middle name(s) in native script';
+
+COMMENT ON COLUMN release1.users.ns_last_name IS 'Optional. Last name in native script.';
+
+COMMENT ON COLUMN release1.users.ns_suffix IS 'Optional. Suffix in native script.';
+
+COMMENT ON COLUMN release1.users.ns_degree IS 'Optional. Degrees in native script.';
+
+COMMENT ON COLUMN release1.users.ns_maiden_name IS 'Optional. Maiden name in native script.';
+
+COMMENT ON COLUMN release1.users.ns_display_name IS 'Optional. Display name in native script.';
+
+COMMENT ON COLUMN release1.users.ns_alias_name_1 IS 'Optional. Full alias name 1 in native script.';
+
+COMMENT ON COLUMN release1.users.ns_alias_name_2 IS 'Optional. Full alias name 2 in native script.';
+
 COMMENT ON COLUMN release1.users.standard_name IS 'Standardized full name of the user in the machine readable passport official travel document line 3 format (even if the user does not have a passport) - Uppercase English letters and spaces only. Max length is 30 characters. Surname, followed by two spaces, followed by given names. If there are multiple given (first and middle) names or multiple surnames, they are separated by single spaces.';
-
-COMMENT ON COLUMN release1.users.suffix IS 'Optional. Suffix may include I, II, III, Jr, Sr, Esq, etc.';
-
-COMMENT ON COLUMN release1.users.degree IS 'Optional. It is customary to include earned or honorary degrees above the bachelors level. However, for some health care workers (such as nurses), bachelors degrees or fellowships may be included. Do not use periods within a degree - e.g. use ''MD'' instead of ''M.D.'' Separate multiple degrees with commas, e.g. ''MD, PhD''';
 
 COMMENT ON COLUMN release1.users.date_of_birth IS 'Date of birth in YYYY-MM-DD format. If date of birth of an individual is not known, leave it blank and fill the ApproximateAge field instead.';
 

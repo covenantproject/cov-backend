@@ -11,21 +11,29 @@ CREATE SCHEMA release1;
 CREATE TABLE release1.users
 (
     user_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
-    title character varying(16),
-	first_name character varying(32),
-	middle_name character varying(32),
-	last_name character varying(32),
-	maiden_name character varying(32),
-	display_name character varying(16),
-	-- The ls_*_name fields are updated typically by a staff member if the entered name is in a non-Latin script.
-	ls_first_name character varying(32), -- ls denotes Latin script. 
+	-- The ls_* fields are in Latin English 26-character script. (ls denotes latin script)
+	ls_title character varying(16),
+    ls_first_name character varying(32),
 	ls_middle_name character varying(32),
 	ls_last_name character varying(32),
 	ls_maiden_name character varying(32),
 	ls_display_name character varying(16),
-	standard_name character varying(30),
-	suffix character varying(16),
-	degree character varying(16),
+	ls_suffix character varying(16),
+	ls_degree character varying(16),
+	ls_alias_name_1 character varying(32),
+	ls_alias_name_2 character varying(32),
+	-- the ns_* fields are in native script of the user, including extended Latin characters (with diacritics/accent marks)
+    ns_title character varying(16),
+	ns_first_name character varying(32),
+	ns_middle_name character varying(32),
+	ns_last_name character varying(32),
+	ns_maiden_name character varying(32),
+	ns_display_name character varying(16),
+	ns_suffix character varying(16),
+	ns_degree character varying(16),
+	ns_alias_name_1 character varying(32),
+	ns_alias_name_2 character varying(32),
+	standard_name character varying(30), -- standardized passport format in English script
     date_of_birth timestamp without time zone,
 	age_yrs smallint   ,
     admin_gender character varying(32),
