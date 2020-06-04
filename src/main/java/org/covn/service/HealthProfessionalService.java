@@ -17,7 +17,11 @@ public class HealthProfessionalService {
 	
 	@Autowired
 	private EntityManager entityManager;
-
+	
+	// TODO - many fields are common for both health professionals and patients. need a way to reuse this common logic.
+	// rather than using custom stored procedures for health professionals only.
+	
+	
 	public String saveHealthPro(HealthProfessionalDto healthProf) {
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("registerNewHealthPro")
 				.registerStoredProcedureParameter("title", String.class, ParameterMode.IN)
