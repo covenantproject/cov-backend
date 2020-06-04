@@ -3,13 +3,11 @@ package org.covn.dto;
 import java.util.Date;
 
 public class HealthProfessionalDto {
-
+	
+	// TODO - this first set of fields need to be updated to be the same as in RegisterDto.java
 	// [Senthil's question]:
 	// what is the best way to reuse what's defined in RegisterDto.java?
 	// also, how to use the same service logic for both health professional and patient registration for these common fields?
-
-	// TODO - this first set of fields need to be updated to be the same as in RegisterDto.java
-	// these fields are out of date in this file but they are updated in RegisterDto.java
 	
 	private String title;
 	private String firstName;
