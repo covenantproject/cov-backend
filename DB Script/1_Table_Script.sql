@@ -10,7 +10,7 @@ CREATE SCHEMA release1;
 --Formerly users. Using plural for this table name because user is a reserved keyword
 CREATE TABLE release1.users
 (
-    user_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+    user_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	-- The ls_* fields are in Latin English 26-character script. (ls denotes latin script)
 	ls_title character varying(16),
     ls_first_name character varying(32),
@@ -46,7 +46,7 @@ CREATE TABLE release1.users
 --formerly UserPhotos. Moved fkey to this from users table, reordering CREATE script
 CREATE TABLE release1.user_photo
 (
-    photo_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+    photo_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	user_id    integer  NOT NULL ,
     photo_type character varying(32) DEFAULT 'phototype_profile',
 	photo_path  character varying(255),
@@ -61,7 +61,7 @@ CREATE TABLE release1.user_photo
 --Formerly LocationHierarchy
 CREATE TABLE release1.location_hierarchy
 (
-    location_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+    location_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
     location_name character varying(255),
 	location_abbr character varying(32),
 	assign_patients boolean DEFAULT false,
@@ -79,19 +79,19 @@ CREATE TABLE release1.location_hierarchy
 --Formerly HealthProfessional.
 CREATE TABLE release1.health_pro
 (
-    health_pro_id integer NOT NULL,
-	job_id integer NOT NULL DEFAULT 1,
+    health_pro_job_id integer GENERATED ALWAYS AS IDENTITY NOT NULL, -- a single user may have multiple jobs
+	user_id integer NOT NULL, -- fk to users.user_id
     supervisor_id integer,
     job_title character varying(32),
     work_location_id integer, -- work location may denote a specific office
     is_active boolean DEFAULT true,
-    CONSTRAINT health_pro_pkey PRIMARY KEY (health_pro_id), -- one person may have multiple jobs in different offices, so creating a composite primary key that includes office location
-    CONSTRAINT health_pro_health_pro_id_fkey FOREIGN KEY (health_pro_id)
+    CONSTRAINT health_pro_pkey PRIMARY KEY (health_pro_job_id), -- one person may have multiple jobs in different offices, so creating a composite primary key that includes office location
+    CONSTRAINT health_pro_user_id_fkey FOREIGN KEY (user_id)
         REFERENCES release1.users(user_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT health_pro_supervisor_id_fkey FOREIGN KEY (supervisor_id)
-        REFERENCES release1.health_pro (health_pro_id) MATCH SIMPLE
+        REFERENCES release1.health_pro (health_pro_job_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
     CONSTRAINT health_pro_work_location_id FOREIGN KEY (work_location_id)
@@ -104,7 +104,7 @@ CREATE TABLE release1.health_pro
 --Formerly Patient. Some columns moved to Demographics table
 CREATE TABLE release1.patient
 (
-    patient_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+    patient_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	household_id integer,
 	has_preexisting_conditions boolean,
 	has_medications boolean,
@@ -152,9 +152,9 @@ CREATE  TABLE release1.demographics (
 --Formerly PatientProviderRelationship
 CREATE TABLE release1.patient_provider_rel
 (
-    pat_pro_rel_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+    pat_pro_rel_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	patient_id integer,
-	health_pro_id integer,
+	health_pro_job_id integer,
 	rel_type character varying(32),
 	rel_start_date timestamp without time zone,
 	rel_end_date timestamp without time zone,
@@ -164,8 +164,8 @@ CREATE TABLE release1.patient_provider_rel
         REFERENCES release1.patient (patient_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-	CONSTRAINT patient_provider_rel_health_pro_id_fkey FOREIGN KEY (health_pro_id)
-        REFERENCES release1.health_pro (health_pro_id) MATCH SIMPLE
+	CONSTRAINT patient_provider_rel_health_pro_job_id_fkey FOREIGN KEY (health_pro_job_id)
+        REFERENCES release1.health_pro (health_pro_job_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
 	CONSTRAINT patient_provider_location_id_fkey FOREIGN KEY (location_id)
@@ -176,7 +176,7 @@ CREATE TABLE release1.patient_provider_rel
 
 --Formerly: CovidContact
 CREATE  TABLE release1.covid_contact ( 
-	contact_id          integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+	contact_id          integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	contact_user_id_1     integer not null  ,
 	contact_user_id_2     integer not null   ,
 	contact_time_start   timestamp without time zone   ,
@@ -241,7 +241,7 @@ CREATE  TABLE release1.phone_number (
 --Address
 CREATE TABLE release1.address
 (
-    address_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+    address_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	user_id integer,
     address_type character varying(10),
 	company_name character varying(10),
@@ -265,7 +265,7 @@ CREATE TABLE release1.address
 --External Identifier
 CREATE TABLE release1.external_identifier
 (
-    identification_id integer NOT NULL GENERATED ALWAYS AS IDENTITY NOT NULL,
+    identification_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	user_id integer,
     id_type character varying(32),
 	id_type_uri character varying(10),
@@ -284,7 +284,7 @@ CREATE TABLE release1.external_identifier
 
 --PreExistingCondition
 CREATE  TABLE release1.pre_existing_condition ( 
-	pre_existing_condition_id integer GENERATED ALWAYS AS IDENTITY  ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+	pre_existing_condition_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	patient_id          integer  NOT NULL ,
 	pre_existing_condition_code_system character varying(32)   ,
 	pre_existing_condtion_concept_code character varying(32)   ,
@@ -302,7 +302,7 @@ CREATE  TABLE release1.pre_existing_condition (
 
 --Formerly: PreExistingConditionsCovidDenorm. Moving up due to natural sequence
 CREATE  TABLE release1.pre_existing_condition_covid_denorm ( 
-	covid_pre_existing_condition_id integer GENERATED ALWAYS AS IDENTITY  ( INCREMENT 1 START 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1 ),
+	covid_pre_existing_condition_id integer GENERATED ALWAYS AS IDENTITY NOT NULL,
 	patient_id          integer   NOT NULL ,
 	pre_existing_condition_id integer,
 	copd                 bool   ,
@@ -330,7 +330,7 @@ CREATE  TABLE release1.pre_existing_condition_covid_denorm (
 
 --Allergy
 CREATE  TABLE release1.allergy ( 
-	allergy_id          integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	allergy_id          integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	patient_id          integer  NOT NULL ,
 	allergen_type       character varying(32)   ,
 	allergen_code_system character varying(32)   ,
@@ -353,7 +353,7 @@ CREATE  TABLE release1.allergy (
 
 --Formerly: Medication
 CREATE  TABLE release1.medication ( 
-	medication_id       integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	medication_id       integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	patient_id          integer NOT NULL  ,
 	ingredient_code_system character varying(32)   ,
 	ingredient_concept_code character varying(32)   ,
@@ -409,7 +409,7 @@ CREATE  TABLE release1.patient_status (
 
 --Formerly: LocationHistory
 CREATE  TABLE release1.device_location ( 
-	device_location_id   integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	device_location_id   integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	device_app_id        integer  NOT NULL ,
 	latitude           numeric(10, 8)   , -- -90 to +90 degrees
 	longitude          numeric(11, 8)   , -- -180 to +180 degrees
@@ -440,7 +440,7 @@ CREATE  TABLE release1.device_location (
 --CREATE TYPE ResponseType AS ENUM ('Phone', 'In Person');
 --Formerly: UserRequestHistory
 CREATE  TABLE release1.patient_request_history ( 
-	patient_request_history_id integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	patient_request_history_id integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	patient_id          integer  NOT NULL ,
 	request_type        character varying(16)   ,
 	request_date_time    timestamp DEFAULT timezone('utc'::text, now())  ,
@@ -463,7 +463,7 @@ CREATE  TABLE release1.patient_request_history (
 
 --Formerly: PatientDeviceApp
 CREATE  TABLE release1.phone_device_app ( 
-	device_app_id        integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	device_app_id        integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	phone_number_id      integer  NOT NULL ,
 	device_imei         character varying(20)   ,
 	device_mac_id        character varying(20)   ,
@@ -484,7 +484,7 @@ CREATE  TABLE release1.phone_device_app (
 
 --Formerly: AppHeartbeatHistory. Moved up due to fkey reference.
 CREATE  TABLE release1.app_heartbeat ( 
-	app_heartbeat_id     integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	app_heartbeat_id     integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	device_app_id        integer  NOT NULL ,
 	heartbeat_date_time  timestamp DEFAULT timezone('utc'::text, now())  ,
 	heartbeat_ip4_address character varying(16)   ,
@@ -501,7 +501,7 @@ CREATE  TABLE release1.app_heartbeat (
 --CREATE TYPE ProgressType AS ENUM ('Worsening', 'Improving', 'Stay the same');
 --Formerly: HealthCheckHistory
 CREATE  TABLE release1.health_check_history ( 
-	health_history_id    integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	health_history_id    integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	patient_id          integer  NOT NULL ,
 	entered_by_user_id    integer   ,
 	health_check_by_user_type character varying(32)   ,
@@ -542,7 +542,7 @@ CREATE  TABLE release1.health_check_history (
 
 --Formerly: GeofenceLocation
 CREATE  TABLE release1.patient_geofenced_location ( 
-	geofenced_location_id integer GENERATED ALWAYS AS IDENTITY  NOT NULL ,
+	geofenced_location_id integer GENERATED ALWAYS AS IDENTITY NOT NULL ,
 	patient_id          integer  NOT NULL ,
 	address_id integer   ,
 	latitude           numeric(10, 8)   , -- -90 to +90 degrees
