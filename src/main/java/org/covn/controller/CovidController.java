@@ -1,7 +1,7 @@
 package org.covn.controller;
 
-import org.covn.dto.RegisterDto;
-import org.covn.service.CovidService;
+import org.covn.dto.UserDto;
+import org.covn.service.UserService;
 import org.covn.vo.Register;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,10 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class CovidController {
 
     @Autowired
-    private CovidService covidService;
+    private UserService covidService;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public RegisterDto getUserProfileInfo(@RequestParam Long userId) {
+    public UserDto getUserProfileInfo(@RequestParam Long userId) {
         return covidService.getUserProfile(userId);
     }
 

@@ -1,6 +1,6 @@
 package org.covn.service;
 
-import org.covn.dto.RegisterDto;
+import org.covn.dto.UserDto;
 import org.covn.vo.AddressEntity;
 import org.covn.vo.PhoneNumberEntity;
 import org.covn.vo.PhotoEntity;
@@ -21,10 +21,49 @@ import java.nio.file.StandardCopyOption;
 /**
  * @author SunilAnand
  * @since 2020-04-14
+ * 
+ * Modified by Senthil N
  **/
 @Component
-public class CovidService {
+public class UserService {
 
+	/*
+	 * UserService should both register users and retrieve their information
+	 * Formerly called CovidService
+	 * 
+	 * Feel free to delete all the old methods and properties
+	 * 
+	 */
+	
+	
+	
+	private void registerNewUser(UserDto userDto) {
+		
+	}
+	
+	private UserDto getUserProfile (int userId) {
+		return null;
+	}
+
+	private void saveUserProfile (UserDto userDto) {
+	}
+	
+
+	private void uploadPhoto () {
+		
+	}
+	
+	
+	private void getPhoto () {
+		
+	}
+	
+	
+	
+	// everything below is old stuff, feel free to change/remove
+	
+	
+	
     @Value("${upload.path}")
     private String path;
 
@@ -38,9 +77,9 @@ public class CovidService {
         return user.getUserId();
     }
 
-    public RegisterDto getUserProfile(Long userId) {
+    public UserDto getUserProfile(Long userId) {
         UserEntity user = entityManager.find(UserEntity.class, userId); 
-        RegisterDto userDetails=new RegisterDto();
+        UserDto userDetails=new UserDto();
       
         if (user == null) {
             throw new RuntimeException("User with id " + userId + " does not exist");
@@ -85,8 +124,8 @@ public class CovidService {
         return photo.getPhotoId();
     }
 
-    private RegisterDto convertToVo(UserEntity user) {
-    	RegisterDto register = new RegisterDto();
+    private UserDto convertToVo(UserEntity user) {
+    	UserDto register = new UserDto();
         register.setTitle(user.getTitle());
         register.setFirstName(user.getFirstName());
         register.setMiddleName(user.getMiddleName());

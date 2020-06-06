@@ -2,36 +2,50 @@ package org.covn.dto;
 
 import java.util.Date;
 
-public class HealthProfessionalDto {
+/* Fields that are specific to health professionals, in addition to common fields in UserDto
+ * 
+ */
 
-	// [Senthil's question]:
-	// what is the best way to reuse what's defined in RegisterDto.java?
-	// also, how to use the same service logic for both health professional and patient registration for these common fields?
+public class HealthProfessionalDto extends UserDto {
 
-	// TODO - this first set of fields need to be updated to be the same as in RegisterDto.java
-	// these fields are out of date in this file but they are updated in RegisterDto.java
+	// Following of fields are unique to health professionals. These are in addition to common fields in UserDto
+	// A single health professional user may have multiple jobs. Following fields are unique to each job.
 	
-	private String title;
-	private String firstName;
-	private String lastName;
-	private String suffix;
-	private String gender;
-	private Date dateOfBirth;
-	private String emailAddress;
-	private String phoneNumber;
-	
-	// this second set of fields are unique to health professionals. these are in addition to common fields in RegisterDto.java
-	
-	private int healthProJobId; // A single health professional may have multiple jobs. 
-	// Start with 1 for the first job of each person and then increment automatically 
+	private int healthProJobId; 
 	private String healthProJobTitle;
 	private int healthProWorkLocationId;
 	private int supervisorId;
 	private int isActive; // default true. set to false if this person doesn't do this job anymore instead of deleting the row
-	
-	// TODO - add getters and setters
-	
-	
-	
+
+	public int getHealthProJobId() {
+		return healthProJobId;
+	}
+	public void setHealthProJobId(int healthProJobId) {
+		this.healthProJobId = healthProJobId;
+	}
+	public String getHealthProJobTitle() {
+		return healthProJobTitle;
+	}
+	public void setHealthProJobTitle(String healthProJobTitle) {
+		this.healthProJobTitle = healthProJobTitle;
+	}
+	public int getHealthProWorkLocationId() {
+		return healthProWorkLocationId;
+	}
+	public void setHealthProWorkLocationId(int healthProWorkLocationId) {
+		this.healthProWorkLocationId = healthProWorkLocationId;
+	}
+	public int getSupervisorId() {
+		return supervisorId;
+	}
+	public void setSupervisorId(int supervisorId) {
+		this.supervisorId = supervisorId;
+	}
+	public int getIsActive() {
+		return isActive;
+	}
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
 
 }
