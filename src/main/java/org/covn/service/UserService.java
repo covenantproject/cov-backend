@@ -1,11 +1,7 @@
 package org.covn.service;
 
 import org.covn.dto.UserDto;
-import org.covn.vo.AddressEntity;
-import org.covn.vo.PhoneNumberEntity;
-import org.covn.vo.PhotoEntity;
-import org.covn.vo.Register;
-import org.covn.vo.UserEntity;
+import org.covn.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,49 +17,44 @@ import java.nio.file.StandardCopyOption;
 /**
  * @author SunilAnand
  * @since 2020-04-14
- * 
+ * <p>
  * Modified by Senthil N
  **/
 @Component
 public class UserService {
 
-	/*
-	 * UserService should both register users and retrieve their information
-	 * Formerly called CovidService
-	 * 
-	 * Feel free to delete all the old methods and properties
-	 * 
-	 */
-	
-	
-	
-	private void registerNewUser(UserDto userDto) {
-		
-	}
-	
-	private UserDto getUserProfile (int userId) {
-		return null;
-	}
+    /*
+     * UserService should both register users and retrieve their information
+     * Formerly called CovidService
+     *
+     * Feel free to delete all the old methods and properties
+     *
+     */
+    private void registerNewUser(UserDto userDto) {
 
-	private void saveUserProfile (UserDto userDto) {
-	}
-	
+    }
 
-	private void uploadPhoto () {
-		
-	}
-	
-	
-	private void getPhoto () {
-		
-	}
-	
-	
-	
-	// everything below is old stuff, feel free to change/remove
-	
-	
-	
+    private UserDto getUserProfile(int userId) {
+        return null;
+    }
+
+    private void saveUserProfile(UserDto userDto) {
+    }
+
+
+    private void uploadPhoto() {
+
+    }
+
+
+    private void getPhoto() {
+
+    }
+
+
+    // everything below is old stuff, feel free to change/remove
+
+
     @Value("${upload.path}")
     private String path;
 
@@ -78,21 +69,21 @@ public class UserService {
     }
 
     public UserDto getUserProfile(Long userId) {
-        UserEntity user = entityManager.find(UserEntity.class, userId); 
-        UserDto userDetails=new UserDto();
-      
+        UserEntity user = entityManager.find(UserEntity.class, userId);
+        UserDto userDetails = new UserDto();
+
         if (user == null) {
             throw new RuntimeException("User with id " + userId + " does not exist");
-        }else {
-        	 if(user.getPhotoId()!=null) {
-            	 PhotoEntity photo=entityManager.find(PhotoEntity.class, user.getPhotoId()); 
-            	 userDetails=convertToVo(user);
-            	 userDetails.setPhotoPath(photo.getPhotoPath()); 
-            }else {
-            	userDetails=convertToVo(user);
+        } else {
+            if (user.getPhotoId() != null) {
+                PhotoEntity photo = entityManager.find(PhotoEntity.class, user.getPhotoId());
+                userDetails = convertToVo(user);
+                userDetails.setPhotoPath(photo.getPhotoPath());
+            } else {
+                userDetails = convertToVo(user);
             }
         }
-       
+
         return userDetails;
     }
 
@@ -125,21 +116,21 @@ public class UserService {
     }
 
     private UserDto convertToVo(UserEntity user) {
-    	UserDto register = new UserDto();
-        register.setTitle(user.getTitle());
-        register.setFirstName(user.getFirstName());
-        register.setMiddleName(user.getMiddleName());
-        register.setLastName(user.getLastName());
-        register.setPreferredName(user.getPreferredName());
-        register.setShortName(user.getShortName());
-        register.setSuffix(user.getSuffix());
+        UserDto register = new UserDto();
+        register.setLsTitle(user.getTitle());
+        register.setLsFirstName(user.getFirstName());
+        register.setLsMiddleName(user.getMiddleName());
+        register.setLsLastName(user.getLastName());
+        //register.setLsPreferredName(user.getPreferredName());
+        //register.setLsShortName(user.getShortName());
+        register.setLsSuffix(user.getSuffix());
         register.setDob(user.getDateOfBirth());
-        register.setGender(user.getGender());
-        if(user.getAddress()!=null) {
-        	register.setAddress(user.getAddress().getAddressLine1());
+        //register.setLsGender(user.getGender());
+        if (user.getAddress() != null) {
+            register.setAddressLine1(user.getAddress().getAddressLine1());
         }
-        if(user.getPhoneNumber()!=null) {
-        	register.setMobileNo(user.getPhoneNumber().getPhoneNumber());
+        if (user.getPhoneNumber() != null) {
+            register.setPhoneNumber(String.valueOf(user.getPhoneNumber().getPhoneNumber()));
         }
         return register;
     }

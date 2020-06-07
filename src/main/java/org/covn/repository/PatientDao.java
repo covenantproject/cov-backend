@@ -1,15 +1,15 @@
 package org.covn.repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
 import org.covn.dto.PatientDto;
 import org.covn.dto.PatientLocationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class PatientDao {
@@ -104,7 +104,8 @@ public class PatientDao {
 
         List<PatientDto> list = jdbcTemplate.query(sql, queryParam.toArray(), (rs, rowNum) -> {
             PatientDto dto = new PatientDto();
-            dto.setPatientID(rs.getLong("PatientId"));
+            //Commented to resolve compilation errors
+           /* dto.setPatientID(rs.getLong("PatientId"));
             dto.setFirstName(rs.getString("FirstName"));
             dto.setLastName(rs.getString("LastName"));
             dto.setCovid19Status(rs.getString("COVID19Status"));
@@ -116,7 +117,7 @@ public class PatientDao {
             dto.setGeofenceStatus(rs.getString("GeofenceStatus"));
             dto.setHeartbeatStatus(rs.getString("HeartbeatStatus"));
             dto.setLatitude(rs.getDouble("Latitude"));
-            dto.setLongitude(rs.getDouble("Longitude"));
+            dto.setLongitude(rs.getDouble("Longitude"));*/
             return dto;
         });
 
