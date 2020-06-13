@@ -1,10 +1,9 @@
 package org.covn.controller;
 
+import org.covn.dto.PatientDto;
 import org.covn.dto.UserDto;
 import org.covn.service.UserService;
-import org.covn.vo.Register;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,8 +24,8 @@ public class CovidController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Long registerUser(@RequestBody Register register) {
-        return covidService.registerUser(register);
+    public Long registerUser(@RequestBody PatientDto register) {
+        return null;
     }
 
     @RequestMapping(value = "/doUpload", method = RequestMethod.POST, consumes = {"multipart/form-data"})

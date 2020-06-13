@@ -104,19 +104,7 @@ public class PatientDao {
 
         List<PatientDto> list = jdbcTemplate.query(sql, queryParam.toArray(), (rs, rowNum) -> {
             PatientDto dto = new PatientDto();
-            dto.setPatientID(rs.getLong("PatientId"));
-            dto.setFirstName(rs.getString("FirstName"));
-            dto.setLastName(rs.getString("LastName"));
-            dto.setCovid19Status(rs.getString("COVID19Status"));
-            dto.setQuarantineStatus(rs.getString("QuarantineStatus"));
-            dto.setIsolationStatus(rs.getString("IsolationStatus"));
-            dto.setHealthRequestStatus(rs.getString("HealthStatusAlert"));
-            dto.setQuarantineRequestStatus(rs.getString("QuarantineRequestStatus"));
-            dto.setSuppliesRequestStatus(rs.getString("SuppliesRequestStatus"));
-            dto.setGeofenceStatus(rs.getString("GeofenceStatus"));
-            dto.setHeartbeatStatus(rs.getString("HeartbeatStatus"));
-            dto.setLatitude(rs.getDouble("Latitude"));
-            dto.setLongitude(rs.getDouble("Longitude"));
+
             return dto;
         });
 
