@@ -2,13 +2,11 @@ package org.covn.model.db;
 
 import javax.persistence.Entity;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
+import java.util.Date;
 import javax.persistence.JoinColumn;
-import java.sql.Timestamp;
 import javax.persistence.OneToMany;
 import java.util.Set;
+import org.covn.model.BaseModel;
 import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
@@ -31,23 +29,8 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	@Column(name = "user_id", nullable = false, length = 10)
 	private Integer userId;
 
-	@Column(name = "title", nullable = true, length = 16)
-	private String title;
-
-	@Column(name = "first_name", nullable = true, length = 32)
-	private String firstName;
-
-	@Column(name = "middle_name", nullable = true, length = 32)
-	private String middleName;
-
-	@Column(name = "last_name", nullable = true, length = 32)
-	private String lastName;
-
-	@Column(name = "maiden_name", nullable = true, length = 32)
-	private String maidenName;
-
-	@Column(name = "display_name", nullable = true, length = 16)
-	private String displayName;
+	@Column(name = "ls_title", nullable = true, length = 16)
+	private String lsTitle;
 
 	@Column(name = "ls_first_name", nullable = true, length = 32)
 	private String lsFirstName;
@@ -64,17 +47,53 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	@Column(name = "ls_display_name", nullable = true, length = 16)
 	private String lsDisplayName;
 
+	@Column(name = "ls_suffix", nullable = true, length = 16)
+	private String lsSuffix;
+
+	@Column(name = "ls_degree", nullable = true, length = 16)
+	private String lsDegree;
+
+	@Column(name = "ls_alias_name_1", nullable = true, length = 32)
+	private String lsAliasName1;
+
+	@Column(name = "ls_alias_name_2", nullable = true, length = 32)
+	private String lsAliasName2;
+
+	@Column(name = "ns_title", nullable = true, length = 16)
+	private String nsTitle;
+
+	@Column(name = "ns_first_name", nullable = true, length = 32)
+	private String nsFirstName;
+
+	@Column(name = "ns_middle_name", nullable = true, length = 32)
+	private String nsMiddleName;
+
+	@Column(name = "ns_last_name", nullable = true, length = 32)
+	private String nsLastName;
+
+	@Column(name = "ns_maiden_name", nullable = true, length = 32)
+	private String nsMaidenName;
+
+	@Column(name = "ns_display_name", nullable = true, length = 16)
+	private String nsDisplayName;
+
+	@Column(name = "ns_suffix", nullable = true, length = 16)
+	private String nsSuffix;
+
+	@Column(name = "ns_degree", nullable = true, length = 16)
+	private String nsDegree;
+
+	@Column(name = "ns_alias_name_1", nullable = true, length = 32)
+	private String nsAliasName1;
+
+	@Column(name = "ns_alias_name_2", nullable = true, length = 32)
+	private String nsAliasName2;
+
 	@Column(name = "standard_name", nullable = true, length = 30)
 	private String standardName;
 
-	@Column(name = "suffix", nullable = true, length = 16)
-	private String suffix;
-
-	@Column(name = "degree", nullable = true, length = 16)
-	private String degree;
-
-	@Column(name = "date_of_birth", nullable = true, length = 29)
-	private Timestamp dateOfBirth;
+	@Column(name = "date_of_birth", nullable = true, length = 13)
+	private Date dateOfBirth;
 
 	@Column(name = "age_yrs", nullable = true, length = 5)
 	private Integer ageYrs;
@@ -112,10 +131,6 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "users")
-	private HealthPro healthPro;
-
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "users")
 	private Patient patient;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
@@ -130,6 +145,9 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usersByPrimaryUserId")
 	private Set<EmailAddress> emailAddressByPrimaryUserIdSet;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
+	private Set<HealthPro> healthProSet;
+
 
 	public Integer getUserId(){
 		return this.userId;
@@ -140,56 +158,11 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 		return this;
 	}
 
-	public String getTitle(){
-		return this.title;
+	public String getLsTitle(){
+		return this.lsTitle;
 	}
-	public Users setTitle(String title){
-		this.title = title;
-		
-		return this;
-	}
-
-	public String getFirstName(){
-		return this.firstName;
-	}
-	public Users setFirstName(String firstName){
-		this.firstName = firstName;
-		
-		return this;
-	}
-
-	public String getMiddleName(){
-		return this.middleName;
-	}
-	public Users setMiddleName(String middleName){
-		this.middleName = middleName;
-		
-		return this;
-	}
-
-	public String getLastName(){
-		return this.lastName;
-	}
-	public Users setLastName(String lastName){
-		this.lastName = lastName;
-		
-		return this;
-	}
-
-	public String getMaidenName(){
-		return this.maidenName;
-	}
-	public Users setMaidenName(String maidenName){
-		this.maidenName = maidenName;
-		
-		return this;
-	}
-
-	public String getDisplayName(){
-		return this.displayName;
-	}
-	public Users setDisplayName(String displayName){
-		this.displayName = displayName;
+	public Users setLsTitle(String lsTitle){
+		this.lsTitle = lsTitle;
 		
 		return this;
 	}
@@ -239,6 +212,132 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 		return this;
 	}
 
+	public String getLsSuffix(){
+		return this.lsSuffix;
+	}
+	public Users setLsSuffix(String lsSuffix){
+		this.lsSuffix = lsSuffix;
+		
+		return this;
+	}
+
+	public String getLsDegree(){
+		return this.lsDegree;
+	}
+	public Users setLsDegree(String lsDegree){
+		this.lsDegree = lsDegree;
+		
+		return this;
+	}
+
+	public String getLsAliasName1(){
+		return this.lsAliasName1;
+	}
+	public Users setLsAliasName1(String lsAliasName1){
+		this.lsAliasName1 = lsAliasName1;
+		
+		return this;
+	}
+
+	public String getLsAliasName2(){
+		return this.lsAliasName2;
+	}
+	public Users setLsAliasName2(String lsAliasName2){
+		this.lsAliasName2 = lsAliasName2;
+		
+		return this;
+	}
+
+	public String getNsTitle(){
+		return this.nsTitle;
+	}
+	public Users setNsTitle(String nsTitle){
+		this.nsTitle = nsTitle;
+		
+		return this;
+	}
+
+	public String getNsFirstName(){
+		return this.nsFirstName;
+	}
+	public Users setNsFirstName(String nsFirstName){
+		this.nsFirstName = nsFirstName;
+		
+		return this;
+	}
+
+	public String getNsMiddleName(){
+		return this.nsMiddleName;
+	}
+	public Users setNsMiddleName(String nsMiddleName){
+		this.nsMiddleName = nsMiddleName;
+		
+		return this;
+	}
+
+	public String getNsLastName(){
+		return this.nsLastName;
+	}
+	public Users setNsLastName(String nsLastName){
+		this.nsLastName = nsLastName;
+		
+		return this;
+	}
+
+	public String getNsMaidenName(){
+		return this.nsMaidenName;
+	}
+	public Users setNsMaidenName(String nsMaidenName){
+		this.nsMaidenName = nsMaidenName;
+		
+		return this;
+	}
+
+	public String getNsDisplayName(){
+		return this.nsDisplayName;
+	}
+	public Users setNsDisplayName(String nsDisplayName){
+		this.nsDisplayName = nsDisplayName;
+		
+		return this;
+	}
+
+	public String getNsSuffix(){
+		return this.nsSuffix;
+	}
+	public Users setNsSuffix(String nsSuffix){
+		this.nsSuffix = nsSuffix;
+		
+		return this;
+	}
+
+	public String getNsDegree(){
+		return this.nsDegree;
+	}
+	public Users setNsDegree(String nsDegree){
+		this.nsDegree = nsDegree;
+		
+		return this;
+	}
+
+	public String getNsAliasName1(){
+		return this.nsAliasName1;
+	}
+	public Users setNsAliasName1(String nsAliasName1){
+		this.nsAliasName1 = nsAliasName1;
+		
+		return this;
+	}
+
+	public String getNsAliasName2(){
+		return this.nsAliasName2;
+	}
+	public Users setNsAliasName2(String nsAliasName2){
+		this.nsAliasName2 = nsAliasName2;
+		
+		return this;
+	}
+
 	public String getStandardName(){
 		return this.standardName;
 	}
@@ -248,28 +347,10 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 		return this;
 	}
 
-	public String getSuffix(){
-		return this.suffix;
-	}
-	public Users setSuffix(String suffix){
-		this.suffix = suffix;
-		
-		return this;
-	}
-
-	public String getDegree(){
-		return this.degree;
-	}
-	public Users setDegree(String degree){
-		this.degree = degree;
-		
-		return this;
-	}
-
-	public Timestamp getDateOfBirth(){
+	public Date getDateOfBirth(){
 		return this.dateOfBirth;
 	}
-	public Users setDateOfBirth(Timestamp dateOfBirth){
+	public Users setDateOfBirth(Date dateOfBirth){
 		this.dateOfBirth = dateOfBirth;
 		
 		return this;
@@ -374,15 +455,6 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 		return this;
 	}
 
-	public HealthPro getHealthPro(){
-		return this.healthPro;
-	}
-	public Users setHealthPro(HealthPro healthPro){
-		this.healthPro = healthPro;
-		
-		return this;
-	}
-
 	public Patient getPatient(){
 		return this.patient;
 	}
@@ -428,11 +500,21 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 		return this;
 	}
 
+	public Set<HealthPro> getHealthProSet(){
+		return this.healthProSet;
+	}
+	public Users setHealthProSet(Set<HealthPro> healthProSet){
+		this.healthProSet = healthProSet;
+		
+		return this;
+	}
+
 
 	@Override
 	public Integer getKey() {
 		return this.userId;
 	}
+
 	
 	public static Users of(){
 		return new Users();

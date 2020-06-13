@@ -27,4 +27,86 @@ public class PatientDto extends UserDto {
     private boolean clinicalTrialStatus;
     private String comments;
     
+	public String getHouseholdId() {
+		return householdId;
+	}
+	public void setHouseholdId(String householdId) {
+		this.householdId = householdId;
+	}
+	public boolean isHasPreexistingConditions() {
+		return hasPreexistingConditions;
+	}
+	public void setHasPreexistingConditions(boolean hasPreexistingConditions) {
+		this.hasPreexistingConditions = hasPreexistingConditions;
+	}
+	public boolean isHasMedications() {
+		return hasMedications;
+	}
+	public void setHasMedications(boolean hasMedications) {
+		this.hasMedications = hasMedications;
+	}
+	public boolean isHasAllergies() {
+		return hasAllergies;
+	}
+	public void setHasAllergies(boolean hasAllergies) {
+		this.hasAllergies = hasAllergies;
+	}
+	public boolean isHasAdvanceDirectives() {
+		return hasAdvanceDirectives;
+	}
+	public void setHasAdvanceDirectives(boolean hasAdvanceDirectives) {
+		this.hasAdvanceDirectives = hasAdvanceDirectives;
+	}
+	public boolean isNeedsCarer() {
+		return needsCarer;
+	}
+	public void setNeedsCarer(boolean needsCarer) {
+		this.needsCarer = needsCarer;
+	}
+	public boolean isHasInterationalTravel() {
+		return hasInterationalTravel;
+	}
+	public void setHasInterationalTravel(boolean hasInterationalTravel) {
+		this.hasInterationalTravel = hasInterationalTravel;
+	}
+	public boolean isHasInterstateTravel() {
+		return hasInterstateTravel;
+	}
+	public void setHasInterstateTravel(boolean hasInterstateTravel) {
+		this.hasInterstateTravel = hasInterstateTravel;
+	}
+	public boolean isHasHighRiskFacilityVisit() {
+		return hasHighRiskFacilityVisit;
+	}
+	public void setHasHighRiskFacilityVisit(boolean hasHighRiskFacilityVisit) {
+		this.hasHighRiskFacilityVisit = hasHighRiskFacilityVisit;
+	}
+	public boolean isHighRiskHealthcareWorker() {
+		return isHighRiskHealthcareWorker;
+	}
+	public void setHighRiskHealthcareWorker(boolean isHighRiskHealthcareWorker) {
+		this.isHighRiskHealthcareWorker = isHighRiskHealthcareWorker;
+	}
+	public String getBloodGroup() {
+		return bloodGroup;
+	}
+	public void setBloodGroup(String bloodGroup) {
+		this.bloodGroup = bloodGroup;
+	}
+	public boolean isClinicalTrialStatus() {
+		return clinicalTrialStatus;
+	}
+	public void setClinicalTrialStatus(boolean clinicalTrialStatus) {
+		this.clinicalTrialStatus = clinicalTrialStatus;
+	}
+	public String getComments() {
+		return comments;
+	}
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+    
+    
+    
+    
 }

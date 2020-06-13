@@ -1,8 +1,8 @@
 package org.covn.controller;
 
-import org.covn.dto.PatientDto;
 import org.covn.dto.UserDto;
-import org.covn.service.UserService;
+import org.covn.model.db.Users;
+import org.covn.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,20 +16,22 @@ import org.springframework.web.multipart.MultipartFile;
 public class CovidController {
 
     @Autowired
-    private UserService covidService;
+    private PatientService service;
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public UserDto getUserProfileInfo(@RequestParam Long userId) {
-        return covidService.getUserProfile(userId);
+        //return covidService.getUserProfile(userId);
+    	return null;
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public Long registerUser(@RequestBody PatientDto register) {
-        return null;
+    public int registerUser(@RequestBody Users user) {
+        service.registerNewPatient(user);
+        return user.getUserId();
     }
 
     @RequestMapping(value = "/doUpload", method = RequestMethod.POST, consumes = {"multipart/form-data"})
     public Long upload(@RequestParam MultipartFile file) {
-        return covidService.uploadFile(file);
+        return null;
     }
 }
