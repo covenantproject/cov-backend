@@ -246,26 +246,29 @@ public class PatientStatus extends BaseModel<PatientStatus, Integer> implements 
 		PatientStatus copy = null;
 		if(depth > 0){
 			copy = new PatientStatus();
-				copy.patientStatusId = src.getPatientStatusId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.covid19Status = src.getCovid19Status();
-				copy.healthStatus = src.getHealthStatus();
-				copy.quarIsltStatus = src.getQuarIsltStatus();
-				copy.quarIsltStartDateTime = src.getQuarIsltStartDateTime();
-				copy.quarIsltEndDateTime = src.getQuarIsltEndDateTime();
-				copy.quarIsltRequestStatus = src.getQuarIsltRequestStatus();
-				copy.medicalRequestStatus = src.getMedicalRequestStatus();
-				copy.suppliesRequestStatus = src.getSuppliesRequestStatus();
-				copy.geofenceStatus = src.getGeofenceStatus();
-				copy.appHeartbeatStatus = src.getAppHeartbeatStatus();
-				copy.updatedDateTime = src.getUpdatedDateTime();
-				copy.latitude = src.getLatitude();
-				copy.longitude = src.getLongitude();
-				copy.comments = src.getComments();
+			copy.patientStatusId = src.getPatientStatusId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.covid19Status = src.getCovid19Status();
+			copy.healthStatus = src.getHealthStatus();
+			copy.quarIsltStatus = src.getQuarIsltStatus();
+			copy.quarIsltStartDateTime = src.getQuarIsltStartDateTime();
+			copy.quarIsltEndDateTime = src.getQuarIsltEndDateTime();
+			copy.quarIsltRequestStatus = src.getQuarIsltRequestStatus();
+			copy.medicalRequestStatus = src.getMedicalRequestStatus();
+			copy.suppliesRequestStatus = src.getSuppliesRequestStatus();
+			copy.geofenceStatus = src.getGeofenceStatus();
+			copy.appHeartbeatStatus = src.getAppHeartbeatStatus();
+			copy.updatedDateTime = src.getUpdatedDateTime();
+			copy.latitude = src.getLatitude();
+			copy.longitude = src.getLongitude();
+			copy.comments = src.getComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PatientStatus copy() {
+		return copy(this, copyDepth);
+	}	
 }

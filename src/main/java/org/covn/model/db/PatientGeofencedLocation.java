@@ -150,18 +150,21 @@ public class PatientGeofencedLocation extends BaseModel<PatientGeofencedLocation
 		PatientGeofencedLocation copy = null;
 		if(depth > 0){
 			copy = new PatientGeofencedLocation();
-				copy.geofencedLocationId = src.getGeofencedLocationId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.addressId = src.getAddressId();
-				copy.address = Address.copy(src.getAddress(), --depth);
-				copy.latitude = src.getLatitude();
-				copy.longitude = src.getLongitude();
-				copy.radiusMetres = src.getRadiusMetres();
-				copy.geofenceStatus = src.getGeofenceStatus();
+			copy.geofencedLocationId = src.getGeofencedLocationId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.addressId = src.getAddressId();
+			copy.address = Address.copy(src.getAddress(), --depth);
+			copy.latitude = src.getLatitude();
+			copy.longitude = src.getLongitude();
+			copy.radiusMetres = src.getRadiusMetres();
+			copy.geofenceStatus = src.getGeofenceStatus();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PatientGeofencedLocation copy() {
+		return copy(this, copyDepth);
+	}	
 }

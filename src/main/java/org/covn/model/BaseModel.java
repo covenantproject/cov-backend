@@ -7,6 +7,8 @@ import java.lang.reflect.Constructor;
 
 public abstract class BaseModel<T, K>{
 
+	public static final int copyDepth = 1;
+	
 	public abstract K getKey();
 
 	public static <T> T of(Class<T> clazz) {
@@ -17,5 +19,7 @@ public abstract class BaseModel<T, K>{
 			throw new RuntimeException(ex);
 		}
 	}
+	
+	public abstract T copy();
 	
 }

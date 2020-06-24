@@ -211,23 +211,25 @@ public class PhoneDeviceApp extends BaseModel<PhoneDeviceApp, Integer> implement
 		PhoneDeviceApp copy = null;
 		if(depth > 0){
 			copy = new PhoneDeviceApp();
-				copy.deviceAppId = src.getDeviceAppId();
-				copy.phoneNumberId = src.getPhoneNumberId();
-				copy.phoneNumber = PhoneNumber.copy(src.getPhoneNumber(), --depth);
-				copy.deviceImei = src.getDeviceImei();
-				copy.deviceMacId = src.getDeviceMacId();
-				copy.deviceOs = src.getDeviceOs();
-				copy.deviceOsVersion = src.getDeviceOsVersion();
-				copy.deviceManufacturer = src.getDeviceManufacturer();
-				copy.deviceModel = src.getDeviceModel();
-				copy.devicePhoneNumber = src.getDevicePhoneNumber();
-				copy.devicePhoneServiceProvider = src.getDevicePhoneServiceProvider();
-				copy.appVersion = src.getAppVersion();
-				copy.appInstalledDateTime = src.getAppInstalledDateTime();
-				copy.appHeartbeatSet = src.getAppHeartbeatSet();
+			copy.deviceAppId = src.getDeviceAppId();
+			copy.phoneNumberId = src.getPhoneNumberId();
+			copy.phoneNumber = PhoneNumber.copy(src.getPhoneNumber(), --depth);
+			copy.deviceImei = src.getDeviceImei();
+			copy.deviceMacId = src.getDeviceMacId();
+			copy.deviceOs = src.getDeviceOs();
+			copy.deviceOsVersion = src.getDeviceOsVersion();
+			copy.deviceManufacturer = src.getDeviceManufacturer();
+			copy.deviceModel = src.getDeviceModel();
+			copy.devicePhoneNumber = src.getDevicePhoneNumber();
+			copy.devicePhoneServiceProvider = src.getDevicePhoneServiceProvider();
+			copy.appVersion = src.getAppVersion();
+			copy.appInstalledDateTime = src.getAppInstalledDateTime();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PhoneDeviceApp copy() {
+		return copy(this, copyDepth);
+	}	
 }

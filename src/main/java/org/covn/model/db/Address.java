@@ -234,25 +234,26 @@ public class Address extends BaseModel<Address, Integer> implements java.io.Seri
 		Address copy = null;
 		if(depth > 0){
 			copy = new Address();
-				copy.addressId = src.getAddressId();
-				copy.userId = src.getUserId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.addressType = src.getAddressType();
-				copy.companyName = src.getCompanyName();
-				copy.inCareOf = src.getInCareOf();
-				copy.addressLine1 = src.getAddressLine1();
-				copy.addressLine2 = src.getAddressLine2();
-				copy.addressLine3 = src.getAddressLine3();
-				copy.city = src.getCity();
-				copy.districtCounty = src.getDistrictCounty();
-				copy.stateTerritory = src.getStateTerritory();
-				copy.postCode = src.getPostCode();
-				copy.country = src.getCountry();
-				copy.patientGeofencedLocationSet = src.getPatientGeofencedLocationSet();
-				copy.deviceLocationSet = src.getDeviceLocationSet();
+			copy.addressId = src.getAddressId();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.addressType = src.getAddressType();
+			copy.companyName = src.getCompanyName();
+			copy.inCareOf = src.getInCareOf();
+			copy.addressLine1 = src.getAddressLine1();
+			copy.addressLine2 = src.getAddressLine2();
+			copy.addressLine3 = src.getAddressLine3();
+			copy.city = src.getCity();
+			copy.districtCounty = src.getDistrictCounty();
+			copy.stateTerritory = src.getStateTerritory();
+			copy.postCode = src.getPostCode();
+			copy.country = src.getCountry();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public Address copy() {
+		return copy(this, copyDepth);
+	}	
 }

@@ -172,20 +172,23 @@ public class ExternalIdentifier extends BaseModel<ExternalIdentifier, Integer> i
 		ExternalIdentifier copy = null;
 		if(depth > 0){
 			copy = new ExternalIdentifier();
-				copy.identificationId = src.getIdentificationId();
-				copy.userId = src.getUserId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.idType = src.getIdType();
-				copy.idTypeUri = src.getIdTypeUri();
-				copy.issuingAuthorityName = src.getIssuingAuthorityName();
-				copy.issuingAuthorityId = src.getIssuingAuthorityId();
-				copy.issuingAuthorityUri = src.getIssuingAuthorityUri();
-				copy.idNumber = src.getIdNumber();
-				copy.issueDate = src.getIssueDate();
-				copy.expiryDate = src.getExpiryDate();
+			copy.identificationId = src.getIdentificationId();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.idType = src.getIdType();
+			copy.idTypeUri = src.getIdTypeUri();
+			copy.issuingAuthorityName = src.getIssuingAuthorityName();
+			copy.issuingAuthorityId = src.getIssuingAuthorityId();
+			copy.issuingAuthorityUri = src.getIssuingAuthorityUri();
+			copy.idNumber = src.getIdNumber();
+			copy.issueDate = src.getIssueDate();
+			copy.expiryDate = src.getExpiryDate();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public ExternalIdentifier copy() {
+		return copy(this, copyDepth);
+	}	
 }

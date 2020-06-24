@@ -174,20 +174,22 @@ public class PreExistingCondition extends BaseModel<PreExistingCondition, Intege
 		PreExistingCondition copy = null;
 		if(depth > 0){
 			copy = new PreExistingCondition();
-				copy.preExistingConditionId = src.getPreExistingConditionId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.preExistingConditionCodeSystem = src.getPreExistingConditionCodeSystem();
-				copy.preExistingCondtionConceptCode = src.getPreExistingCondtionConceptCode();
-				copy.preExistingCondtionDescription = src.getPreExistingCondtionDescription();
-				copy.isActive = src.getIsActive();
-				copy.isControlled = src.getIsControlled();
-				copy.durationNum = src.getDurationNum();
-				copy.durationUnits = src.getDurationUnits();
-				copy.preExistingConditionCovidDenormSet = src.getPreExistingConditionCovidDenormSet();
+			copy.preExistingConditionId = src.getPreExistingConditionId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.preExistingConditionCodeSystem = src.getPreExistingConditionCodeSystem();
+			copy.preExistingCondtionConceptCode = src.getPreExistingCondtionConceptCode();
+			copy.preExistingCondtionDescription = src.getPreExistingCondtionDescription();
+			copy.isActive = src.getIsActive();
+			copy.isControlled = src.getIsControlled();
+			copy.durationNum = src.getDurationNum();
+			copy.durationUnits = src.getDurationUnits();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PreExistingCondition copy() {
+		return copy(this, copyDepth);
+	}	
 }

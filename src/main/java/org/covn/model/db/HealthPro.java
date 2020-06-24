@@ -176,20 +176,21 @@ public class HealthPro extends BaseModel<HealthPro, Integer> implements java.io.
 		HealthPro copy = null;
 		if(depth > 0){
 			copy = new HealthPro();
-				copy.healthProJobId = src.getHealthProJobId();
-				copy.userId = src.getUserId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.supervisorId = src.getSupervisorId();
-				copy.parent = HealthPro.copy(src.getParent(), --depth);
-				copy.jobTitle = src.getJobTitle();
-				copy.workLocationId = src.getWorkLocationId();
-				copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
-				copy.isActive = src.getIsActive();
-				copy.patientProviderRelSet = src.getPatientProviderRelSet();
-				copy.children = src.getChildren();
+			copy.healthProJobId = src.getHealthProJobId();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.supervisorId = src.getSupervisorId();
+			copy.parent = HealthPro.copy(src.getParent(), --depth);
+			copy.jobTitle = src.getJobTitle();
+			copy.workLocationId = src.getWorkLocationId();
+			copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+			copy.isActive = src.getIsActive();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public HealthPro copy() {
+		return copy(this, copyDepth);
+	}	
 }

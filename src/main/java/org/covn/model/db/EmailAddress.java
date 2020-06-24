@@ -149,18 +149,21 @@ public class EmailAddress extends BaseModel<EmailAddress, Integer> implements ja
 		EmailAddress copy = null;
 		if(depth > 0){
 			copy = new EmailAddress();
-				copy.emailAddressId = src.getEmailAddressId();
-				copy.userId = src.getUserId();
-				copy.usersByUserId = Users.copy(src.getUsersByUserId(), --depth);
-				copy.emailAddress = src.getEmailAddress();
-				copy.emailAddressType = src.getEmailAddressType();
-				copy.isPreferred = src.getIsPreferred();
-				copy.isPrimaryUser = src.getIsPrimaryUser();
-				copy.primaryUserId = src.getPrimaryUserId();
-				copy.usersByPrimaryUserId = Users.copy(src.getUsersByPrimaryUserId(), --depth);
+			copy.emailAddressId = src.getEmailAddressId();
+			copy.userId = src.getUserId();
+			copy.usersByUserId = Users.copy(src.getUsersByUserId(), --depth);
+			copy.emailAddress = src.getEmailAddress();
+			copy.emailAddressType = src.getEmailAddressType();
+			copy.isPreferred = src.getIsPreferred();
+			copy.isPrimaryUser = src.getIsPrimaryUser();
+			copy.primaryUserId = src.getPrimaryUserId();
+			copy.usersByPrimaryUserId = Users.copy(src.getUsersByPrimaryUserId(), --depth);
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public EmailAddress copy() {
+		return copy(this, copyDepth);
+	}	
 }

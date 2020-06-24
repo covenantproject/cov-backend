@@ -330,33 +330,27 @@ public class Patient extends BaseModel<Patient, Integer> implements java.io.Seri
 		Patient copy = null;
 		if(depth > 0){
 			copy = new Patient();
-				copy.patientId = src.getPatientId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.householdId = src.getHouseholdId();
-				copy.hasPreexistingConditions = src.getHasPreexistingConditions();
-				copy.hasMedications = src.getHasMedications();
-				copy.hasAllergies = src.getHasAllergies();
-				copy.hasAdvanceDirectives = src.getHasAdvanceDirectives();
-				copy.needsCarer = src.getNeedsCarer();
-				copy.hasInternationalTravel = src.getHasInternationalTravel();
-				copy.hasInterstateTravel = src.getHasInterstateTravel();
-				copy.hasHighRiskFacilityVisit = src.getHasHighRiskFacilityVisit();
-				copy.isHighRiskHealthWorker = src.getIsHighRiskHealthWorker();
-				copy.bloodGroup = src.getBloodGroup();
-				copy.clinicalTrialStatus = src.getClinicalTrialStatus();
-				copy.comments = src.getComments();
-				copy.medicationSet = src.getMedicationSet();
-				copy.allergySet = src.getAllergySet();
-				copy.preExistingConditionSet = src.getPreExistingConditionSet();
-				copy.patientGeofencedLocationSet = src.getPatientGeofencedLocationSet();
-				copy.patientProviderRelSet = src.getPatientProviderRelSet();
-				copy.preExistingConditionCovidDenormSet = src.getPreExistingConditionCovidDenormSet();
-				copy.patientRequestHistorySet = src.getPatientRequestHistorySet();
-				copy.healthCheckHistorySet = src.getHealthCheckHistorySet();
-				copy.patientStatusSet = src.getPatientStatusSet();
+			copy.patientId = src.getPatientId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.householdId = src.getHouseholdId();
+			copy.hasPreexistingConditions = src.getHasPreexistingConditions();
+			copy.hasMedications = src.getHasMedications();
+			copy.hasAllergies = src.getHasAllergies();
+			copy.hasAdvanceDirectives = src.getHasAdvanceDirectives();
+			copy.needsCarer = src.getNeedsCarer();
+			copy.hasInternationalTravel = src.getHasInternationalTravel();
+			copy.hasInterstateTravel = src.getHasInterstateTravel();
+			copy.hasHighRiskFacilityVisit = src.getHasHighRiskFacilityVisit();
+			copy.isHighRiskHealthWorker = src.getIsHighRiskHealthWorker();
+			copy.bloodGroup = src.getBloodGroup();
+			copy.clinicalTrialStatus = src.getClinicalTrialStatus();
+			copy.comments = src.getComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public Patient copy() {
+		return copy(this, copyDepth);
+	}	
 }

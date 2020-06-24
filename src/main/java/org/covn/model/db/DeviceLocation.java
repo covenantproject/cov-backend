@@ -223,24 +223,27 @@ public class DeviceLocation extends BaseModel<DeviceLocation, Integer> implement
 		DeviceLocation copy = null;
 		if(depth > 0){
 			copy = new DeviceLocation();
-				copy.deviceLocationId = src.getDeviceLocationId();
-				copy.deviceAppId = src.getDeviceAppId();
-				copy.latitude = src.getLatitude();
-				copy.longitude = src.getLongitude();
-				copy.locationId = src.getLocationId();
-				copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
-				copy.addressId = src.getAddressId();
-				copy.address = Address.copy(src.getAddress(), --depth);
-				copy.locationServiceType = src.getLocationServiceType();
-				copy.locationDateTime = src.getLocationDateTime();
-				copy.locationCheckReason = src.getLocationCheckReason();
-				copy.locationCheckResult = src.getLocationCheckResult();
-				copy.geofenceStatus = src.getGeofenceStatus();
-				copy.geofenceAction = src.getGeofenceAction();
-				copy.comments = src.getComments();
+			copy.deviceLocationId = src.getDeviceLocationId();
+			copy.deviceAppId = src.getDeviceAppId();
+			copy.latitude = src.getLatitude();
+			copy.longitude = src.getLongitude();
+			copy.locationId = src.getLocationId();
+			copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+			copy.addressId = src.getAddressId();
+			copy.address = Address.copy(src.getAddress(), --depth);
+			copy.locationServiceType = src.getLocationServiceType();
+			copy.locationDateTime = src.getLocationDateTime();
+			copy.locationCheckReason = src.getLocationCheckReason();
+			copy.locationCheckResult = src.getLocationCheckResult();
+			copy.geofenceStatus = src.getGeofenceStatus();
+			copy.geofenceAction = src.getGeofenceAction();
+			copy.comments = src.getComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public DeviceLocation copy() {
+		return copy(this, copyDepth);
+	}	
 }

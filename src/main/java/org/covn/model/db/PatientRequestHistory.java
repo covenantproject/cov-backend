@@ -186,21 +186,24 @@ public class PatientRequestHistory extends BaseModel<PatientRequestHistory, Inte
 		PatientRequestHistory copy = null;
 		if(depth > 0){
 			copy = new PatientRequestHistory();
-				copy.patientRequestHistoryId = src.getPatientRequestHistoryId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.requestType = src.getRequestType();
-				copy.requestDateTime = src.getRequestDateTime();
-				copy.requestStatus = src.getRequestStatus();
-				copy.requestComments = src.getRequestComments();
-				copy.responseType = src.getResponseType();
-				copy.responseUserId = src.getResponseUserId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.responseDateTime = src.getResponseDateTime();
-				copy.responseComments = src.getResponseComments();
+			copy.patientRequestHistoryId = src.getPatientRequestHistoryId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.requestType = src.getRequestType();
+			copy.requestDateTime = src.getRequestDateTime();
+			copy.requestStatus = src.getRequestStatus();
+			copy.requestComments = src.getRequestComments();
+			copy.responseType = src.getResponseType();
+			copy.responseUserId = src.getResponseUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.responseDateTime = src.getResponseDateTime();
+			copy.responseComments = src.getResponseComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PatientRequestHistory copy() {
+		return copy(this, copyDepth);
+	}	
 }

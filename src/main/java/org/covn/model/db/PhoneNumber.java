@@ -271,28 +271,30 @@ public class PhoneNumber extends BaseModel<PhoneNumber, Integer> implements java
 		PhoneNumber copy = null;
 		if(depth > 0){
 			copy = new PhoneNumber();
-				copy.phoneNumberId = src.getPhoneNumberId();
-				copy.userId = src.getUserId();
-				copy.usersByUserId = Users.copy(src.getUsersByUserId(), --depth);
-				copy.phoneType = src.getPhoneType();
-				copy.phoneNumber = src.getPhoneNumber();
-				copy.phoneNumberExtn = src.getPhoneNumberExtn();
-				copy.phoneNumberFormatted = src.getPhoneNumberFormatted();
-				copy.isPreferred = src.getIsPreferred();
-				copy.isPrimaryUser = src.getIsPrimaryUser();
-				copy.primaryUserId = src.getPrimaryUserId();
-				copy.usersByPrimaryUserId = Users.copy(src.getUsersByPrimaryUserId(), --depth);
-				copy.hasInternet = src.getHasInternet();
-				copy.hasSms = src.getHasSms();
-				copy.hasWhatsapp = src.getHasWhatsapp();
-				copy.hasTelegram = src.getHasTelegram();
-				copy.providesLocation = src.getProvidesLocation();
-				copy.otpCode = src.getOtpCode();
-				copy.phoneHash = src.getPhoneHash();
-				copy.phoneDeviceAppSet = src.getPhoneDeviceAppSet();
+			copy.phoneNumberId = src.getPhoneNumberId();
+			copy.userId = src.getUserId();
+			copy.usersByUserId = Users.copy(src.getUsersByUserId(), --depth);
+			copy.phoneType = src.getPhoneType();
+			copy.phoneNumber = src.getPhoneNumber();
+			copy.phoneNumberExtn = src.getPhoneNumberExtn();
+			copy.phoneNumberFormatted = src.getPhoneNumberFormatted();
+			copy.isPreferred = src.getIsPreferred();
+			copy.isPrimaryUser = src.getIsPrimaryUser();
+			copy.primaryUserId = src.getPrimaryUserId();
+			copy.usersByPrimaryUserId = Users.copy(src.getUsersByPrimaryUserId(), --depth);
+			copy.hasInternet = src.getHasInternet();
+			copy.hasSms = src.getHasSms();
+			copy.hasWhatsapp = src.getHasWhatsapp();
+			copy.hasTelegram = src.getHasTelegram();
+			copy.providesLocation = src.getProvidesLocation();
+			copy.otpCode = src.getOtpCode();
+			copy.phoneHash = src.getPhoneHash();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PhoneNumber copy() {
+		return copy(this, copyDepth);
+	}	
 }

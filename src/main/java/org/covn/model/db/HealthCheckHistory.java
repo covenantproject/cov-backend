@@ -320,32 +320,35 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 		HealthCheckHistory copy = null;
 		if(depth > 0){
 			copy = new HealthCheckHistory();
-				copy.healthHistoryId = src.getHealthHistoryId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.enteredByUserId = src.getEnteredByUserId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.healthCheckByUserType = src.getHealthCheckByUserType();
-				copy.appHeartbeatId = src.getAppHeartbeatId();
-				copy.appHeartbeat = AppHeartbeat.copy(src.getAppHeartbeat(), --depth);
-				copy.locationId = src.getLocationId();
-				copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
-				copy.healthCheckDateTime = src.getHealthCheckDateTime();
-				copy.healthCheckReason = src.getHealthCheckReason();
-				copy.coughPresent = src.getCoughPresent();
-				copy.feverPresent = src.getFeverPresent();
-				copy.breathingDifficultyPresent = src.getBreathingDifficultyPresent();
-				copy.progressStatus = src.getProgressStatus();
-				copy.temperatureCelsius = src.getTemperatureCelsius();
-				copy.heartRatePerMin = src.getHeartRatePerMin();
-				copy.respRatePerMin = src.getRespRatePerMin();
-				copy.spo2Percent = src.getSpo2Percent();
-				copy.systolicBpMmhg = src.getSystolicBpMmhg();
-				copy.diastolicBpMmhg = src.getDiastolicBpMmhg();
-				copy.comments = src.getComments();
+			copy.healthHistoryId = src.getHealthHistoryId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.enteredByUserId = src.getEnteredByUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.healthCheckByUserType = src.getHealthCheckByUserType();
+			copy.appHeartbeatId = src.getAppHeartbeatId();
+			copy.appHeartbeat = AppHeartbeat.copy(src.getAppHeartbeat(), --depth);
+			copy.locationId = src.getLocationId();
+			copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+			copy.healthCheckDateTime = src.getHealthCheckDateTime();
+			copy.healthCheckReason = src.getHealthCheckReason();
+			copy.coughPresent = src.getCoughPresent();
+			copy.feverPresent = src.getFeverPresent();
+			copy.breathingDifficultyPresent = src.getBreathingDifficultyPresent();
+			copy.progressStatus = src.getProgressStatus();
+			copy.temperatureCelsius = src.getTemperatureCelsius();
+			copy.heartRatePerMin = src.getHeartRatePerMin();
+			copy.respRatePerMin = src.getRespRatePerMin();
+			copy.spo2Percent = src.getSpo2Percent();
+			copy.systolicBpMmhg = src.getSystolicBpMmhg();
+			copy.diastolicBpMmhg = src.getDiastolicBpMmhg();
+			copy.comments = src.getComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public HealthCheckHistory copy() {
+		return copy(this, copyDepth);
+	}	
 }

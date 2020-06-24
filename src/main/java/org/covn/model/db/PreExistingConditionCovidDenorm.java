@@ -245,26 +245,29 @@ public class PreExistingConditionCovidDenorm extends BaseModel<PreExistingCondit
 		PreExistingConditionCovidDenorm copy = null;
 		if(depth > 0){
 			copy = new PreExistingConditionCovidDenorm();
-				copy.covidPreExistingConditionId = src.getCovidPreExistingConditionId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.preExistingConditionId = src.getPreExistingConditionId();
-				copy.preExistingCondition = PreExistingCondition.copy(src.getPreExistingCondition(), --depth);
-				copy.copd = src.getCopd();
-				copy.bronchitis = src.getBronchitis();
-				copy.diabetesMellitus = src.getDiabetesMellitus();
-				copy.diabetesMellitusType1 = src.getDiabetesMellitusType1();
-				copy.diabetesMellitusType2 = src.getDiabetesMellitusType2();
-				copy.hypertension = src.getHypertension();
-				copy.chronicRenalDisease = src.getChronicRenalDisease();
-				copy.malignancy = src.getMalignancy();
-				copy.heartDisease = src.getHeartDisease();
-				copy.asthma = src.getAsthma();
-				copy.obesity = src.getObesity();
-				copy.comments = src.getComments();
+			copy.covidPreExistingConditionId = src.getCovidPreExistingConditionId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.preExistingConditionId = src.getPreExistingConditionId();
+			copy.preExistingCondition = PreExistingCondition.copy(src.getPreExistingCondition(), --depth);
+			copy.copd = src.getCopd();
+			copy.bronchitis = src.getBronchitis();
+			copy.diabetesMellitus = src.getDiabetesMellitus();
+			copy.diabetesMellitusType1 = src.getDiabetesMellitusType1();
+			copy.diabetesMellitusType2 = src.getDiabetesMellitusType2();
+			copy.hypertension = src.getHypertension();
+			copy.chronicRenalDisease = src.getChronicRenalDisease();
+			copy.malignancy = src.getMalignancy();
+			copy.heartDisease = src.getHeartDisease();
+			copy.asthma = src.getAsthma();
+			copy.obesity = src.getObesity();
+			copy.comments = src.getComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PreExistingConditionCovidDenorm copy() {
+		return copy(this, copyDepth);
+	}	
 }

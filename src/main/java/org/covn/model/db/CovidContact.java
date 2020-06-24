@@ -135,17 +135,20 @@ public class CovidContact extends BaseModel<CovidContact, Integer> implements ja
 		CovidContact copy = null;
 		if(depth > 0){
 			copy = new CovidContact();
-				copy.contactId = src.getContactId();
-				copy.contactUserId1 = src.getContactUserId1();
-				copy.contactUserId2 = src.getContactUserId2();
-				copy.contactTimeStart = src.getContactTimeStart();
-				copy.contactTimeEnd = src.getContactTimeEnd();
-				copy.contactLocationId = src.getContactLocationId();
-				copy.contactRelationship = src.getContactRelationship();
-				copy.contactExposure = src.getContactExposure();
+			copy.contactId = src.getContactId();
+			copy.contactUserId1 = src.getContactUserId1();
+			copy.contactUserId2 = src.getContactUserId2();
+			copy.contactTimeStart = src.getContactTimeStart();
+			copy.contactTimeEnd = src.getContactTimeEnd();
+			copy.contactLocationId = src.getContactLocationId();
+			copy.contactRelationship = src.getContactRelationship();
+			copy.contactExposure = src.getContactExposure();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public CovidContact copy() {
+		return copy(this, copyDepth);
+	}	
 }

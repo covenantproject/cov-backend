@@ -210,23 +210,21 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 		LocationHierarchy copy = null;
 		if(depth > 0){
 			copy = new LocationHierarchy();
-				copy.locationId = src.getLocationId();
-				copy.locationName = src.getLocationName();
-				copy.locationAbbr = src.getLocationAbbr();
-				copy.assignPatients = src.getAssignPatients();
-				copy.parentLocationId = src.getParentLocationId();
-				copy.parent = LocationHierarchy.copy(src.getParent(), --depth);
-				copy.countryCode = src.getCountryCode();
-				copy.addressId = src.getAddressId();
-				copy.locationType = src.getLocationType();
-				copy.children = src.getChildren();
-				copy.healthProSet = src.getHealthProSet();
-				copy.deviceLocationSet = src.getDeviceLocationSet();
-				copy.patientProviderRelSet = src.getPatientProviderRelSet();
-				copy.healthCheckHistorySet = src.getHealthCheckHistorySet();
+			copy.locationId = src.getLocationId();
+			copy.locationName = src.getLocationName();
+			copy.locationAbbr = src.getLocationAbbr();
+			copy.assignPatients = src.getAssignPatients();
+			copy.parentLocationId = src.getParentLocationId();
+			copy.parent = LocationHierarchy.copy(src.getParent(), --depth);
+			copy.countryCode = src.getCountryCode();
+			copy.addressId = src.getAddressId();
+			copy.locationType = src.getLocationType();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public LocationHierarchy copy() {
+		return copy(this, copyDepth);
+	}	
 }

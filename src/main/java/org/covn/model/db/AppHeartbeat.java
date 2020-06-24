@@ -139,17 +139,19 @@ public class AppHeartbeat extends BaseModel<AppHeartbeat, Integer> implements ja
 		AppHeartbeat copy = null;
 		if(depth > 0){
 			copy = new AppHeartbeat();
-				copy.appHeartbeatId = src.getAppHeartbeatId();
-				copy.deviceAppId = src.getDeviceAppId();
-				copy.phoneDeviceApp = PhoneDeviceApp.copy(src.getPhoneDeviceApp(), --depth);
-				copy.heartbeatDateTime = src.getHeartbeatDateTime();
-				copy.heartbeatIp4Address = src.getHeartbeatIp4Address();
-				copy.heartbeatIp6Address = src.getHeartbeatIp6Address();
-				copy.heartbeatStatus = src.getHeartbeatStatus();
-				copy.healthCheckHistorySet = src.getHealthCheckHistorySet();
+			copy.appHeartbeatId = src.getAppHeartbeatId();
+			copy.deviceAppId = src.getDeviceAppId();
+			copy.phoneDeviceApp = PhoneDeviceApp.copy(src.getPhoneDeviceApp(), --depth);
+			copy.heartbeatDateTime = src.getHeartbeatDateTime();
+			copy.heartbeatIp4Address = src.getHeartbeatIp4Address();
+			copy.heartbeatIp6Address = src.getHeartbeatIp6Address();
+			copy.heartbeatStatus = src.getHeartbeatStatus();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public AppHeartbeat copy() {
+		return copy(this, copyDepth);
+	}	
 }

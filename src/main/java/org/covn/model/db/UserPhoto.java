@@ -113,15 +113,18 @@ public class UserPhoto extends BaseModel<UserPhoto, Integer> implements java.io.
 		UserPhoto copy = null;
 		if(depth > 0){
 			copy = new UserPhoto();
-				copy.photoId = src.getPhotoId();
-				copy.userId = src.getUserId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.photoType = src.getPhotoType();
-				copy.photoPath = src.getPhotoPath();
-				copy.fileSavedDatetime = src.getFileSavedDatetime();
+			copy.photoId = src.getPhotoId();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.photoType = src.getPhotoType();
+			copy.photoPath = src.getPhotoPath();
+			copy.fileSavedDatetime = src.getFileSavedDatetime();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public UserPhoto copy() {
+		return copy(this, copyDepth);
+	}	
 }

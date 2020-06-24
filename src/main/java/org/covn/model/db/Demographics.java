@@ -207,23 +207,26 @@ public class Demographics extends BaseModel<Demographics, Integer> implements ja
 		Demographics copy = null;
 		if(depth > 0){
 			copy = new Demographics();
-				copy.userId = src.getUserId();
-				copy.users = Users.copy(src.getUsers(), --depth);
-				copy.nationality = src.getNationality();
-				copy.residencyStatus = src.getResidencyStatus();
-				copy.occupation = src.getOccupation();
-				copy.emergencyContactId1 = src.getEmergencyContactId1();
-				copy.emerContact1RelToPat = src.getEmerContact1RelToPat();
-				copy.emergencyContactId2 = src.getEmergencyContactId2();
-				copy.emerContact2RelToPat = src.getEmerContact2RelToPat();
-				copy.nextOfKinId1 = src.getNextOfKinId1();
-				copy.nextOfKin1RelToPat = src.getNextOfKin1RelToPat();
-				copy.nextOfKinId2 = src.getNextOfKinId2();
-				copy.nextOfKin2RelToPat = src.getNextOfKin2RelToPat();
-				copy.comments = src.getComments();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.nationality = src.getNationality();
+			copy.residencyStatus = src.getResidencyStatus();
+			copy.occupation = src.getOccupation();
+			copy.emergencyContactId1 = src.getEmergencyContactId1();
+			copy.emerContact1RelToPat = src.getEmerContact1RelToPat();
+			copy.emergencyContactId2 = src.getEmergencyContactId2();
+			copy.emerContact2RelToPat = src.getEmerContact2RelToPat();
+			copy.nextOfKinId1 = src.getNextOfKinId1();
+			copy.nextOfKin1RelToPat = src.getNextOfKin1RelToPat();
+			copy.nextOfKinId2 = src.getNextOfKinId2();
+			copy.nextOfKin2RelToPat = src.getNextOfKin2RelToPat();
+			copy.comments = src.getComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public Demographics copy() {
+		return copy(this, copyDepth);
+	}	
 }

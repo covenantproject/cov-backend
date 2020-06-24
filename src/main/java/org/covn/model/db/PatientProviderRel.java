@@ -163,19 +163,22 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 		PatientProviderRel copy = null;
 		if(depth > 0){
 			copy = new PatientProviderRel();
-				copy.patProRelId = src.getPatProRelId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.healthProJobId = src.getHealthProJobId();
-				copy.healthPro = HealthPro.copy(src.getHealthPro(), --depth);
-				copy.relType = src.getRelType();
-				copy.relStartDate = src.getRelStartDate();
-				copy.relEndDate = src.getRelEndDate();
-				copy.locationId = src.getLocationId();
-				copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+			copy.patProRelId = src.getPatProRelId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.healthProJobId = src.getHealthProJobId();
+			copy.healthPro = HealthPro.copy(src.getHealthPro(), --depth);
+			copy.relType = src.getRelType();
+			copy.relStartDate = src.getRelStartDate();
+			copy.relEndDate = src.getRelEndDate();
+			copy.locationId = src.getLocationId();
+			copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public PatientProviderRel copy() {
+		return copy(this, copyDepth);
+	}	
 }

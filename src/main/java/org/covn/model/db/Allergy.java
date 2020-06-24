@@ -208,23 +208,26 @@ public class Allergy extends BaseModel<Allergy, Integer> implements java.io.Seri
 		Allergy copy = null;
 		if(depth > 0){
 			copy = new Allergy();
-				copy.allergyId = src.getAllergyId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.allergenType = src.getAllergenType();
-				copy.allergenCodeSystem = src.getAllergenCodeSystem();
-				copy.allergenConceptCode = src.getAllergenConceptCode();
-				copy.allergenDescription = src.getAllergenDescription();
-				copy.allergicRxnCodeSystem = src.getAllergicRxnCodeSystem();
-				copy.allergicRxnConceptCode = src.getAllergicRxnConceptCode();
-				copy.allergicRxnDescription = src.getAllergicRxnDescription();
-				copy.allergySeverity = src.getAllergySeverity();
-				copy.isActive = src.getIsActive();
-				copy.durationNum = src.getDurationNum();
-				copy.durationUnits = src.getDurationUnits();
+			copy.allergyId = src.getAllergyId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.allergenType = src.getAllergenType();
+			copy.allergenCodeSystem = src.getAllergenCodeSystem();
+			copy.allergenConceptCode = src.getAllergenConceptCode();
+			copy.allergenDescription = src.getAllergenDescription();
+			copy.allergicRxnCodeSystem = src.getAllergicRxnCodeSystem();
+			copy.allergicRxnConceptCode = src.getAllergicRxnConceptCode();
+			copy.allergicRxnDescription = src.getAllergicRxnDescription();
+			copy.allergySeverity = src.getAllergySeverity();
+			copy.isActive = src.getIsActive();
+			copy.durationNum = src.getDurationNum();
+			copy.durationUnits = src.getDurationUnits();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public Allergy copy() {
+		return copy(this, copyDepth);
+	}	
 }

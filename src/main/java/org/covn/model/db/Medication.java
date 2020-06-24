@@ -244,26 +244,29 @@ public class Medication extends BaseModel<Medication, Integer> implements java.i
 		Medication copy = null;
 		if(depth > 0){
 			copy = new Medication();
-				copy.medicationId = src.getMedicationId();
-				copy.patientId = src.getPatientId();
-				copy.patient = Patient.copy(src.getPatient(), --depth);
-				copy.ingredientCodeSystem = src.getIngredientCodeSystem();
-				copy.ingredientConceptCode = src.getIngredientConceptCode();
-				copy.ingredientDescription = src.getIngredientDescription();
-				copy.brandedName = src.getBrandedName();
-				copy.isActive = src.getIsActive();
-				copy.durationNum = src.getDurationNum();
-				copy.durationUnits = src.getDurationUnits();
-				copy.strengthNumAndUnits = src.getStrengthNumAndUnits();
-				copy.doseNumAndUnits = src.getDoseNumAndUnits();
-				copy.frequency = src.getFrequency();
-				copy.route = src.getRoute();
-				copy.indication = src.getIndication();
-				copy.intentType = src.getIntentType();
-				copy.comments = src.getComments();
+			copy.medicationId = src.getMedicationId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.ingredientCodeSystem = src.getIngredientCodeSystem();
+			copy.ingredientConceptCode = src.getIngredientConceptCode();
+			copy.ingredientDescription = src.getIngredientDescription();
+			copy.brandedName = src.getBrandedName();
+			copy.isActive = src.getIsActive();
+			copy.durationNum = src.getDurationNum();
+			copy.durationUnits = src.getDurationUnits();
+			copy.strengthNumAndUnits = src.getStrengthNumAndUnits();
+			copy.doseNumAndUnits = src.getDoseNumAndUnits();
+			copy.frequency = src.getFrequency();
+			copy.route = src.getRoute();
+			copy.indication = src.getIndication();
+			copy.intentType = src.getIntentType();
+			copy.comments = src.getComments();
 		}
 		return copy;
 	}
 
-	
+	@Override
+	public Medication copy() {
+		return copy(this, copyDepth);
+	}	
 }
