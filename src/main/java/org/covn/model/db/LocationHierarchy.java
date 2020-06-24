@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -52,6 +50,9 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 	@Column(name = "address_id", nullable = true, length = 10)
 	private Integer addressId;
 
+	@Column(name = "location_type", nullable = true, length = 32)
+	private String locationType;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
 	private Set<LocationHierarchy> children;
 
@@ -59,10 +60,10 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 	private Set<HealthPro> healthProSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "locationHierarchy")
-	private Set<PatientProviderRel> patientProviderRelSet;
+	private Set<DeviceLocation> deviceLocationSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "locationHierarchy")
-	private Set<DeviceLocation> deviceLocationSet;
+	private Set<PatientProviderRel> patientProviderRelSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "locationHierarchy")
 	private Set<HealthCheckHistory> healthCheckHistorySet;
@@ -140,6 +141,15 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 		return this;
 	}
 
+	public String getLocationType(){
+		return this.locationType;
+	}
+	public LocationHierarchy setLocationType(String locationType){
+		this.locationType = locationType;
+		
+		return this;
+	}
+
 	public Set<LocationHierarchy> getChildren(){
 		return this.children;
 	}
@@ -158,20 +168,20 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 		return this;
 	}
 
-	public Set<PatientProviderRel> getPatientProviderRelSet(){
-		return this.patientProviderRelSet;
-	}
-	public LocationHierarchy setPatientProviderRelSet(Set<PatientProviderRel> patientProviderRelSet){
-		this.patientProviderRelSet = patientProviderRelSet;
-		
-		return this;
-	}
-
 	public Set<DeviceLocation> getDeviceLocationSet(){
 		return this.deviceLocationSet;
 	}
 	public LocationHierarchy setDeviceLocationSet(Set<DeviceLocation> deviceLocationSet){
 		this.deviceLocationSet = deviceLocationSet;
+		
+		return this;
+	}
+
+	public Set<PatientProviderRel> getPatientProviderRelSet(){
+		return this.patientProviderRelSet;
+	}
+	public LocationHierarchy setPatientProviderRelSet(Set<PatientProviderRel> patientProviderRelSet){
+		this.patientProviderRelSet = patientProviderRelSet;
 		
 		return this;
 	}
@@ -190,8 +200,31 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 	public Integer getKey() {
 		return this.locationId;
 	}
+
 	
 	public static LocationHierarchy of(){
 		return new LocationHierarchy();
 	}
+	
+	public static LocationHierarchy copy(LocationHierarchy src, int depth){
+		LocationHierarchy copy = null;
+		if(depth > 0){
+			copy = new LocationHierarchy();
+			copy.locationId = src.getLocationId();
+			copy.locationName = src.getLocationName();
+			copy.locationAbbr = src.getLocationAbbr();
+			copy.assignPatients = src.getAssignPatients();
+			copy.parentLocationId = src.getParentLocationId();
+			copy.parent = LocationHierarchy.copy(src.getParent(), --depth);
+			copy.countryCode = src.getCountryCode();
+			copy.addressId = src.getAddressId();
+			copy.locationType = src.getLocationType();
+		}
+		return copy;
+	}
+
+	@Override
+	public LocationHierarchy copy() {
+		return copy(this, copyDepth);
+	}	
 }

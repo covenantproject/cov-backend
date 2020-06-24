@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import java.sql.Timestamp;
 import javax.persistence.GenerationType;
@@ -14,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -178,8 +176,34 @@ public class PatientRequestHistory extends BaseModel<PatientRequestHistory, Inte
 	public Integer getKey() {
 		return this.patientRequestHistoryId;
 	}
+
 	
 	public static PatientRequestHistory of(){
 		return new PatientRequestHistory();
 	}
+	
+	public static PatientRequestHistory copy(PatientRequestHistory src, int depth){
+		PatientRequestHistory copy = null;
+		if(depth > 0){
+			copy = new PatientRequestHistory();
+			copy.patientRequestHistoryId = src.getPatientRequestHistoryId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.requestType = src.getRequestType();
+			copy.requestDateTime = src.getRequestDateTime();
+			copy.requestStatus = src.getRequestStatus();
+			copy.requestComments = src.getRequestComments();
+			copy.responseType = src.getResponseType();
+			copy.responseUserId = src.getResponseUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.responseDateTime = src.getResponseDateTime();
+			copy.responseComments = src.getResponseComments();
+		}
+		return copy;
+	}
+
+	@Override
+	public PatientRequestHistory copy() {
+		return copy(this, copyDepth);
+	}	
 }

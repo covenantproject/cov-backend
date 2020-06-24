@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -263,8 +261,40 @@ public class PhoneNumber extends BaseModel<PhoneNumber, Integer> implements java
 	public Integer getKey() {
 		return this.phoneNumberId;
 	}
+
 	
 	public static PhoneNumber of(){
 		return new PhoneNumber();
 	}
+	
+	public static PhoneNumber copy(PhoneNumber src, int depth){
+		PhoneNumber copy = null;
+		if(depth > 0){
+			copy = new PhoneNumber();
+			copy.phoneNumberId = src.getPhoneNumberId();
+			copy.userId = src.getUserId();
+			copy.usersByUserId = Users.copy(src.getUsersByUserId(), --depth);
+			copy.phoneType = src.getPhoneType();
+			copy.phoneNumber = src.getPhoneNumber();
+			copy.phoneNumberExtn = src.getPhoneNumberExtn();
+			copy.phoneNumberFormatted = src.getPhoneNumberFormatted();
+			copy.isPreferred = src.getIsPreferred();
+			copy.isPrimaryUser = src.getIsPrimaryUser();
+			copy.primaryUserId = src.getPrimaryUserId();
+			copy.usersByPrimaryUserId = Users.copy(src.getUsersByPrimaryUserId(), --depth);
+			copy.hasInternet = src.getHasInternet();
+			copy.hasSms = src.getHasSms();
+			copy.hasWhatsapp = src.getHasWhatsapp();
+			copy.hasTelegram = src.getHasTelegram();
+			copy.providesLocation = src.getProvidesLocation();
+			copy.otpCode = src.getOtpCode();
+			copy.phoneHash = src.getPhoneHash();
+		}
+		return copy;
+	}
+
+	@Override
+	public PhoneNumber copy() {
+		return copy(this, copyDepth);
+	}	
 }

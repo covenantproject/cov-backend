@@ -7,12 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -199,8 +197,36 @@ public class Demographics extends BaseModel<Demographics, Integer> implements ja
 	public Integer getKey() {
 		return this.userId;
 	}
+
 	
 	public static Demographics of(){
 		return new Demographics();
 	}
+	
+	public static Demographics copy(Demographics src, int depth){
+		Demographics copy = null;
+		if(depth > 0){
+			copy = new Demographics();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.nationality = src.getNationality();
+			copy.residencyStatus = src.getResidencyStatus();
+			copy.occupation = src.getOccupation();
+			copy.emergencyContactId1 = src.getEmergencyContactId1();
+			copy.emerContact1RelToPat = src.getEmerContact1RelToPat();
+			copy.emergencyContactId2 = src.getEmergencyContactId2();
+			copy.emerContact2RelToPat = src.getEmerContact2RelToPat();
+			copy.nextOfKinId1 = src.getNextOfKinId1();
+			copy.nextOfKin1RelToPat = src.getNextOfKin1RelToPat();
+			copy.nextOfKinId2 = src.getNextOfKinId2();
+			copy.nextOfKin2RelToPat = src.getNextOfKin2RelToPat();
+			copy.comments = src.getComments();
+		}
+		return copy;
+	}
+
+	@Override
+	public Demographics copy() {
+		return copy(this, copyDepth);
+	}	
 }

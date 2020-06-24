@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -226,8 +224,36 @@ public class Address extends BaseModel<Address, Integer> implements java.io.Seri
 	public Integer getKey() {
 		return this.addressId;
 	}
+
 	
 	public static Address of(){
 		return new Address();
 	}
+	
+	public static Address copy(Address src, int depth){
+		Address copy = null;
+		if(depth > 0){
+			copy = new Address();
+			copy.addressId = src.getAddressId();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.addressType = src.getAddressType();
+			copy.companyName = src.getCompanyName();
+			copy.inCareOf = src.getInCareOf();
+			copy.addressLine1 = src.getAddressLine1();
+			copy.addressLine2 = src.getAddressLine2();
+			copy.addressLine3 = src.getAddressLine3();
+			copy.city = src.getCity();
+			copy.districtCounty = src.getDistrictCounty();
+			copy.stateTerritory = src.getStateTerritory();
+			copy.postCode = src.getPostCode();
+			copy.country = src.getCountry();
+		}
+		return copy;
+	}
+
+	@Override
+	public Address copy() {
+		return copy(this, copyDepth);
+	}	
 }

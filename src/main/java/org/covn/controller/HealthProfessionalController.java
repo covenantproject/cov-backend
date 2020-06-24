@@ -26,7 +26,7 @@ public class HealthProfessionalController {
 	public @ResponseBody ModelMap saveHealthPro(@RequestBody HealthProfessionalDto healthProf) {
 		ModelMap model = new ModelMap();
 		try {
-			String healthInfo = healthProService.saveHealthPro(healthProf);
+			//String healthInfo = healthProService.saveHealthPro(healthProf);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_HealthProfessional", ex);
 			throw new RuntimeException("Save Couldn't Complete");

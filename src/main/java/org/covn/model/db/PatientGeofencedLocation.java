@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
@@ -14,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -142,8 +140,31 @@ public class PatientGeofencedLocation extends BaseModel<PatientGeofencedLocation
 	public Integer getKey() {
 		return this.geofencedLocationId;
 	}
+
 	
 	public static PatientGeofencedLocation of(){
 		return new PatientGeofencedLocation();
 	}
+	
+	public static PatientGeofencedLocation copy(PatientGeofencedLocation src, int depth){
+		PatientGeofencedLocation copy = null;
+		if(depth > 0){
+			copy = new PatientGeofencedLocation();
+			copy.geofencedLocationId = src.getGeofencedLocationId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.addressId = src.getAddressId();
+			copy.address = Address.copy(src.getAddress(), --depth);
+			copy.latitude = src.getLatitude();
+			copy.longitude = src.getLongitude();
+			copy.radiusMetres = src.getRadiusMetres();
+			copy.geofenceStatus = src.getGeofenceStatus();
+		}
+		return copy;
+	}
+
+	@Override
+	public PatientGeofencedLocation copy() {
+		return copy(this, copyDepth);
+	}	
 }

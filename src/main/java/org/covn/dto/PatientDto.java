@@ -1,5 +1,8 @@
 package org.covn.dto;
 
+import org.covn.model.db.Patient;
+import org.covn.model.db.Users;
+
 /* Fields that are specific to patients, in addition to common fields in UserDto
  * 
  * For the lack of a better word, 'patient' denotes those under quarantine (i.e. infection 
@@ -8,23 +11,25 @@ package org.covn.dto;
  *  
  */
 
-public class PatientDto extends UserDto {
+public class PatientDto {
 
-	// Following fields are specific to patients, in addition to common fields in UserDto
+	private Users user;
+	private Patient patient;
 	
-	// Following fields are from patient table
-    private String householdId; // unique id for the household. multiple patients may be in a household.
-    private boolean hasPreexistingConditions;
-    private boolean hasMedications;
-    private boolean hasAllergies;
-    private boolean hasAdvanceDirectives;
-    private boolean needsCarer;
-    private boolean hasInterationalTravel;
-    private boolean hasInterstateTravel;
-    private boolean hasHighRiskFacilityVisit;
-    private boolean isHighRiskHealthcareWorker;
-    private String bloodGroup; // CHECK CONSTRAINT
-    private boolean clinicalTrialStatus;
-    private String comments;
+	public Users getUser() {
+		return user;
+	}
+	public void setUser(Users user) {
+		this.user = user;
+	}
+	public Patient getPatient() {
+		return patient;
+	}
+	public void setPatient(Patient patient) {
+		this.patient = patient;
+	}
+    
+    
+    
     
 }

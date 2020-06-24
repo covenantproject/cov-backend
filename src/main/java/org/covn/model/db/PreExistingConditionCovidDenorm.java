@@ -7,12 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -237,8 +235,39 @@ public class PreExistingConditionCovidDenorm extends BaseModel<PreExistingCondit
 	public Integer getKey() {
 		return this.covidPreExistingConditionId;
 	}
+
 	
 	public static PreExistingConditionCovidDenorm of(){
 		return new PreExistingConditionCovidDenorm();
 	}
+	
+	public static PreExistingConditionCovidDenorm copy(PreExistingConditionCovidDenorm src, int depth){
+		PreExistingConditionCovidDenorm copy = null;
+		if(depth > 0){
+			copy = new PreExistingConditionCovidDenorm();
+			copy.covidPreExistingConditionId = src.getCovidPreExistingConditionId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.preExistingConditionId = src.getPreExistingConditionId();
+			copy.preExistingCondition = PreExistingCondition.copy(src.getPreExistingCondition(), --depth);
+			copy.copd = src.getCopd();
+			copy.bronchitis = src.getBronchitis();
+			copy.diabetesMellitus = src.getDiabetesMellitus();
+			copy.diabetesMellitusType1 = src.getDiabetesMellitusType1();
+			copy.diabetesMellitusType2 = src.getDiabetesMellitusType2();
+			copy.hypertension = src.getHypertension();
+			copy.chronicRenalDisease = src.getChronicRenalDisease();
+			copy.malignancy = src.getMalignancy();
+			copy.heartDisease = src.getHeartDisease();
+			copy.asthma = src.getAsthma();
+			copy.obesity = src.getObesity();
+			copy.comments = src.getComments();
+		}
+		return copy;
+	}
+
+	@Override
+	public PreExistingConditionCovidDenorm copy() {
+		return copy(this, copyDepth);
+	}	
 }

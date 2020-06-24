@@ -34,7 +34,7 @@ CREATE TABLE release1.users
 	ns_alias_name_1 character varying(32),
 	ns_alias_name_2 character varying(32),
 	standard_name character varying(30), -- standardized passport format in English script
-    date_of_birth timestamp without time zone,
+    date_of_birth date,
 	age_yrs smallint   ,
     admin_gender character varying(32),
 	biological_sex character varying(32),

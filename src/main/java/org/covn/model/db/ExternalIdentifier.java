@@ -7,12 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -164,8 +162,33 @@ public class ExternalIdentifier extends BaseModel<ExternalIdentifier, Integer> i
 	public Integer getKey() {
 		return this.identificationId;
 	}
+
 	
 	public static ExternalIdentifier of(){
 		return new ExternalIdentifier();
 	}
+	
+	public static ExternalIdentifier copy(ExternalIdentifier src, int depth){
+		ExternalIdentifier copy = null;
+		if(depth > 0){
+			copy = new ExternalIdentifier();
+			copy.identificationId = src.getIdentificationId();
+			copy.userId = src.getUserId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.idType = src.getIdType();
+			copy.idTypeUri = src.getIdTypeUri();
+			copy.issuingAuthorityName = src.getIssuingAuthorityName();
+			copy.issuingAuthorityId = src.getIssuingAuthorityId();
+			copy.issuingAuthorityUri = src.getIssuingAuthorityUri();
+			copy.idNumber = src.getIdNumber();
+			copy.issueDate = src.getIssueDate();
+			copy.expiryDate = src.getExpiryDate();
+		}
+		return copy;
+	}
+
+	@Override
+	public ExternalIdentifier copy() {
+		return copy(this, copyDepth);
+	}	
 }

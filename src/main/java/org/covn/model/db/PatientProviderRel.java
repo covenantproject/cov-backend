@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import java.sql.Timestamp;
 import javax.persistence.GenerationType;
@@ -14,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -36,14 +34,14 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 
-	@Column(name = "health_pro_id", nullable = true, length = 10, updatable = false, insertable = false)
-	private Integer healthProId;
+	@Column(name = "health_pro_job_id", nullable = true, length = 10, updatable = false, insertable = false)
+	private Integer healthProJobId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "health_pro_id")
+	@JoinColumn(name = "health_pro_job_id")
 	private HealthPro healthPro;
 
-	@Column(name = "rel_type", nullable = true, length = 15)
+	@Column(name = "rel_type", nullable = true, length = 32)
 	private String relType;
 
 	@Column(name = "rel_start_date", nullable = true, length = 29)
@@ -52,11 +50,11 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 	@Column(name = "rel_end_date", nullable = true, length = 29)
 	private Timestamp relEndDate;
 
-	@Column(name = "rel_fac_location", nullable = true, length = 10, updatable = false, insertable = false)
-	private Integer relFacLocation;
+	@Column(name = "location_id", nullable = true, length = 10, updatable = false, insertable = false)
+	private Integer locationId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "rel_fac_location")
+	@JoinColumn(name = "location_id")
 	private LocationHierarchy locationHierarchy;
 
 
@@ -87,11 +85,11 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 		return this;
 	}
 
-	public Integer getHealthProId(){
-		return this.healthProId;
+	public Integer getHealthProJobId(){
+		return this.healthProJobId;
 	}
-	public PatientProviderRel setHealthProId(Integer healthProId){
-		this.healthProId = healthProId;
+	public PatientProviderRel setHealthProJobId(Integer healthProJobId){
+		this.healthProJobId = healthProJobId;
 		
 		return this;
 	}
@@ -101,7 +99,7 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 	}
 	public PatientProviderRel setHealthPro(HealthPro healthPro){
 		this.healthPro = healthPro;
-		this.healthProId = (this.healthPro == null)? null: this.healthPro.getHealthProId();
+		this.healthProJobId = (this.healthPro == null)? null: this.healthPro.getHealthProJobId();
 		return this;
 	}
 
@@ -132,11 +130,11 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 		return this;
 	}
 
-	public Integer getRelFacLocation(){
-		return this.relFacLocation;
+	public Integer getLocationId(){
+		return this.locationId;
 	}
-	public PatientProviderRel setRelFacLocation(Integer relFacLocation){
-		this.relFacLocation = relFacLocation;
+	public PatientProviderRel setLocationId(Integer locationId){
+		this.locationId = locationId;
 		
 		return this;
 	}
@@ -146,7 +144,7 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 	}
 	public PatientProviderRel setLocationHierarchy(LocationHierarchy locationHierarchy){
 		this.locationHierarchy = locationHierarchy;
-		this.relFacLocation = (this.locationHierarchy == null)? null: this.locationHierarchy.getLocationId();
+		this.locationId = (this.locationHierarchy == null)? null: this.locationHierarchy.getLocationId();
 		return this;
 	}
 
@@ -155,8 +153,32 @@ public class PatientProviderRel extends BaseModel<PatientProviderRel, Integer> i
 	public Integer getKey() {
 		return this.patProRelId;
 	}
+
 	
 	public static PatientProviderRel of(){
 		return new PatientProviderRel();
 	}
+	
+	public static PatientProviderRel copy(PatientProviderRel src, int depth){
+		PatientProviderRel copy = null;
+		if(depth > 0){
+			copy = new PatientProviderRel();
+			copy.patProRelId = src.getPatProRelId();
+			copy.patientId = src.getPatientId();
+			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.healthProJobId = src.getHealthProJobId();
+			copy.healthPro = HealthPro.copy(src.getHealthPro(), --depth);
+			copy.relType = src.getRelType();
+			copy.relStartDate = src.getRelStartDate();
+			copy.relEndDate = src.getRelEndDate();
+			copy.locationId = src.getLocationId();
+			copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+		}
+		return copy;
+	}
+
+	@Override
+	public PatientProviderRel copy() {
+		return copy(this, copyDepth);
+	}	
 }

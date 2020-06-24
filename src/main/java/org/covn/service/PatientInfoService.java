@@ -44,8 +44,8 @@ public class PatientInfoService {
 
         Users user = repo.findOne(repo.get(Users.class).add(Users_.userId, patient.getPatientId()));
         if (user != null) {
-            patientInfo.setFirstName(user.getFirstName());
-            patientInfo.setLastName(user.getLastName());
+            //patientInfo.setFirstName(user.getFirstName());
+            //patientInfo.setLastName(user.getLastName());
             patientInfo.setSex(user.getAdminGender());
             patientInfo.setDateOfBirth(user.getDateOfBirth());
         }

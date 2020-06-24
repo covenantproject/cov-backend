@@ -2,9 +2,6 @@ package org.covn.model.db;
 
 import javax.persistence.Entity;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -322,8 +320,37 @@ public class Patient extends BaseModel<Patient, Integer> implements java.io.Seri
 	public Integer getKey() {
 		return this.patientId;
 	}
+
 	
 	public static Patient of(){
 		return new Patient();
 	}
+	
+	public static Patient copy(Patient src, int depth){
+		Patient copy = null;
+		if(depth > 0){
+			copy = new Patient();
+			copy.patientId = src.getPatientId();
+			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.householdId = src.getHouseholdId();
+			copy.hasPreexistingConditions = src.getHasPreexistingConditions();
+			copy.hasMedications = src.getHasMedications();
+			copy.hasAllergies = src.getHasAllergies();
+			copy.hasAdvanceDirectives = src.getHasAdvanceDirectives();
+			copy.needsCarer = src.getNeedsCarer();
+			copy.hasInternationalTravel = src.getHasInternationalTravel();
+			copy.hasInterstateTravel = src.getHasInterstateTravel();
+			copy.hasHighRiskFacilityVisit = src.getHasHighRiskFacilityVisit();
+			copy.isHighRiskHealthWorker = src.getIsHighRiskHealthWorker();
+			copy.bloodGroup = src.getBloodGroup();
+			copy.clinicalTrialStatus = src.getClinicalTrialStatus();
+			copy.comments = src.getComments();
+		}
+		return copy;
+	}
+
+	@Override
+	public Patient copy() {
+		return copy(this, copyDepth);
+	}	
 }
