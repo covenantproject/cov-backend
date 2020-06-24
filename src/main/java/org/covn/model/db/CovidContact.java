@@ -6,13 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.JoinColumn;
 import java.sql.Timestamp;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -127,8 +125,27 @@ public class CovidContact extends BaseModel<CovidContact, Integer> implements ja
 	public Integer getKey() {
 		return this.contactId;
 	}
+
 	
 	public static CovidContact of(){
 		return new CovidContact();
 	}
+	
+	public static CovidContact copy(CovidContact src, int depth){
+		CovidContact copy = null;
+		if(depth > 0){
+			copy = new CovidContact();
+				copy.contactId = src.getContactId();
+				copy.contactUserId1 = src.getContactUserId1();
+				copy.contactUserId2 = src.getContactUserId2();
+				copy.contactTimeStart = src.getContactTimeStart();
+				copy.contactTimeEnd = src.getContactTimeEnd();
+				copy.contactLocationId = src.getContactLocationId();
+				copy.contactRelationship = src.getContactRelationship();
+				copy.contactExposure = src.getContactExposure();
+		}
+		return copy;
+	}
+
+	
 }

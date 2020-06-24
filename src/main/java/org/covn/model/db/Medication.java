@@ -7,12 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -236,8 +234,36 @@ public class Medication extends BaseModel<Medication, Integer> implements java.i
 	public Integer getKey() {
 		return this.medicationId;
 	}
+
 	
 	public static Medication of(){
 		return new Medication();
 	}
+	
+	public static Medication copy(Medication src, int depth){
+		Medication copy = null;
+		if(depth > 0){
+			copy = new Medication();
+				copy.medicationId = src.getMedicationId();
+				copy.patientId = src.getPatientId();
+				copy.patient = Patient.copy(src.getPatient(), --depth);
+				copy.ingredientCodeSystem = src.getIngredientCodeSystem();
+				copy.ingredientConceptCode = src.getIngredientConceptCode();
+				copy.ingredientDescription = src.getIngredientDescription();
+				copy.brandedName = src.getBrandedName();
+				copy.isActive = src.getIsActive();
+				copy.durationNum = src.getDurationNum();
+				copy.durationUnits = src.getDurationUnits();
+				copy.strengthNumAndUnits = src.getStrengthNumAndUnits();
+				copy.doseNumAndUnits = src.getDoseNumAndUnits();
+				copy.frequency = src.getFrequency();
+				copy.route = src.getRoute();
+				copy.indication = src.getIndication();
+				copy.intentType = src.getIntentType();
+				copy.comments = src.getComments();
+		}
+		return copy;
+	}
+
+	
 }

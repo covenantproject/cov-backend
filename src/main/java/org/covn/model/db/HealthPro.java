@@ -3,39 +3,37 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
-import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
 
 
 @Entity
-@Table(name = "health_pro", schema = "release1", uniqueConstraints={@UniqueConstraint(columnNames = {"health_pro_id"})
+@Table(name = "health_pro", schema = "release1", uniqueConstraints={@UniqueConstraint(columnNames = {"health_pro_job_id"})
 })
 public class HealthPro extends BaseModel<HealthPro, Integer> implements java.io.Serializable{
 
 	@Id
-	@Column(name = "health_pro_id", nullable = false, length = 10)
-	private Integer healthProId;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "health_pro_job_id", nullable = false, length = 10)
+	private Integer healthProJobId;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "health_pro_id")
+	@Column(name = "user_id", nullable = false, length = 10, updatable = false, insertable = false)
+	private Integer userId;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
 	private Users users;
-
-	@Column(name = "job_id", nullable = false, length = 10)
-	private Integer jobId;
 
 	@Column(name = "supervisor_id", nullable = true, length = 10, updatable = false, insertable = false)
 	private Integer supervisorId;
@@ -64,11 +62,20 @@ public class HealthPro extends BaseModel<HealthPro, Integer> implements java.io.
 	private Set<HealthPro> children;
 
 
-	public Integer getHealthProId(){
-		return this.healthProId;
+	public Integer getHealthProJobId(){
+		return this.healthProJobId;
 	}
-	public HealthPro setHealthProId(Integer healthProId){
-		this.healthProId = healthProId;
+	public HealthPro setHealthProJobId(Integer healthProJobId){
+		this.healthProJobId = healthProJobId;
+		
+		return this;
+	}
+
+	public Integer getUserId(){
+		return this.userId;
+	}
+	public HealthPro setUserId(Integer userId){
+		this.userId = userId;
 		
 		return this;
 	}
@@ -78,16 +85,7 @@ public class HealthPro extends BaseModel<HealthPro, Integer> implements java.io.
 	}
 	public HealthPro setUsers(Users users){
 		this.users = users;
-		this.healthProId = (this.users == null)? null: this.users.getUserId();
-		return this;
-	}
-
-	public Integer getJobId(){
-		return this.jobId;
-	}
-	public HealthPro setJobId(Integer jobId){
-		this.jobId = jobId;
-		
+		this.userId = (this.users == null)? null: this.users.getUserId();
 		return this;
 	}
 
@@ -105,7 +103,7 @@ public class HealthPro extends BaseModel<HealthPro, Integer> implements java.io.
 	}
 	public HealthPro setParent(HealthPro parent){
 		this.parent = parent;
-		this.supervisorId = (this.parent == null)? null: this.parent.getHealthProId();
+		this.supervisorId = (this.parent == null)? null: this.parent.getHealthProJobId();
 		return this;
 	}
 
@@ -166,10 +164,32 @@ public class HealthPro extends BaseModel<HealthPro, Integer> implements java.io.
 
 	@Override
 	public Integer getKey() {
-		return this.healthProId;
+		return this.healthProJobId;
 	}
+
 	
 	public static HealthPro of(){
 		return new HealthPro();
 	}
+	
+	public static HealthPro copy(HealthPro src, int depth){
+		HealthPro copy = null;
+		if(depth > 0){
+			copy = new HealthPro();
+				copy.healthProJobId = src.getHealthProJobId();
+				copy.userId = src.getUserId();
+				copy.users = Users.copy(src.getUsers(), --depth);
+				copy.supervisorId = src.getSupervisorId();
+				copy.parent = HealthPro.copy(src.getParent(), --depth);
+				copy.jobTitle = src.getJobTitle();
+				copy.workLocationId = src.getWorkLocationId();
+				copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+				copy.isActive = src.getIsActive();
+				copy.patientProviderRelSet = src.getPatientProviderRelSet();
+				copy.children = src.getChildren();
+		}
+		return copy;
+	}
+
+	
 }

@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -166,8 +164,30 @@ public class PreExistingCondition extends BaseModel<PreExistingCondition, Intege
 	public Integer getKey() {
 		return this.preExistingConditionId;
 	}
+
 	
 	public static PreExistingCondition of(){
 		return new PreExistingCondition();
 	}
+	
+	public static PreExistingCondition copy(PreExistingCondition src, int depth){
+		PreExistingCondition copy = null;
+		if(depth > 0){
+			copy = new PreExistingCondition();
+				copy.preExistingConditionId = src.getPreExistingConditionId();
+				copy.patientId = src.getPatientId();
+				copy.patient = Patient.copy(src.getPatient(), --depth);
+				copy.preExistingConditionCodeSystem = src.getPreExistingConditionCodeSystem();
+				copy.preExistingCondtionConceptCode = src.getPreExistingCondtionConceptCode();
+				copy.preExistingCondtionDescription = src.getPreExistingCondtionDescription();
+				copy.isActive = src.getIsActive();
+				copy.isControlled = src.getIsControlled();
+				copy.durationNum = src.getDurationNum();
+				copy.durationUnits = src.getDurationUnits();
+				copy.preExistingConditionCovidDenormSet = src.getPreExistingConditionCovidDenormSet();
+		}
+		return copy;
+	}
+
+	
 }

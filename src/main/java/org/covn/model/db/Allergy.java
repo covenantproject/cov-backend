@@ -7,12 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -200,8 +198,33 @@ public class Allergy extends BaseModel<Allergy, Integer> implements java.io.Seri
 	public Integer getKey() {
 		return this.allergyId;
 	}
+
 	
 	public static Allergy of(){
 		return new Allergy();
 	}
+	
+	public static Allergy copy(Allergy src, int depth){
+		Allergy copy = null;
+		if(depth > 0){
+			copy = new Allergy();
+				copy.allergyId = src.getAllergyId();
+				copy.patientId = src.getPatientId();
+				copy.patient = Patient.copy(src.getPatient(), --depth);
+				copy.allergenType = src.getAllergenType();
+				copy.allergenCodeSystem = src.getAllergenCodeSystem();
+				copy.allergenConceptCode = src.getAllergenConceptCode();
+				copy.allergenDescription = src.getAllergenDescription();
+				copy.allergicRxnCodeSystem = src.getAllergicRxnCodeSystem();
+				copy.allergicRxnConceptCode = src.getAllergicRxnConceptCode();
+				copy.allergicRxnDescription = src.getAllergicRxnDescription();
+				copy.allergySeverity = src.getAllergySeverity();
+				copy.isActive = src.getIsActive();
+				copy.durationNum = src.getDurationNum();
+				copy.durationUnits = src.getDurationUnits();
+		}
+		return copy;
+	}
+
+	
 }

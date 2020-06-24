@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import java.sql.Timestamp;
 import javax.persistence.GenerationType;
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -215,8 +213,34 @@ public class DeviceLocation extends BaseModel<DeviceLocation, Integer> implement
 	public Integer getKey() {
 		return this.deviceLocationId;
 	}
+
 	
 	public static DeviceLocation of(){
 		return new DeviceLocation();
 	}
+	
+	public static DeviceLocation copy(DeviceLocation src, int depth){
+		DeviceLocation copy = null;
+		if(depth > 0){
+			copy = new DeviceLocation();
+				copy.deviceLocationId = src.getDeviceLocationId();
+				copy.deviceAppId = src.getDeviceAppId();
+				copy.latitude = src.getLatitude();
+				copy.longitude = src.getLongitude();
+				copy.locationId = src.getLocationId();
+				copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+				copy.addressId = src.getAddressId();
+				copy.address = Address.copy(src.getAddress(), --depth);
+				copy.locationServiceType = src.getLocationServiceType();
+				copy.locationDateTime = src.getLocationDateTime();
+				copy.locationCheckReason = src.getLocationCheckReason();
+				copy.locationCheckResult = src.getLocationCheckResult();
+				copy.geofenceStatus = src.getGeofenceStatus();
+				copy.geofenceAction = src.getGeofenceAction();
+				copy.comments = src.getComments();
+		}
+		return copy;
+	}
+
+	
 }

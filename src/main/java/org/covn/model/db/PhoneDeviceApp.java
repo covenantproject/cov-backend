@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import java.sql.Timestamp;
 import javax.persistence.OneToMany;
@@ -16,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -203,8 +201,33 @@ public class PhoneDeviceApp extends BaseModel<PhoneDeviceApp, Integer> implement
 	public Integer getKey() {
 		return this.deviceAppId;
 	}
+
 	
 	public static PhoneDeviceApp of(){
 		return new PhoneDeviceApp();
 	}
+	
+	public static PhoneDeviceApp copy(PhoneDeviceApp src, int depth){
+		PhoneDeviceApp copy = null;
+		if(depth > 0){
+			copy = new PhoneDeviceApp();
+				copy.deviceAppId = src.getDeviceAppId();
+				copy.phoneNumberId = src.getPhoneNumberId();
+				copy.phoneNumber = PhoneNumber.copy(src.getPhoneNumber(), --depth);
+				copy.deviceImei = src.getDeviceImei();
+				copy.deviceMacId = src.getDeviceMacId();
+				copy.deviceOs = src.getDeviceOs();
+				copy.deviceOsVersion = src.getDeviceOsVersion();
+				copy.deviceManufacturer = src.getDeviceManufacturer();
+				copy.deviceModel = src.getDeviceModel();
+				copy.devicePhoneNumber = src.getDevicePhoneNumber();
+				copy.devicePhoneServiceProvider = src.getDevicePhoneServiceProvider();
+				copy.appVersion = src.getAppVersion();
+				copy.appInstalledDateTime = src.getAppInstalledDateTime();
+				copy.appHeartbeatSet = src.getAppHeartbeatSet();
+		}
+		return copy;
+	}
+
+	
 }

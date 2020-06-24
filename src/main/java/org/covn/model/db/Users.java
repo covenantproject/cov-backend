@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.Set;
-import org.covn.model.BaseModel;
 import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
@@ -14,6 +13,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -519,4 +519,54 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	public static Users of(){
 		return new Users();
 	}
+	
+	public static Users copy(Users src, int depth){
+		Users copy = null;
+		if(depth > 0){
+			copy = new Users();
+				copy.userId = src.getUserId();
+				copy.lsTitle = src.getLsTitle();
+				copy.lsFirstName = src.getLsFirstName();
+				copy.lsMiddleName = src.getLsMiddleName();
+				copy.lsLastName = src.getLsLastName();
+				copy.lsMaidenName = src.getLsMaidenName();
+				copy.lsDisplayName = src.getLsDisplayName();
+				copy.lsSuffix = src.getLsSuffix();
+				copy.lsDegree = src.getLsDegree();
+				copy.lsAliasName1 = src.getLsAliasName1();
+				copy.lsAliasName2 = src.getLsAliasName2();
+				copy.nsTitle = src.getNsTitle();
+				copy.nsFirstName = src.getNsFirstName();
+				copy.nsMiddleName = src.getNsMiddleName();
+				copy.nsLastName = src.getNsLastName();
+				copy.nsMaidenName = src.getNsMaidenName();
+				copy.nsDisplayName = src.getNsDisplayName();
+				copy.nsSuffix = src.getNsSuffix();
+				copy.nsDegree = src.getNsDegree();
+				copy.nsAliasName1 = src.getNsAliasName1();
+				copy.nsAliasName2 = src.getNsAliasName2();
+				copy.standardName = src.getStandardName();
+				copy.dateOfBirth = src.getDateOfBirth();
+				copy.ageYrs = src.getAgeYrs();
+				copy.adminGender = src.getAdminGender();
+				copy.biologicalSex = src.getBiologicalSex();
+				copy.username = src.getUsername();
+				copy.comments = src.getComments();
+				copy.externalIdentifierSet = src.getExternalIdentifierSet();
+				copy.demographics = src.getDemographics();
+				copy.userPhotoSet = src.getUserPhotoSet();
+				copy.phoneNumberByPrimaryUserIdSet = src.getPhoneNumberByPrimaryUserIdSet();
+				copy.emailAddressByUserIdSet = src.getEmailAddressByUserIdSet();
+				copy.healthCheckHistorySet = src.getHealthCheckHistorySet();
+				copy.patient = src.getPatient();
+				copy.patientRequestHistorySet = src.getPatientRequestHistorySet();
+				copy.phoneNumberByUserIdSet = src.getPhoneNumberByUserIdSet();
+				copy.addressSet = src.getAddressSet();
+				copy.emailAddressByPrimaryUserIdSet = src.getEmailAddressByPrimaryUserIdSet();
+				copy.healthProSet = src.getHealthProSet();
+		}
+		return copy;
+	}
+
+	
 }

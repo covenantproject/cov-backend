@@ -3,9 +3,6 @@ package org.covn.model.db;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.JoinColumn;
 import java.sql.Timestamp;
 import javax.persistence.GenerationType;
@@ -14,6 +11,7 @@ import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -312,8 +310,42 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getKey() {
 		return this.healthHistoryId;
 	}
+
 	
 	public static HealthCheckHistory of(){
 		return new HealthCheckHistory();
 	}
+	
+	public static HealthCheckHistory copy(HealthCheckHistory src, int depth){
+		HealthCheckHistory copy = null;
+		if(depth > 0){
+			copy = new HealthCheckHistory();
+				copy.healthHistoryId = src.getHealthHistoryId();
+				copy.patientId = src.getPatientId();
+				copy.patient = Patient.copy(src.getPatient(), --depth);
+				copy.enteredByUserId = src.getEnteredByUserId();
+				copy.users = Users.copy(src.getUsers(), --depth);
+				copy.healthCheckByUserType = src.getHealthCheckByUserType();
+				copy.appHeartbeatId = src.getAppHeartbeatId();
+				copy.appHeartbeat = AppHeartbeat.copy(src.getAppHeartbeat(), --depth);
+				copy.locationId = src.getLocationId();
+				copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+				copy.healthCheckDateTime = src.getHealthCheckDateTime();
+				copy.healthCheckReason = src.getHealthCheckReason();
+				copy.coughPresent = src.getCoughPresent();
+				copy.feverPresent = src.getFeverPresent();
+				copy.breathingDifficultyPresent = src.getBreathingDifficultyPresent();
+				copy.progressStatus = src.getProgressStatus();
+				copy.temperatureCelsius = src.getTemperatureCelsius();
+				copy.heartRatePerMin = src.getHeartRatePerMin();
+				copy.respRatePerMin = src.getRespRatePerMin();
+				copy.spo2Percent = src.getSpo2Percent();
+				copy.systolicBpMmhg = src.getSystolicBpMmhg();
+				copy.diastolicBpMmhg = src.getDiastolicBpMmhg();
+				copy.comments = src.getComments();
+		}
+		return copy;
+	}
+
+	
 }

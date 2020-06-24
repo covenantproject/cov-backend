@@ -7,12 +7,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.UniqueConstraint;
-
-import org.covn.model.BaseModel;
-
 import javax.persistence.SequenceGenerator;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import org.covn.model.BaseModel;
 import javax.persistence.Id;
 
 import java.io.Serializable;
@@ -141,8 +139,28 @@ public class EmailAddress extends BaseModel<EmailAddress, Integer> implements ja
 	public Integer getKey() {
 		return this.emailAddressId;
 	}
+
 	
 	public static EmailAddress of(){
 		return new EmailAddress();
 	}
+	
+	public static EmailAddress copy(EmailAddress src, int depth){
+		EmailAddress copy = null;
+		if(depth > 0){
+			copy = new EmailAddress();
+				copy.emailAddressId = src.getEmailAddressId();
+				copy.userId = src.getUserId();
+				copy.usersByUserId = Users.copy(src.getUsersByUserId(), --depth);
+				copy.emailAddress = src.getEmailAddress();
+				copy.emailAddressType = src.getEmailAddressType();
+				copy.isPreferred = src.getIsPreferred();
+				copy.isPrimaryUser = src.getIsPrimaryUser();
+				copy.primaryUserId = src.getPrimaryUserId();
+				copy.usersByPrimaryUserId = Users.copy(src.getUsersByPrimaryUserId(), --depth);
+		}
+		return copy;
+	}
+
+	
 }
