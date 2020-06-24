@@ -1,6 +1,6 @@
 package org.covn.controller;
 
-import org.covn.model.db.HealthCheckHistory;
+import org.covn.model.db.HealthCheck;
 import org.covn.repository.EntityRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class HealthHistoryController {
 	private EntityRepo repo;
 
 	@PostMapping("/updatehealthinfo")
-	public ResponseEntity<HealthCheckHistory> healthHistoryRegister(@RequestBody HealthCheckHistory healthHistory) {
+	public ResponseEntity<HealthCheck> healthHistoryRegister(@RequestBody HealthCheck healthHistory) {
 		try {
 			repo.save(healthHistory);
 		} catch (Exception ex) {

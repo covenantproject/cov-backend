@@ -8,7 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
-import org.covn.dto.LocationAndRoleDto;
+import org.covn.dto.LocationHierarchyDto;
 import org.covn.model.db.LocationHierarchy;
 import org.covn.repository.EntityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,9 @@ public class LocationRoleService {
 	  private EntityManager entityManager;
 	
 	
-	public List<LocationAndRoleDto> getLocationAndRoles(long userId) {	
+	public List<LocationHierarchyDto> getLocationAndRoles(long userId) {	
 
-		List<LocationAndRoleDto> locationRolesList=new ArrayList<LocationAndRoleDto>();
+		List<LocationHierarchyDto> locationRolesList=new ArrayList<LocationHierarchyDto>();
 		
 		List<LocationHierarchy> userLoc= null;
 		for (int i = 0; i < userLoc.size(); i++) {
@@ -41,16 +41,16 @@ public class LocationRoleService {
 	}
 
 
-	public List<LocationAndRoleDto> getLocationAndRole(int userId) {
+	public List<LocationHierarchyDto> getLocationAndRole(int userId) {
 		
-		List<LocationAndRoleDto> locRoles = new ArrayList<LocationAndRoleDto>();
+		List<LocationHierarchyDto> locRoles = new ArrayList<LocationHierarchyDto>();
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("getLocationsAndRolesForUser")
 				.registerStoredProcedureParameter("userId", Integer.class, ParameterMode.IN)
 				.setParameter("userId", userId);
 		query.execute();
 		List list= query.getResultList();	
 		Iterator itr = list.iterator();
-		LocationAndRoleDto lc=new LocationAndRoleDto();
+		LocationHierarchyDto lc=new LocationHierarchyDto();
 		while (itr.hasNext()) {
 			Object[] obj = (Object[]) itr.next();
 			if (obj[0] != null) {

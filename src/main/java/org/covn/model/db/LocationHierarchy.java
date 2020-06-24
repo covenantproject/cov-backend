@@ -66,7 +66,7 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 	private Set<PatientProviderRel> patientProviderRelSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "locationHierarchy")
-	private Set<HealthCheckHistory> healthCheckHistorySet;
+	private Set<HealthCheck> healthCheckHistorySet;
 
 
 	public Integer getLocationId(){
@@ -186,10 +186,10 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 		return this;
 	}
 
-	public Set<HealthCheckHistory> getHealthCheckHistorySet(){
+	public Set<HealthCheck> getHealthCheckHistorySet(){
 		return this.healthCheckHistorySet;
 	}
-	public LocationHierarchy setHealthCheckHistorySet(Set<HealthCheckHistory> healthCheckHistorySet){
+	public LocationHierarchy setHealthCheckHistorySet(Set<HealthCheck> healthCheckHistorySet){
 		this.healthCheckHistorySet = healthCheckHistorySet;
 		
 		return this;

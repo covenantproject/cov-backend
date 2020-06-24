@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 import org.covn.model.db.Allergy;
-import org.covn.model.db.HealthCheckHistory;
+import org.covn.model.db.HealthCheck;
 import org.covn.model.db.Medication;
 import org.covn.model.db.Patient;
 import org.covn.model.db.PatientGeofencedLocation;
@@ -46,7 +46,7 @@ public abstract class Patient_{
 	public static volatile SetAttribute<Patient, PatientProviderRel> patientProviderRelSet;
 	public static volatile SetAttribute<Patient, PreExistingConditionCovidDenorm> preExistingConditionCovidDenormSet;
 	public static volatile SetAttribute<Patient, PatientRequestHistory> patientRequestHistorySet;
-	public static volatile SetAttribute<Patient, HealthCheckHistory> healthCheckHistorySet;
+	public static volatile SetAttribute<Patient, HealthCheck> healthCheckHistorySet;
 	public static volatile SetAttribute<Patient, PatientStatus> patientStatusSet;
 
 	public static final String s_patientId = "patientId";

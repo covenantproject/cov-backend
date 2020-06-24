@@ -3,7 +3,7 @@ package org.covn.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.covn.dto.LocationAndRoleDto;
+import org.covn.dto.LocationHierarchyDto;
 import org.covn.service.LocationRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public class LocationRoleController {
 	@PreAuthorize("hasAuthority('ROLE_USER')")
 	public @ResponseBody ModelMap getLocationAndRole(@RequestParam int userId) {
 		ModelMap model = new ModelMap();
-		List<LocationAndRoleDto> locRole = new ArrayList<LocationAndRoleDto>();
+		List<LocationHierarchyDto> locRole = new ArrayList<LocationHierarchyDto>();
 		try {
 			locRole = locationService.getLocationAndRole(userId);
 		} catch (Exception ex) {

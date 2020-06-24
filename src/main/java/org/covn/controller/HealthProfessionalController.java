@@ -1,6 +1,6 @@
 package org.covn.controller;
 
-import org.covn.dto.HealthProfessionalDto;
+import org.covn.dto.HealthProDto;
 import org.covn.service.HealthProfessionalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +23,7 @@ public class HealthProfessionalController {
 
 	@PostMapping("/registerNewHealthPro")
 	@PreAuthorize("hasAuthority('ROLE_USER')")
-	public @ResponseBody ModelMap saveHealthPro(@RequestBody HealthProfessionalDto healthProf) {
+	public @ResponseBody ModelMap saveHealthPro(@RequestBody HealthProDto healthProf) {
 		ModelMap model = new ModelMap();
 		try {
 			//String healthInfo = healthProService.saveHealthPro(healthProf);

@@ -3,13 +3,17 @@ package org.covn.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+/** Patient Search Results - used in dashboards
+ * 
+ * @author Senthil N
+ *
+ */
 public class PatientSearchResultsDto {
 	
 	private long total;
 	private long size;
 	private long from;
 	private List<PatientDto> patients=new ArrayList<PatientDto>();
-	
 	
 	public long getTotal() {
 		return total;

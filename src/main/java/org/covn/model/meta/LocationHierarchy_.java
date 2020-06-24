@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 import org.covn.model.db.DeviceLocation;
-import org.covn.model.db.HealthCheckHistory;
+import org.covn.model.db.HealthCheck;
 import org.covn.model.db.HealthPro;
 import org.covn.model.db.LocationHierarchy;
 import org.covn.model.db.PatientProviderRel;
@@ -30,7 +30,7 @@ public abstract class LocationHierarchy_{
 	public static volatile SetAttribute<LocationHierarchy, HealthPro> healthProSet;
 	public static volatile SetAttribute<LocationHierarchy, PatientProviderRel> patientProviderRelSet;
 	public static volatile SetAttribute<LocationHierarchy, DeviceLocation> deviceLocationSet;
-	public static volatile SetAttribute<LocationHierarchy, HealthCheckHistory> healthCheckHistorySet;
+	public static volatile SetAttribute<LocationHierarchy, HealthCheck> healthCheckHistorySet;
 
 	public static final String s_locationId = "locationId";
 	public static final String s_locationName = "locationName";

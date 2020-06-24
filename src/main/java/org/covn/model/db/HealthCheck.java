@@ -20,7 +20,9 @@ import java.io.Serializable;
 @Entity
 @Table(name = "health_check_history", schema = "release1", uniqueConstraints={@UniqueConstraint(columnNames = {"health_history_id"})
 })
-public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> implements java.io.Serializable{
+// preferably rename the table to health_check and its pkey to health_check_id
+
+public class HealthCheck extends BaseModel<HealthCheck, Integer> implements java.io.Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,7 +103,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getHealthHistoryId(){
 		return this.healthHistoryId;
 	}
-	public HealthCheckHistory setHealthHistoryId(Integer healthHistoryId){
+	public HealthCheck setHealthHistoryId(Integer healthHistoryId){
 		this.healthHistoryId = healthHistoryId;
 		
 		return this;
@@ -110,7 +112,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getPatientId(){
 		return this.patientId;
 	}
-	public HealthCheckHistory setPatientId(Integer patientId){
+	public HealthCheck setPatientId(Integer patientId){
 		this.patientId = patientId;
 		
 		return this;
@@ -119,7 +121,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Patient getPatient(){
 		return this.patient;
 	}
-	public HealthCheckHistory setPatient(Patient patient){
+	public HealthCheck setPatient(Patient patient){
 		this.patient = patient;
 		this.patientId = (this.patient == null)? null: this.patient.getPatientId();
 		return this;
@@ -128,7 +130,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getEnteredByUserId(){
 		return this.enteredByUserId;
 	}
-	public HealthCheckHistory setEnteredByUserId(Integer enteredByUserId){
+	public HealthCheck setEnteredByUserId(Integer enteredByUserId){
 		this.enteredByUserId = enteredByUserId;
 		
 		return this;
@@ -137,7 +139,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Users getUsers(){
 		return this.users;
 	}
-	public HealthCheckHistory setUsers(Users users){
+	public HealthCheck setUsers(Users users){
 		this.users = users;
 		this.enteredByUserId = (this.users == null)? null: this.users.getUserId();
 		return this;
@@ -146,7 +148,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public String getHealthCheckByUserType(){
 		return this.healthCheckByUserType;
 	}
-	public HealthCheckHistory setHealthCheckByUserType(String healthCheckByUserType){
+	public HealthCheck setHealthCheckByUserType(String healthCheckByUserType){
 		this.healthCheckByUserType = healthCheckByUserType;
 		
 		return this;
@@ -155,7 +157,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getAppHeartbeatId(){
 		return this.appHeartbeatId;
 	}
-	public HealthCheckHistory setAppHeartbeatId(Integer appHeartbeatId){
+	public HealthCheck setAppHeartbeatId(Integer appHeartbeatId){
 		this.appHeartbeatId = appHeartbeatId;
 		
 		return this;
@@ -164,7 +166,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public AppHeartbeat getAppHeartbeat(){
 		return this.appHeartbeat;
 	}
-	public HealthCheckHistory setAppHeartbeat(AppHeartbeat appHeartbeat){
+	public HealthCheck setAppHeartbeat(AppHeartbeat appHeartbeat){
 		this.appHeartbeat = appHeartbeat;
 		this.appHeartbeatId = (this.appHeartbeat == null)? null: this.appHeartbeat.getAppHeartbeatId();
 		return this;
@@ -173,7 +175,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getLocationId(){
 		return this.locationId;
 	}
-	public HealthCheckHistory setLocationId(Integer locationId){
+	public HealthCheck setLocationId(Integer locationId){
 		this.locationId = locationId;
 		
 		return this;
@@ -182,7 +184,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public LocationHierarchy getLocationHierarchy(){
 		return this.locationHierarchy;
 	}
-	public HealthCheckHistory setLocationHierarchy(LocationHierarchy locationHierarchy){
+	public HealthCheck setLocationHierarchy(LocationHierarchy locationHierarchy){
 		this.locationHierarchy = locationHierarchy;
 		this.locationId = (this.locationHierarchy == null)? null: this.locationHierarchy.getLocationId();
 		return this;
@@ -191,7 +193,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Timestamp getHealthCheckDateTime(){
 		return this.healthCheckDateTime;
 	}
-	public HealthCheckHistory setHealthCheckDateTime(Timestamp healthCheckDateTime){
+	public HealthCheck setHealthCheckDateTime(Timestamp healthCheckDateTime){
 		this.healthCheckDateTime = healthCheckDateTime;
 		
 		return this;
@@ -200,7 +202,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public String getHealthCheckReason(){
 		return this.healthCheckReason;
 	}
-	public HealthCheckHistory setHealthCheckReason(String healthCheckReason){
+	public HealthCheck setHealthCheckReason(String healthCheckReason){
 		this.healthCheckReason = healthCheckReason;
 		
 		return this;
@@ -209,7 +211,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Boolean getCoughPresent(){
 		return this.coughPresent;
 	}
-	public HealthCheckHistory setCoughPresent(Boolean coughPresent){
+	public HealthCheck setCoughPresent(Boolean coughPresent){
 		this.coughPresent = coughPresent;
 		
 		return this;
@@ -218,7 +220,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Boolean getFeverPresent(){
 		return this.feverPresent;
 	}
-	public HealthCheckHistory setFeverPresent(Boolean feverPresent){
+	public HealthCheck setFeverPresent(Boolean feverPresent){
 		this.feverPresent = feverPresent;
 		
 		return this;
@@ -227,7 +229,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Boolean getBreathingDifficultyPresent(){
 		return this.breathingDifficultyPresent;
 	}
-	public HealthCheckHistory setBreathingDifficultyPresent(Boolean breathingDifficultyPresent){
+	public HealthCheck setBreathingDifficultyPresent(Boolean breathingDifficultyPresent){
 		this.breathingDifficultyPresent = breathingDifficultyPresent;
 		
 		return this;
@@ -236,7 +238,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public String getProgressStatus(){
 		return this.progressStatus;
 	}
-	public HealthCheckHistory setProgressStatus(String progressStatus){
+	public HealthCheck setProgressStatus(String progressStatus){
 		this.progressStatus = progressStatus;
 		
 		return this;
@@ -245,7 +247,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Double getTemperatureCelsius(){
 		return this.temperatureCelsius;
 	}
-	public HealthCheckHistory setTemperatureCelsius(Double temperatureCelsius){
+	public HealthCheck setTemperatureCelsius(Double temperatureCelsius){
 		this.temperatureCelsius = temperatureCelsius;
 		
 		return this;
@@ -254,7 +256,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getHeartRatePerMin(){
 		return this.heartRatePerMin;
 	}
-	public HealthCheckHistory setHeartRatePerMin(Integer heartRatePerMin){
+	public HealthCheck setHeartRatePerMin(Integer heartRatePerMin){
 		this.heartRatePerMin = heartRatePerMin;
 		
 		return this;
@@ -263,7 +265,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getRespRatePerMin(){
 		return this.respRatePerMin;
 	}
-	public HealthCheckHistory setRespRatePerMin(Integer respRatePerMin){
+	public HealthCheck setRespRatePerMin(Integer respRatePerMin){
 		this.respRatePerMin = respRatePerMin;
 		
 		return this;
@@ -272,7 +274,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getSpo2Percent(){
 		return this.spo2Percent;
 	}
-	public HealthCheckHistory setSpo2Percent(Integer spo2Percent){
+	public HealthCheck setSpo2Percent(Integer spo2Percent){
 		this.spo2Percent = spo2Percent;
 		
 		return this;
@@ -281,7 +283,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getSystolicBpMmhg(){
 		return this.systolicBpMmhg;
 	}
-	public HealthCheckHistory setSystolicBpMmhg(Integer systolicBpMmhg){
+	public HealthCheck setSystolicBpMmhg(Integer systolicBpMmhg){
 		this.systolicBpMmhg = systolicBpMmhg;
 		
 		return this;
@@ -290,7 +292,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public Integer getDiastolicBpMmhg(){
 		return this.diastolicBpMmhg;
 	}
-	public HealthCheckHistory setDiastolicBpMmhg(Integer diastolicBpMmhg){
+	public HealthCheck setDiastolicBpMmhg(Integer diastolicBpMmhg){
 		this.diastolicBpMmhg = diastolicBpMmhg;
 		
 		return this;
@@ -299,7 +301,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	public String getComments(){
 		return this.comments;
 	}
-	public HealthCheckHistory setComments(String comments){
+	public HealthCheck setComments(String comments){
 		this.comments = comments;
 		
 		return this;
@@ -312,14 +314,14 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	}
 
 	
-	public static HealthCheckHistory of(){
-		return new HealthCheckHistory();
+	public static HealthCheck of(){
+		return new HealthCheck();
 	}
 	
-	public static HealthCheckHistory copy(HealthCheckHistory src, int depth){
-		HealthCheckHistory copy = null;
+	public static HealthCheck copy(HealthCheck src, int depth){
+		HealthCheck copy = null;
 		if(depth > 0){
-			copy = new HealthCheckHistory();
+			copy = new HealthCheck();
 			copy.healthHistoryId = src.getHealthHistoryId();
 			copy.patientId = src.getPatientId();
 			copy.patient = Patient.copy(src.getPatient(), --depth);
@@ -348,7 +350,7 @@ public class HealthCheckHistory extends BaseModel<HealthCheckHistory, Integer> i
 	}
 
 	@Override
-	public HealthCheckHistory copy() {
+	public HealthCheck copy() {
 		return copy(this, copyDepth);
 	}	
 }

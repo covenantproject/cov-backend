@@ -1,54 +1,26 @@
 package org.covn.dto;
 
-import java.util.Date;
+import org.covn.model.db.PatientProviderRel;
 
-import org.covn.model.type.PatientProviderRelType;
-
+/** Patient provider relationship, used for access control and viewing individual patient info in dashboards
+ * Only health pros who have a patient-provider relationship to a patient can view that patient's info in the dashboard.
+ * Patient-provider relationship has a location (e.g. public health department of a city for patients under home quarantine,
+ * or a hospital for inpatients), start and end dates.
+ * 
+ * Without a current patient-provider relationship, a provider may view aggregate statistical information and trends for a given 
+ * location  * based on their job location or its administrative subdivisions. But they SHALL not see personally identifiable 
+ * information or protected health information of a patient. 
+ */
 public class PatientProviderRelationshipDto {
-	
-	private int patientId;
-	private int providerJobId;
-	private PatientProviderRelType relationshipType;
-	private int locationId;
-	private Date relationshipStartDate;
-	private Date relationshipEndDate;
-	
-	public int getPatientId() {
-		return patientId;
-	}
-	public void setPatientId(int patientId) {
-		this.patientId = patientId;
-	}
-	public int getProviderJobId() {
-		return providerJobId;
-	}
-	public void setProviderJobId(int providerJobId) {
-		this.providerJobId = providerJobId;
-	}
-	public PatientProviderRelType getRelationshipType() {
-		return relationshipType;
-	}
-	public void setRelationshipType(PatientProviderRelType relationshipType) {
-		this.relationshipType = relationshipType;
-	}
-	public int getLocationId() {
-		return locationId;
-	}
-	public void setLocationId(int locationId) {
-		this.locationId = locationId;
-	}
-	public Date getRelationshipStartDate() {
-		return relationshipStartDate;
-	}
-	public void setRelationshipStartDate(Date relationshipStartDate) {
-		this.relationshipStartDate = relationshipStartDate;
-	}
-	public Date getRelationshipEndDate() {
-		return relationshipEndDate;
-	}
-	public void setRelationshipEndDate(Date relationshipEndDate) {
-		this.relationshipEndDate = relationshipEndDate;
+
+	private PatientProviderRel patProRel;
+
+	public PatientProviderRel getPatProRel() {
+		return patProRel;
 	}
 
-
+	public void setPatProRel(PatientProviderRel patProRel) {
+		this.patProRel = patProRel;
+	}
+	
 }

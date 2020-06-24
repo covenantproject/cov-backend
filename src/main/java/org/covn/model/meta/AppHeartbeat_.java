@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 
 import org.covn.model.db.AppHeartbeat;
-import org.covn.model.db.HealthCheckHistory;
+import org.covn.model.db.HealthCheck;
 import org.covn.model.db.PhoneDeviceApp;
 
 import java.sql.Timestamp;
@@ -25,7 +25,7 @@ public abstract class AppHeartbeat_{
 	public static volatile SingularAttribute<AppHeartbeat, String> heartBeatIp4Address;
 	public static volatile SingularAttribute<AppHeartbeat, String> heartBeatIp6Address;
 	public static volatile SingularAttribute<AppHeartbeat, String> heartbeatStatus;
-	public static volatile SetAttribute<AppHeartbeat, HealthCheckHistory> healthCheckHistorySet;
+	public static volatile SetAttribute<AppHeartbeat, HealthCheck> healthCheckHistorySet;
 
 	public static final String s_appHeartbeatId = "appHeartbeatId";
 	public static final String s_deviceAppId = "deviceAppId";
