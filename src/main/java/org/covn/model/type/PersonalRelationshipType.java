@@ -1,6 +1,6 @@
 package org.covn.model.type;
 
-public enum RelationshipType implements BaseEnum{
+public enum PersonalRelationshipType implements BaseEnum{
 	child("relationship_child"),
 	spouse("relationship_spouse"),
 	stepchild("relationship_stepchild"),
@@ -18,7 +18,7 @@ public enum RelationshipType implements BaseEnum{
 	sibling("relationship_sibling"),
 	;
 	private final String key;
-	private RelationshipType(String key) {
+	private PersonalRelationshipType(String key) {
 		this.key = key;
 	}
 	@Override

@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
-import org.covn.dto.HealthInfoDto;
+import org.covn.dto.HealthCheckDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +17,7 @@ public class HealthInfoService {
 	@Autowired
 	private EntityManager entityManager;
 	
-	public String updateHealthInfo(HealthInfoDto userRequest) {
+	public String updateHealthInfo(HealthCheckDto userRequest) {
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("updatehealth")
 				.registerStoredProcedureParameter("userid", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("coughpresent", Boolean.class, ParameterMode.IN)

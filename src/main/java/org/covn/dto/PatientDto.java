@@ -2,9 +2,9 @@ package org.covn.dto;
 
 /* Fields that are specific to patients, in addition to common fields in UserDto
  * 
- * For the lack of a better word, those under quarantine (i.e. infection not yet confirmed) 
- * and under isolation (i.e. infection is confirmed) are all called 'patients'. The word
- * 'Patient' does not imply that the person is infected or ill.
+ * For the lack of a better word, 'patient' denotes those under quarantine (i.e. infection 
+ * not yet confirmed) or isolation (i.e. infection is confirmed). 
+ * The word 'Patient' does not imply that the person is infected or ill.
  *  
  */
 

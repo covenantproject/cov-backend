@@ -2,7 +2,7 @@ package org.covn.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.covn.dto.PatientInfoDto;
-import org.covn.dto.PatientLocationDto;
+import org.covn.dto.PatientSearchResultsDto;
 import org.covn.service.PatientInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,7 +26,7 @@ public class PatientInfoController {
 
     @GetMapping("/searchPatient")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public PatientLocationDto searchPatient(@RequestParam(required = false) Long locationId,
+    public PatientSearchResultsDto searchPatient(@RequestParam(required = false) Long locationId,
             @RequestParam(required = false) Long healthProId, @RequestParam(required = false) String phoneNumber,
             @RequestParam(defaultValue = "100") int size, @RequestParam(defaultValue = "0") int from,
             @RequestParam(required = false) String firstName, @RequestParam(required = false) String lastName,

@@ -13,7 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
-import org.covn.dto.GeofenceDto;
+import org.covn.dto.PatientGeofencedLocationDto;
 import org.covn.model.db.PatientGeofencedLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class GeofenceService {
 	@Autowired
 	private EntityManager entityManager;
 
-	public String updateGeofence(GeofenceDto geofenceDto) {
+	public String updateGeofence(PatientGeofencedLocationDto geofenceDto) {
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("updategeofencelocation")
 				.registerStoredProcedureParameter("patientId", Integer.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("geofenceLattitude", Double.class, ParameterMode.IN)

@@ -3,7 +3,7 @@ package org.covn.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.covn.dto.GeofenceDto;
+import org.covn.dto.PatientGeofencedLocationDto;
 import org.covn.model.db.PatientGeofencedLocation;
 import org.covn.service.GeofenceService;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ public class GeofenceController {
 	GeofenceService geofenceService;
 
 	@PostMapping("/updategeofence")
-	public @ResponseBody ModelMap geofenceRegister(@RequestBody GeofenceDto geofenceDto) {
+	public @ResponseBody ModelMap geofenceRegister(@RequestBody PatientGeofencedLocationDto geofenceDto) {
 		ModelMap model = new ModelMap();
 		try {
 			String geo = geofenceService.updateGeofence(geofenceDto);

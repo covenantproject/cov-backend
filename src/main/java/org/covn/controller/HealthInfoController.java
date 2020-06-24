@@ -1,6 +1,6 @@
 package org.covn.controller;
 
-import org.covn.dto.HealthInfoDto;
+import org.covn.dto.HealthCheckDto;
 import org.covn.service.HealthInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class HealthInfoController {
 	HealthInfoService healthService;
 
 	@PostMapping("/updateHealth")
-	public @ResponseBody ModelMap healthHistoryRegister(@RequestBody HealthInfoDto userRequest) {
+	public @ResponseBody ModelMap healthHistoryRegister(@RequestBody HealthCheckDto userRequest) {
 		ModelMap model = new ModelMap();
 		try {
 			String healthInfo = healthService.updateHealthInfo(userRequest);
@@ -30,7 +30,7 @@ public class HealthInfoController {
 			throw new RuntimeException("Save Couldn't Complete");
 		}
 
-		HealthInfoDto h = new HealthInfoDto();
+		HealthCheckDto h = new HealthCheckDto();
 		model.addAttribute("status", "Success");
 		return model;
 	}

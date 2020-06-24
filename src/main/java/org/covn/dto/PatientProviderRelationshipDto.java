@@ -2,30 +2,33 @@ package org.covn.dto;
 
 import java.util.Date;
 
+import org.covn.model.type.PatientProviderRelType;
+
 public class PatientProviderRelationshipDto {
 	
 	private int patientId;
-	private int providerId;
-	private String relationshipType;
+	private int providerJobId;
+	private PatientProviderRelType relationshipType;
 	private int locationId;
 	private Date relationshipStartDate;
 	private Date relationshipEndDate;
+	
 	public int getPatientId() {
 		return patientId;
 	}
 	public void setPatientId(int patientId) {
 		this.patientId = patientId;
 	}
-	public int getProviderId() {
-		return providerId;
+	public int getProviderJobId() {
+		return providerJobId;
 	}
-	public void setProviderId(int providerId) {
-		this.providerId = providerId;
+	public void setProviderJobId(int providerJobId) {
+		this.providerJobId = providerJobId;
 	}
-	public String getRelationshipType() {
+	public PatientProviderRelType getRelationshipType() {
 		return relationshipType;
 	}
-	public void setRelationshipType(String relationshipType) {
+	public void setRelationshipType(PatientProviderRelType relationshipType) {
 		this.relationshipType = relationshipType;
 	}
 	public int getLocationId() {
@@ -46,7 +49,6 @@ public class PatientProviderRelationshipDto {
 	public void setRelationshipEndDate(Date relationshipEndDate) {
 		this.relationshipEndDate = relationshipEndDate;
 	}
-	
-	
+
 
 }

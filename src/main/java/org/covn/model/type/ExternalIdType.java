@@ -1,6 +1,6 @@
 package org.covn.model.type;
 
-public enum IdType implements BaseEnum{
+public enum ExternalIdType implements BaseEnum{
 	medicalLicenseNum("id_medical_license_num"),
 	pancardNumIn("id_pancard_num_in"),
 	drivingLicense("id_driving_license"),
@@ -15,7 +15,7 @@ public enum IdType implements BaseEnum{
 	mrn("id_mrn"),
 	;
 	private final String key;
-	private IdType(String key) {
+	private ExternalIdType(String key) {
 		this.key = key;
 	}
 	@Override

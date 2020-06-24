@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.covn.dto.PatientInfoDto;
-import org.covn.dto.PatientLocationDto;
+import org.covn.dto.PatientSearchResultsDto;
 import org.covn.model.db.Address;
 import org.covn.model.db.AppHeartbeat;
 import org.covn.model.db.Patient;
@@ -101,7 +101,7 @@ public class PatientInfoService {
         return patientInfo;
     }
 
-    public PatientLocationDto searchPatients(Long locationId, Long healthProId, String phoneNumber, int size, int from,
+    public PatientSearchResultsDto searchPatients(Long locationId, Long healthProId, String phoneNumber, int size, int from,
                                              String firstName, String lastName, String covid19Status, String quarantineStatus, String isolationStatus,
                                              String quarantineRequestStatus, String medicalRequestStatus, String suppliesRequestStatus,
                                              String geofenceStatus, String heartbeatStatus, String healthStatusAlert) {

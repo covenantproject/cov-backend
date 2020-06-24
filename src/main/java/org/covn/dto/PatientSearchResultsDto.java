@@ -3,7 +3,7 @@ package org.covn.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientLocationDto {
+public class PatientSearchResultsDto {
 	
 	private long total;
 	private long size;

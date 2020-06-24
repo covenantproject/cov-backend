@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.covn.dto.PatientDto;
-import org.covn.dto.PatientLocationDto;
+import org.covn.dto.PatientSearchResultsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +19,7 @@ public class PatientDao {
 
 
     //TODO review sql
-    public PatientLocationDto searchPatients(Long locationId, Long userId, String phoneNumber, int size, int from,
+    public PatientSearchResultsDto searchPatients(Long locationId, Long userId, String phoneNumber, int size, int from,
                                              String firstName, String lastName, String covid19Status, String quarantineStatus, String isolationStatus,
                                              String quarantineRequestStatus, String medicalRequestStatus, String suppliesRequestStatus,
                                              String geofenceStatus, String heartbeatStatus, String healthStatusAlert) {
@@ -127,7 +127,7 @@ public class PatientDao {
             subList = list.subList(from, to);
         }
 
-        PatientLocationDto patients = new PatientLocationDto();
+        PatientSearchResultsDto patients = new PatientSearchResultsDto();
         patients.setTotal(list.size());
         patients.setSize(size);
         patients.setFrom(from);
