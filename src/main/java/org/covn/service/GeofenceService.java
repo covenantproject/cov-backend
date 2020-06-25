@@ -30,14 +30,11 @@ public class GeofenceService {
 				.registerStoredProcedureParameter("geofenceLattitude", Double.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("geofenceLongitude", Double.class, ParameterMode.IN)
 				.registerStoredProcedureParameter("geofenceRadiusMetres", Double.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("geofenceStartDate", Date.class, ParameterMode.IN)
-				.registerStoredProcedureParameter("geofenceEndDate", Date.class, ParameterMode.IN)
-				.setParameter("patientId", geofenceDto.getPatientId())
-				.setParameter("geofenceLattitude", geofenceDto.getLatitude())
-				.setParameter("geofenceLongitude", geofenceDto.getLongitude())
-				.setParameter("geofenceRadiusMetres", geofenceDto.getRadius())
-				.setParameter("geofenceStartDate", geofenceDto.getStartDate())
-				.setParameter("geofenceEndDate", geofenceDto.getEndDate());
+				.setParameter("patientId", geofenceDto.getPatGeofenceLoc().getPatientId())
+				.setParameter("geofenceLattitude", geofenceDto.getPatGeofenceLoc().getLatitude())
+				.setParameter("geofenceLongitude", geofenceDto.getPatGeofenceLoc().getLongitude())
+				.setParameter("geofenceRadiusMetres", geofenceDto.getPatGeofenceLoc().getRadiusMetres());
+
 
 		query.execute();
 		List<Object> result = cast(query.getResultList());

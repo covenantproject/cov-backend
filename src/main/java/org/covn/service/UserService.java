@@ -26,68 +26,83 @@ public class UserService {
 	 * 
 	 */
 	
-	
-	
-	private void registerNewUser(UserDto userDto) {
+	/** Create a new user record if it doesn't exist for a new user.
+	* 	A user record may already exist for a new patient if the user is already a health professional.
+	* 	A user record may already exist for a new health professional if the user is already a patient.
+	* 
+	* This method can also be used to update the user record if the user id is provided.
+	*/
+	public void saveUser (UserDto userDto) {
 		
 	}
+
 	
-	private UserDto getUserProfile (int userId) {
+	public UserDto getUserProfile (int userId) {
 		return null;
 	}
 
-	private void saveUserProfile (UserDto userDto) {
+	public void saveUserProfile (UserDto userDto) {
 	}
-	
 
-	private void uploadPhoto () {
+	public void uploadPhoto () {
 		
 	}
 	
-	
-	private void getPhoto () {
+	public void getPhoto () {
 		
 	}
 	
+	public void deletePhoto() {
+		
+	}
 	
+	public void savePhoneNumber() {
+		
+	}
 	
-	// everything below is old stuff, feel free to change/remove
+	public void getPhoneNumber() {
+		
+	}
 	
+	public void deletePhoneNumber() {
+		
+	}
 	
+	public void saveAddress() {
+		
+	}
 	
-    @Value("${upload.path}")
-    private String path;
-
-    @Autowired
-    private EntityManager entityManager;
-
-    @Transactional
-    public Long registerUser() {
-    	return null;
-    }
-
-    public UserDto getUserProfile(Long userId) {
-        
-       
-        return null;
-    }
-
-    @Transactional
-    public Long uploadFile(MultipartFile file) {
-        if (file.isEmpty()) {
-            throw new RuntimeException("Failed to store empty file");
-        }
-
-        return null;
-    }
-
-    private UserDto convertToVo(Object user) {
-        return null;
-    }
-
-    private Object convertToEntity(Object register) {
-
-        return null;
-    }
+	public void getAddress() {
+		
+	}
+	
+	public void deleteAddress() {
+		
+	}
+	
+	public void saveEmailAddress() {
+		
+	}
+	
+	public void getEmailAddress() {
+		
+	}
+	
+	public void deleteEmailAddress() {
+		
+	}
+	
+	public void saveExternalId() {
+		
+	}
+	
+	public void getExternalId() {
+		
+	}
+	
+	public void deleteExternalId() {
+		
+	}	
+	
 }
 
