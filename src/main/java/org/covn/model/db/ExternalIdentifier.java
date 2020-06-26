@@ -174,7 +174,7 @@ public class ExternalIdentifier extends BaseModel<ExternalIdentifier, Integer> i
 			copy = new ExternalIdentifier();
 			copy.identificationId = src.getIdentificationId();
 			copy.userId = src.getUserId();
-			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.users = (src.getUsers() == null)? null : Users.copy(src.getUsers(), --depth);
 			copy.idType = src.getIdType();
 			copy.idTypeUri = src.getIdTypeUri();
 			copy.issuingAuthorityName = src.getIssuingAuthorityName();

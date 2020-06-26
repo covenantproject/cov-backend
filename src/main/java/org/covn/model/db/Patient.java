@@ -93,7 +93,7 @@ public class Patient extends BaseModel<Patient, Integer> implements java.io.Seri
 	private Set<PatientRequestHistory> patientRequestHistorySet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
-	private Set<HealthCheck> healthCheckHistorySet;
+	private Set<HealthCheckHistory> healthCheckHistorySet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "patient")
 	private Set<PatientStatus> patientStatusSet;
@@ -297,10 +297,10 @@ public class Patient extends BaseModel<Patient, Integer> implements java.io.Seri
 		return this;
 	}
 
-	public Set<HealthCheck> getHealthCheckHistorySet(){
+	public Set<HealthCheckHistory> getHealthCheckHistorySet(){
 		return this.healthCheckHistorySet;
 	}
-	public Patient setHealthCheckHistorySet(Set<HealthCheck> healthCheckHistorySet){
+	public Patient setHealthCheckHistorySet(Set<HealthCheckHistory> healthCheckHistorySet){
 		this.healthCheckHistorySet = healthCheckHistorySet;
 		
 		return this;
@@ -331,7 +331,7 @@ public class Patient extends BaseModel<Patient, Integer> implements java.io.Seri
 		if(depth > 0){
 			copy = new Patient();
 			copy.patientId = src.getPatientId();
-			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.users = (src.getUsers() == null)? null : Users.copy(src.getUsers(), --depth);
 			copy.householdId = src.getHouseholdId();
 			copy.hasPreexistingConditions = src.getHasPreexistingConditions();
 			copy.hasMedications = src.getHasMedications();

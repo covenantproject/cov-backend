@@ -188,14 +188,14 @@ public class PatientRequestHistory extends BaseModel<PatientRequestHistory, Inte
 			copy = new PatientRequestHistory();
 			copy.patientRequestHistoryId = src.getPatientRequestHistoryId();
 			copy.patientId = src.getPatientId();
-			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.patient = (src.getPatient() == null)? null : Patient.copy(src.getPatient(), --depth);
 			copy.requestType = src.getRequestType();
 			copy.requestDateTime = src.getRequestDateTime();
 			copy.requestStatus = src.getRequestStatus();
 			copy.requestComments = src.getRequestComments();
 			copy.responseType = src.getResponseType();
 			copy.responseUserId = src.getResponseUserId();
-			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.users = (src.getUsers() == null)? null : Users.copy(src.getUsers(), --depth);
 			copy.responseDateTime = src.getResponseDateTime();
 			copy.responseComments = src.getResponseComments();
 		}

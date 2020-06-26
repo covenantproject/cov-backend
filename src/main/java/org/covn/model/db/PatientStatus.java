@@ -248,7 +248,7 @@ public class PatientStatus extends BaseModel<PatientStatus, Integer> implements 
 			copy = new PatientStatus();
 			copy.patientStatusId = src.getPatientStatusId();
 			copy.patientId = src.getPatientId();
-			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.patient = (src.getPatient() == null)? null : Patient.copy(src.getPatient(), --depth);
 			copy.covid19Status = src.getCovid19Status();
 			copy.healthStatus = src.getHealthStatus();
 			copy.quarIsltStatus = src.getQuarIsltStatus();

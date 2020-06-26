@@ -273,7 +273,7 @@ public class PhoneNumber extends BaseModel<PhoneNumber, Integer> implements java
 			copy = new PhoneNumber();
 			copy.phoneNumberId = src.getPhoneNumberId();
 			copy.userId = src.getUserId();
-			copy.usersByUserId = Users.copy(src.getUsersByUserId(), --depth);
+			copy.usersByUserId = (src.getUsersByUserId() == null)? null : Users.copy(src.getUsersByUserId(), --depth);
 			copy.phoneType = src.getPhoneType();
 			copy.phoneNumber = src.getPhoneNumber();
 			copy.phoneNumberExtn = src.getPhoneNumberExtn();
@@ -281,7 +281,7 @@ public class PhoneNumber extends BaseModel<PhoneNumber, Integer> implements java
 			copy.isPreferred = src.getIsPreferred();
 			copy.isPrimaryUser = src.getIsPrimaryUser();
 			copy.primaryUserId = src.getPrimaryUserId();
-			copy.usersByPrimaryUserId = Users.copy(src.getUsersByPrimaryUserId(), --depth);
+			copy.usersByPrimaryUserId = (src.getUsersByPrimaryUserId() == null)? null : Users.copy(src.getUsersByPrimaryUserId(), --depth);
 			copy.hasInternet = src.getHasInternet();
 			copy.hasSms = src.getHasSms();
 			copy.hasWhatsapp = src.getHasWhatsapp();

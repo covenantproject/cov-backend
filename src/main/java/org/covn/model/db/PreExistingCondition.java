@@ -176,7 +176,7 @@ public class PreExistingCondition extends BaseModel<PreExistingCondition, Intege
 			copy = new PreExistingCondition();
 			copy.preExistingConditionId = src.getPreExistingConditionId();
 			copy.patientId = src.getPatientId();
-			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.patient = (src.getPatient() == null)? null : Patient.copy(src.getPatient(), --depth);
 			copy.preExistingConditionCodeSystem = src.getPreExistingConditionCodeSystem();
 			copy.preExistingCondtionConceptCode = src.getPreExistingCondtionConceptCode();
 			copy.preExistingCondtionDescription = src.getPreExistingCondtionDescription();

@@ -236,7 +236,7 @@ public class Address extends BaseModel<Address, Integer> implements java.io.Seri
 			copy = new Address();
 			copy.addressId = src.getAddressId();
 			copy.userId = src.getUserId();
-			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.users = (src.getUsers() == null)? null : Users.copy(src.getUsers(), --depth);
 			copy.addressType = src.getAddressType();
 			copy.companyName = src.getCompanyName();
 			copy.inCareOf = src.getInCareOf();

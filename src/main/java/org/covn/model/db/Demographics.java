@@ -208,7 +208,7 @@ public class Demographics extends BaseModel<Demographics, Integer> implements ja
 		if(depth > 0){
 			copy = new Demographics();
 			copy.userId = src.getUserId();
-			copy.users = Users.copy(src.getUsers(), --depth);
+			copy.users = (src.getUsers() == null)? null : Users.copy(src.getUsers(), --depth);
 			copy.nationality = src.getNationality();
 			copy.residencyStatus = src.getResidencyStatus();
 			copy.occupation = src.getOccupation();

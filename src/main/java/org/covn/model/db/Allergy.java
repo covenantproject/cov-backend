@@ -210,7 +210,7 @@ public class Allergy extends BaseModel<Allergy, Integer> implements java.io.Seri
 			copy = new Allergy();
 			copy.allergyId = src.getAllergyId();
 			copy.patientId = src.getPatientId();
-			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.patient = (src.getPatient() == null)? null : Patient.copy(src.getPatient(), --depth);
 			copy.allergenType = src.getAllergenType();
 			copy.allergenCodeSystem = src.getAllergenCodeSystem();
 			copy.allergenConceptCode = src.getAllergenConceptCode();

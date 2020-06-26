@@ -246,7 +246,7 @@ public class Medication extends BaseModel<Medication, Integer> implements java.i
 			copy = new Medication();
 			copy.medicationId = src.getMedicationId();
 			copy.patientId = src.getPatientId();
-			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.patient = (src.getPatient() == null)? null : Patient.copy(src.getPatient(), --depth);
 			copy.ingredientCodeSystem = src.getIngredientCodeSystem();
 			copy.ingredientConceptCode = src.getIngredientConceptCode();
 			copy.ingredientDescription = src.getIngredientDescription();

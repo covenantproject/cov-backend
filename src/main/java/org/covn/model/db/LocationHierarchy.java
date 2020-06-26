@@ -66,7 +66,7 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 	private Set<PatientProviderRel> patientProviderRelSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "locationHierarchy")
-	private Set<HealthCheck> healthCheckHistorySet;
+	private Set<HealthCheckHistory> healthCheckHistorySet;
 
 
 	public Integer getLocationId(){
@@ -186,10 +186,10 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 		return this;
 	}
 
-	public Set<HealthCheck> getHealthCheckHistorySet(){
+	public Set<HealthCheckHistory> getHealthCheckHistorySet(){
 		return this.healthCheckHistorySet;
 	}
-	public LocationHierarchy setHealthCheckHistorySet(Set<HealthCheck> healthCheckHistorySet){
+	public LocationHierarchy setHealthCheckHistorySet(Set<HealthCheckHistory> healthCheckHistorySet){
 		this.healthCheckHistorySet = healthCheckHistorySet;
 		
 		return this;
@@ -215,7 +215,7 @@ public class LocationHierarchy extends BaseModel<LocationHierarchy, Integer> imp
 			copy.locationAbbr = src.getLocationAbbr();
 			copy.assignPatients = src.getAssignPatients();
 			copy.parentLocationId = src.getParentLocationId();
-			copy.parent = LocationHierarchy.copy(src.getParent(), --depth);
+			copy.parent = (src.getParent() == null)? null : LocationHierarchy.copy(src.getParent(), --depth);
 			copy.countryCode = src.getCountryCode();
 			copy.addressId = src.getAddressId();
 			copy.locationType = src.getLocationType();

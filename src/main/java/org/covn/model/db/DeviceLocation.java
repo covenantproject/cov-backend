@@ -228,9 +228,9 @@ public class DeviceLocation extends BaseModel<DeviceLocation, Integer> implement
 			copy.latitude = src.getLatitude();
 			copy.longitude = src.getLongitude();
 			copy.locationId = src.getLocationId();
-			copy.locationHierarchy = LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
+			copy.locationHierarchy = (src.getLocationHierarchy() == null)? null : LocationHierarchy.copy(src.getLocationHierarchy(), --depth);
 			copy.addressId = src.getAddressId();
-			copy.address = Address.copy(src.getAddress(), --depth);
+			copy.address = (src.getAddress() == null)? null : Address.copy(src.getAddress(), --depth);
 			copy.locationServiceType = src.getLocationServiceType();
 			copy.locationDateTime = src.getLocationDateTime();
 			copy.locationCheckReason = src.getLocationCheckReason();

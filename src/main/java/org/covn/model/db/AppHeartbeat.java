@@ -49,7 +49,7 @@ public class AppHeartbeat extends BaseModel<AppHeartbeat, Integer> implements ja
 	private String heartbeatStatus;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "appHeartbeat")
-	private Set<HealthCheck> healthCheckHistorySet;
+	private Set<HealthCheckHistory> healthCheckHistorySet;
 
 
 	public Integer getAppHeartbeatId(){
@@ -115,10 +115,10 @@ public class AppHeartbeat extends BaseModel<AppHeartbeat, Integer> implements ja
 		return this;
 	}
 
-	public Set<HealthCheck> getHealthCheckHistorySet(){
+	public Set<HealthCheckHistory> getHealthCheckHistorySet(){
 		return this.healthCheckHistorySet;
 	}
-	public AppHeartbeat setHealthCheckHistorySet(Set<HealthCheck> healthCheckHistorySet){
+	public AppHeartbeat setHealthCheckHistorySet(Set<HealthCheckHistory> healthCheckHistorySet){
 		this.healthCheckHistorySet = healthCheckHistorySet;
 		
 		return this;
@@ -141,7 +141,7 @@ public class AppHeartbeat extends BaseModel<AppHeartbeat, Integer> implements ja
 			copy = new AppHeartbeat();
 			copy.appHeartbeatId = src.getAppHeartbeatId();
 			copy.deviceAppId = src.getDeviceAppId();
-			copy.phoneDeviceApp = PhoneDeviceApp.copy(src.getPhoneDeviceApp(), --depth);
+			copy.phoneDeviceApp = (src.getPhoneDeviceApp() == null)? null : PhoneDeviceApp.copy(src.getPhoneDeviceApp(), --depth);
 			copy.heartbeatDateTime = src.getHeartbeatDateTime();
 			copy.heartbeatIp4Address = src.getHeartbeatIp4Address();
 			copy.heartbeatIp6Address = src.getHeartbeatIp6Address();

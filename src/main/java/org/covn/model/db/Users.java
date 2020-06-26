@@ -127,7 +127,7 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 	private Set<EmailAddress> emailAddressByUserIdSet;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private Set<HealthCheck> healthCheckHistorySet;
+	private Set<HealthCheckHistory> healthCheckHistorySet;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", referencedColumnName = "users")
@@ -446,10 +446,10 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 		return this;
 	}
 
-	public Set<HealthCheck> getHealthCheckHistorySet(){
+	public Set<HealthCheckHistory> getHealthCheckHistorySet(){
 		return this.healthCheckHistorySet;
 	}
-	public Users setHealthCheckHistorySet(Set<HealthCheck> healthCheckHistorySet){
+	public Users setHealthCheckHistorySet(Set<HealthCheckHistory> healthCheckHistorySet){
 		this.healthCheckHistorySet = healthCheckHistorySet;
 		
 		return this;
@@ -552,8 +552,8 @@ public class Users extends BaseModel<Users, Integer> implements java.io.Serializ
 			copy.biologicalSex = src.getBiologicalSex();
 			copy.username = src.getUsername();
 			copy.comments = src.getComments();
-			copy.demographics = Demographics.copy(src.getDemographics(), --depth);
-			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.demographics = (src.getDemographics() == null)? null : Demographics.copy(src.getDemographics(), --depth);
+			copy.patient = (src.getPatient() == null)? null : Patient.copy(src.getPatient(), --depth);
 		}
 		return copy;
 	}

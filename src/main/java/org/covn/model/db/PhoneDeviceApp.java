@@ -213,7 +213,7 @@ public class PhoneDeviceApp extends BaseModel<PhoneDeviceApp, Integer> implement
 			copy = new PhoneDeviceApp();
 			copy.deviceAppId = src.getDeviceAppId();
 			copy.phoneNumberId = src.getPhoneNumberId();
-			copy.phoneNumber = PhoneNumber.copy(src.getPhoneNumber(), --depth);
+			copy.phoneNumber = (src.getPhoneNumber() == null)? null : PhoneNumber.copy(src.getPhoneNumber(), --depth);
 			copy.deviceImei = src.getDeviceImei();
 			copy.deviceMacId = src.getDeviceMacId();
 			copy.deviceOs = src.getDeviceOs();

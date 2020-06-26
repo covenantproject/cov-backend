@@ -247,9 +247,9 @@ public class PreExistingConditionCovidDenorm extends BaseModel<PreExistingCondit
 			copy = new PreExistingConditionCovidDenorm();
 			copy.covidPreExistingConditionId = src.getCovidPreExistingConditionId();
 			copy.patientId = src.getPatientId();
-			copy.patient = Patient.copy(src.getPatient(), --depth);
+			copy.patient = (src.getPatient() == null)? null : Patient.copy(src.getPatient(), --depth);
 			copy.preExistingConditionId = src.getPreExistingConditionId();
-			copy.preExistingCondition = PreExistingCondition.copy(src.getPreExistingCondition(), --depth);
+			copy.preExistingCondition = (src.getPreExistingCondition() == null)? null : PreExistingCondition.copy(src.getPreExistingCondition(), --depth);
 			copy.copd = src.getCopd();
 			copy.bronchitis = src.getBronchitis();
 			copy.diabetesMellitus = src.getDiabetesMellitus();
