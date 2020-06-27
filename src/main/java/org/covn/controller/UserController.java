@@ -3,7 +3,6 @@ package org.covn.controller;
 import java.util.List;
 
 import org.covn.dto.UserDto;
-import org.covn.model.db.Users;
 import org.covn.model.type.AdminGender;
 import org.covn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +23,8 @@ public class UserController extends BaseController{
     }
 	
     @RequestMapping(value = "/findAgeOverAndNotSet", method = RequestMethod.POST)
-    public @ResponseBody List<UserDto> findAgeOverAndNotSet(@RequestBody Users user) {
-    	List<UserDto> dtos = service.findByAgeOverAndNotSex(user.getAgeYrs(), AdminGender.valueOf(user.getAdminGender()));
+    public @ResponseBody List<UserDto> findAgeOverAndNotSet(@RequestBody UserDto user) {
+    	List<UserDto> dtos = service.findByAgeOverAndNotSex(user.getUser().getAgeYrs(), AdminGender.valueOf(user.getUser().getAdminGender()));
         return dtos;
     }
     

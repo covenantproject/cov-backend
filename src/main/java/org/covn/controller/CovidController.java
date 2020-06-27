@@ -1,7 +1,6 @@
 package org.covn.controller;
 
 import org.covn.dto.UserDto;
-import org.covn.model.db.Users;
 import org.covn.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,7 @@ public class CovidController {
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public int registerUser(@RequestBody Users user) {
+    public int registerUser(@RequestBody UserDto user) {
        
         return -1;
     }

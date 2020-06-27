@@ -75,6 +75,7 @@ public class UserService extends BaseService<Users> {
 			dto.setUser(user.copy());
 			List<EmailAddress> emails = new ArrayList<>(user.getEmailAddressByUserIdSet());
 			emails = emailService.apply(emails, (email) -> email.copy());
+			dto.setEmailAddressList(emails);
 			//and other fields
 			return dto;
 		});
