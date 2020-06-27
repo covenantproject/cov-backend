@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.covn.dto.LocationHierarchyDto;
-import org.covn.service.LocationRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,8 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/web/api")
 public class LocationRoleController {
 
-	@Autowired
-	LocationRoleService locationService;
+
 
 	public static final Logger logger = LoggerFactory.getLogger(LocationRoleController.class);
 
@@ -31,7 +28,7 @@ public class LocationRoleController {
 		ModelMap model = new ModelMap();
 		List<LocationHierarchyDto> locRole = new ArrayList<LocationHierarchyDto>();
 		try {
-			locRole = locationService.getLocationAndRole(userId);
+			//locRole = locationService.getLocationAndRole(userId);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_LocationRole", ex);
 			throw new RuntimeException("REC_NOT_FOUND");

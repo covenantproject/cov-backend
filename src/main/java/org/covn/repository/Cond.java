@@ -21,6 +21,7 @@ public class Cond<E> {
 		gt((cb, root, column, value) -> cb.greaterThan(root.get(column), value)),
 		gte((cb, root, column, value) -> cb.greaterThanOrEqualTo(root.get(column), value)),
 		eq((cb, root, column, value) -> cb.equal(root.get(column), value)),
+		ne((cb, root, column, value) -> cb.notEqual(root.get(column), value)),
 		lt((cb, root, column, value) -> cb.lessThan(root.get(column), value)),
 		lte((cb, root, column, value) -> cb.lessThanOrEqualTo(root.get(column), value)),;
 

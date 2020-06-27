@@ -2,10 +2,10 @@ package org.covn.service;
 
 import static org.covn.util.CovidUtils.cast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
-
-import javax.servlet.http.HttpSession;
 
 import org.covn.model.BaseModel;
 import org.covn.repository.Cond;
@@ -14,7 +14,6 @@ import org.covn.support.CopyHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 
-
 public abstract class BaseService<E extends BaseModel<E, ?>> {
 
 	public static final String loginUser = "loginUser";
@@ -22,9 +21,6 @@ public abstract class BaseService<E extends BaseModel<E, ?>> {
 
 	@Autowired
 	protected EntityRepo repo;
-
-	@Autowired
-	private HttpSession session;
 
 	private final Class<E> entityClazz;
 
@@ -69,22 +65,42 @@ public abstract class BaseService<E extends BaseModel<E, ?>> {
 		return item;
 	}
 
-	@SuppressWarnings({ "unchecked", "hiding" })
-	public <K, E extends BaseModel<E, K>> void save(E item) {
-		if(item.getKey() != null) {
-			item = this.mergeFromDb(item);
+	public void saveAll(List<E> items) {
+		@SuppressWarnings("rawtypes")
+		BaseModel[] arr = new BaseModel[items.size()];
+		arr = items.toArray(arr);
+		this.save(cast(arr));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void save(E... items) {
+		for (E item : items) {
+			if (item.getKey() != null) {
+				item = this.mergeFromDb(item);
+			}
+			repo.save(item);
 		}
-
-		repo.save(item);
-
 	}
 
-	@SuppressWarnings("hiding")
-	public final <K, E extends BaseModel<E, K>> E mergeFromDb(E entity) {
+	public List<E> find(Cond<E> cond) {
+		return repo.find(cond);
+	}
+
+	public <DTO> List<DTO> apply(List<E> items, Function<E, DTO> process) {
+		List<DTO> result = new ArrayList<>();
+		for (E item : items) {
+			DTO dto = process.apply(item);
+			result.add(dto);
+		}
+		return result;
+	}
+
+
+	public final E mergeFromDb(E entity) {
 		E result = entity;
 		if (entity.getKey() != null) {
 			E db = cast(repo.findByPrimaryKey(entity.getClass(), entity.getKey()));
-			if(db != null) {
+			if (db != null) {
 				CopyHelper.cp(entity, db, (s, t) -> s.getValue() != null);
 				result = db;
 			}
@@ -92,32 +108,6 @@ public abstract class BaseService<E extends BaseModel<E, ?>> {
 		return result;
 	}
 
-
 	public static final String FMT_USER_NAME = "%s %s%s %s";
-
-//	public LoginUser getLoginUser() {
-//		System.out.println("************ sessionId2 " + session.getId());
-//		LoginUser user = cast(session.getAttribute(loginUser));
-//		return user;
-//	}
-
-//	public String getLoginUserName() {
-//		return getLoginUserName(null);
-//	}
-
-//	public String getLoginUserName(String defaultUser) {
-//		LoginUser user = getLoginUser();
-//		String userName = defaultUser;
-//		if (user != null) {
-//			userName = user.getUserName();
-//		}
-//		return userName;
-//	}
-
-	public void logout() {
-		session.removeAttribute(loginUser);
-	}
-
-
 
 }

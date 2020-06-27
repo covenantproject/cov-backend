@@ -26,8 +26,8 @@ public class CovidController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public int registerUser(@RequestBody Users user) {
-        service.registerNewPatient(user);
-        return user.getUserId();
+       
+        return -1;
     }
 
     @RequestMapping(value = "/doUpload", method = RequestMethod.POST, consumes = {"multipart/form-data"})

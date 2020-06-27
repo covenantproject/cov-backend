@@ -1,10 +1,7 @@
 package org.covn.controller;
 
 import org.apache.commons.lang3.StringUtils;
-import org.covn.dto.PatientInfoDto;
 import org.covn.dto.PatientSearchResultsDto;
-import org.covn.service.PatientInfoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/web/api")
 public class PatientInfoController {
 
-    @Autowired
-    PatientInfoService patientService;
+
 
     @GetMapping("/getPatientInfo")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public PatientInfoDto getPatientForLocation(@RequestParam int patientId) {
-        return patientService.getPatientForLocation(patientId);
+    public Object getPatientForLocation(@RequestParam int patientId) {
+        return null;
     }
 
     @GetMapping("/searchPatient")
@@ -43,8 +39,6 @@ public class PatientInfoController {
         if ((locationId == null || healthProId == null) && StringUtils.isBlank(phoneNumber)) {
             throw new RuntimeException("PHONE_NUMBER_MANDATORY");
         }
-        return patientService.searchPatients(locationId, healthProId, phoneNumber, size, from, firstName, lastName,
-                covid19Status, quarantineStatus, isolationStatus, quarantineRequestStatus, medicalRequestStatus,
-                suppliesRequestStatus, geofenceStatus, heartbeatStatus, healthStatusAlert);
+        return null;
     }
 }

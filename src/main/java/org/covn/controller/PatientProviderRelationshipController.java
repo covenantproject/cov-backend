@@ -26,7 +26,7 @@ public class PatientProviderRelationshipController {
 	public @ResponseBody ModelMap savePatientProvider(@RequestBody PatientProviderRelationshipDto patientProvider) {
 		ModelMap model = new ModelMap();
 		try {
-			String userrequest = patientProService.savePatientProvider(patientProvider);
+			//String userrequest = patientProService.savePatientProvider(patientProvider);
 		} catch (Exception ex) {
 			logger.error("EXCEPTION_IN_PatientProvider", ex);
 			throw new RuntimeException("Save Couldn't Complete");
