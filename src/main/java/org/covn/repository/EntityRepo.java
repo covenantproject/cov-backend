@@ -107,7 +107,8 @@ public class EntityRepo {
 		CriteriaQuery<E> query = cb.createQuery(cond.getEntityClass());
 		Root<E> from = query.from(cond.getEntityClass());
 		CriteriaQuery<E> select = query.select(from);
-
+//cb.and
+//cb.or
 		// ManagedType<Account> o = em.getMetamodel().managedType(Account.class);
 		// SingularAttribute<? super Account, ?> c =
 		// o.getSingularAttribute(Account_.s_status);
@@ -122,7 +123,7 @@ public class EntityRepo {
 		}
 
 		if (preds.length > 0) {
-			query.where(preds);
+			query.where(cond.get(cb, from));
 		}
 
 		if (cond.getOrderList().isEmpty() == false) {

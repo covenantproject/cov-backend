@@ -17,7 +17,28 @@ import org.covn.support.TriFunction;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class Cond<E> {
 
-	public enum Oper {
+	public static enum Aon{
+		and((cb, root, cond) -> cb.and(cond.getPredictes(cb, root))),
+		or((cb, root, cond) -> cb.or(cond.getPredictes(cb, root))),
+		
+		;
+
+		private final TriFunction<CriteriaBuilder, Root, Cond<?>, Predicate> predicate;
+
+		private Aon(TriFunction<CriteriaBuilder, Root, Cond<?>, Predicate> predicate) {
+			this.predicate = predicate;
+		}
+
+		public TriFunction<CriteriaBuilder, Root, Cond<?>, Predicate> getPredicate() {
+			return predicate;
+		}
+		
+		
+		
+		
+	}
+	
+	public static enum Oper {
 		gt((cb, root, column, value) -> cb.greaterThan(root.get(column), value)),
 		gte((cb, root, column, value) -> cb.greaterThanOrEqualTo(root.get(column), value)),
 		eq((cb, root, column, value) -> cb.equal(root.get(column), value)),
@@ -52,14 +73,22 @@ public class Cond<E> {
 
 	}
 
+	private final Aon aon;
 	private final Class<E> clazz;
 	private final List<Triple<SingularAttribute<E, ?>, Cond.Oper, Comparable<?>>> conditions;
 	private final List<Pair<SingularAttribute<E, ?>, Cond.Sort>> orderList;
+	private final List<Cond<E>> nestedList;
 
 	public Cond(Class<E> clazz) {
+		this(clazz, Aon.and);
+	}
+	
+	public Cond(Class<E> clazz, Aon aon) {
 		this.clazz = clazz;
+		this.aon = aon;
 		conditions = new ArrayList<>();
 		orderList = new ArrayList<>();
+		nestedList = new ArrayList<>();
 	}
 
 	public static <E> Cond<E> of(Class<E> clazz) {
@@ -75,6 +104,12 @@ public class Cond<E> {
 		return this;
 	}
 
+	public Cond<E> add(Cond<E> nested) {
+		nestedList.add(nested);
+		return this;
+	}
+	
+	
 	public <T> Cond<E> order(Cond.Sort orderBy, SingularAttribute<E, T> column) {
 		orderList.add(Pair.of(column, orderBy));
 		return this;
@@ -90,6 +125,32 @@ public class Cond<E> {
 
 	protected List<Pair<SingularAttribute<E, ?>, Cond.Sort>> getOrderList() {
 		return orderList;
+	}
+	
+	protected Predicate[] getPredictes(CriteriaBuilder cb, Root from) {
+		int index = 0;
+		Predicate[] preds = new Predicate[this.getConditions().size() + this.nestedList.size()];
+		for (Triple<SingularAttribute<E, ?>, Oper, Comparable<?>> con : this.getConditions()) {
+			SingularAttribute<E, ?> column = con.getLeft();
+			Comparable<?> value = con.getRight();
+			Oper op = con.getMiddle();
+			Predicate pred = op.getPredicate().exec(cb, from, column, value);
+			preds[index++] = pred;
+		}
+		
+		for(Cond<E> cond: this.nestedList) {
+			Predicate pred = cond.get(cb, from);
+			preds[index++] = pred;
+		}
+		
+		
+		return preds;
+	}	
+	
+	public Predicate get(CriteriaBuilder cb, Root from) {
+		Predicate predicate = this.aon.getPredicate().exec(cb, from, this);
+		return predicate;
+		
 	}
 
 }
