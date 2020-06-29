@@ -4,11 +4,9 @@ package org.covn.model.meta;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
-import org.covn.model.db.EmailAddress;
 import org.covn.model.db.Users;
-
 import javax.persistence.metamodel.SetAttribute;
+import org.covn.model.db.EmailAddress;
 
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")

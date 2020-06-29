@@ -4,13 +4,11 @@ package org.covn.model.meta;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
+import java.sql.Timestamp;
+import javax.persistence.metamodel.SetAttribute;
 import org.covn.model.db.AppHeartbeat;
 import org.covn.model.db.PhoneDeviceApp;
 import org.covn.model.db.PhoneNumber;
-
-import java.sql.Timestamp;
-import javax.persistence.metamodel.SetAttribute;
 
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")

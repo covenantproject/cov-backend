@@ -1,24 +1,22 @@
 package org.covn.model.meta;
 
 
-import java.util.Date;
-
 import javax.annotation.Generated;
-import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
-import org.covn.model.db.Address;
+import org.covn.model.db.UserPhoto;
+import org.covn.model.db.ExternalIdentifier;
+import org.covn.model.db.Users;
+import org.covn.model.db.HealthCheckHistory;
+import java.util.Date;
+import org.covn.model.db.Patient;
+import javax.persistence.metamodel.SetAttribute;
 import org.covn.model.db.Demographics;
 import org.covn.model.db.EmailAddress;
-import org.covn.model.db.ExternalIdentifier;
-import org.covn.model.db.HealthCheck;
 import org.covn.model.db.HealthPro;
-import org.covn.model.db.Patient;
 import org.covn.model.db.PatientRequestHistory;
+import org.covn.model.db.Address;
 import org.covn.model.db.PhoneNumber;
-import org.covn.model.db.UserPhoto;
-import org.covn.model.db.Users;
 
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
@@ -58,7 +56,7 @@ public abstract class Users_{
 	public static volatile SetAttribute<Users, UserPhoto> userPhotoSet;
 	public static volatile SetAttribute<Users, PhoneNumber> phoneNumberByPrimaryUserIdSet;
 	public static volatile SetAttribute<Users, EmailAddress> emailAddressByUserIdSet;
-	public static volatile SetAttribute<Users, HealthCheck> healthCheckHistorySet;
+	public static volatile SetAttribute<Users, HealthCheckHistory> healthCheckHistorySet;
 	public static volatile SingularAttribute<Users, Patient> patient;
 	public static volatile SetAttribute<Users, PatientRequestHistory> patientRequestHistorySet;
 	public static volatile SetAttribute<Users, PhoneNumber> phoneNumberByUserIdSet;

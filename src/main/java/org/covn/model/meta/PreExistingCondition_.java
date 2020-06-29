@@ -4,12 +4,10 @@ package org.covn.model.meta;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
-import org.covn.model.db.Patient;
-import org.covn.model.db.PreExistingCondition;
 import org.covn.model.db.PreExistingConditionCovidDenorm;
-
+import org.covn.model.db.Patient;
 import javax.persistence.metamodel.SetAttribute;
+import org.covn.model.db.PreExistingCondition;
 
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")

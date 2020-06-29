@@ -4,20 +4,18 @@ package org.covn.model.meta;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
-import org.covn.model.db.Allergy;
-import org.covn.model.db.HealthCheck;
-import org.covn.model.db.Medication;
-import org.covn.model.db.Patient;
-import org.covn.model.db.PatientGeofencedLocation;
 import org.covn.model.db.PatientProviderRel;
-import org.covn.model.db.PatientRequestHistory;
-import org.covn.model.db.PatientStatus;
-import org.covn.model.db.PreExistingCondition;
+import org.covn.model.db.Allergy;
 import org.covn.model.db.PreExistingConditionCovidDenorm;
 import org.covn.model.db.Users;
-
+import org.covn.model.db.PatientGeofencedLocation;
+import org.covn.model.db.HealthCheckHistory;
+import org.covn.model.db.Patient;
 import javax.persistence.metamodel.SetAttribute;
+import org.covn.model.db.PatientStatus;
+import org.covn.model.db.Medication;
+import org.covn.model.db.PreExistingCondition;
+import org.covn.model.db.PatientRequestHistory;
 
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
@@ -46,7 +44,7 @@ public abstract class Patient_{
 	public static volatile SetAttribute<Patient, PatientProviderRel> patientProviderRelSet;
 	public static volatile SetAttribute<Patient, PreExistingConditionCovidDenorm> preExistingConditionCovidDenormSet;
 	public static volatile SetAttribute<Patient, PatientRequestHistory> patientRequestHistorySet;
-	public static volatile SetAttribute<Patient, HealthCheck> healthCheckHistorySet;
+	public static volatile SetAttribute<Patient, HealthCheckHistory> healthCheckHistorySet;
 	public static volatile SetAttribute<Patient, PatientStatus> patientStatusSet;
 
 	public static final String s_patientId = "patientId";

@@ -4,10 +4,8 @@ package org.covn.model.meta;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
 import org.covn.model.db.UserPhoto;
 import org.covn.model.db.Users;
-
 import java.sql.Timestamp;
 import javax.persistence.metamodel.SetAttribute;
 

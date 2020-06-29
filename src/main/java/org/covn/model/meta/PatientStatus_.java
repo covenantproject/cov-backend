@@ -4,13 +4,10 @@ package org.covn.model.meta;
 import javax.annotation.Generated;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
-
-import org.covn.model.db.Patient;
-import org.covn.model.db.PatientStatus;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+import org.covn.model.db.Patient;
+import org.covn.model.db.PatientStatus;
 import javax.persistence.metamodel.SetAttribute;
 
 
