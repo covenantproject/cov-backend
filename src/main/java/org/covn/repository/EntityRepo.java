@@ -21,9 +21,7 @@ import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.lang3.tuple.Triple;
 import org.covn.model.BaseModel;
-import org.covn.repository.Cond.Oper;
 import org.covn.repository.Cond.Sort;
 import org.covn.support.CopyHelper;
 import org.springframework.core.Ordered;
@@ -107,24 +105,9 @@ public class EntityRepo {
 		CriteriaQuery<E> query = cb.createQuery(cond.getEntityClass());
 		Root<E> from = query.from(cond.getEntityClass());
 		CriteriaQuery<E> select = query.select(from);
-//cb.and
-//cb.or
-		// ManagedType<Account> o = em.getMetamodel().managedType(Account.class);
-		// SingularAttribute<? super Account, ?> c =
-		// o.getSingularAttribute(Account_.s_status);
-		int index = 0;
-		Predicate[] preds = new Predicate[cond.getConditions().size()];
-		for (Triple<SingularAttribute<E, ?>, Oper, Comparable<?>> con : cond.getConditions()) {
-			SingularAttribute<E, ?> column = con.getLeft();
-			Comparable<?> value = con.getRight();
-			Oper op = con.getMiddle();
-			Predicate pred = op.getPredicate().exec(cb, from, column, value);
-			preds[index++] = pred;
-		}
 
-		if (preds.length > 0) {
-			query.where(cond.get(cb, from));
-		}
+		Predicate preds = cond.get(cb, from);
+		query.where(preds);
 
 		if (cond.getOrderList().isEmpty() == false) {
 			List<Order> orders = new ArrayList<>();
