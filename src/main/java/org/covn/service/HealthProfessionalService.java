@@ -1,18 +1,14 @@
 package org.covn.service;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
 
 import org.covn.dto.HealthProDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
-@Service
+@RequestScope
+@Component
 public class HealthProfessionalService {
 	
 	@Autowired

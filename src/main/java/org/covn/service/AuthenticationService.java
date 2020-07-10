@@ -16,13 +16,15 @@ import org.covn.model.type.PhoneType;
 import org.covn.repository.EntityRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 /**
  * @author SunilAnand
  * @since 2020-04-18
  **/
-@Service
+@RequestScope
+@Component
 public class AuthenticationService {
 
     @Autowired

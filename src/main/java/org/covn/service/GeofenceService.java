@@ -5,7 +5,6 @@ import static org.covn.util.CovidUtils.cast;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,9 +15,11 @@ import javax.persistence.StoredProcedureQuery;
 import org.covn.dto.PatientGeofencedLocationDto;
 import org.covn.model.db.PatientGeofencedLocation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
-@Service
+@RequestScope
+@Component
 public class GeofenceService {
 
 	@Autowired

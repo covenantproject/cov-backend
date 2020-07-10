@@ -12,9 +12,11 @@ import javax.persistence.StoredProcedureQuery;
 
 import org.covn.model.db.LocationHierarchy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
-@Service
+@RequestScope
+@Component
 public class LocationHierarchyService {
 	
 	  @Autowired

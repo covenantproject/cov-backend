@@ -14,6 +14,7 @@ import org.covn.repository.Cond;
 import org.covn.repository.Cond.Oper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 /**
  * @author SunilAnand
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Component;
  * 
  * Modified by Senthil N
  **/
+@RequestScope
 @Component
 public class UserService extends BaseService<Users> {
 

@@ -153,8 +153,6 @@ public class EntityRepo {
 		}
 	}
 
-	@PreDestroy
-	@Transactional
 	public void preDestory() {
 		System.out.println("************** close ");
 		em.flush();

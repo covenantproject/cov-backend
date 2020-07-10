@@ -7,12 +7,15 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import javax.annotation.PreDestroy;
+
 import org.covn.model.BaseModel;
 import org.covn.repository.Cond;
 import org.covn.repository.EntityRepo;
 import org.covn.support.CopyHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 
 public abstract class BaseService<E extends BaseModel<E, ?>> {
 
@@ -110,4 +113,10 @@ public abstract class BaseService<E extends BaseModel<E, ?>> {
 
 	public static final String FMT_USER_NAME = "%s %s%s %s";
 
+	@PreDestroy
+	@Transactional
+	public void preDestroy() {
+		this.repo.preDestory();
+	}
+	
 }
